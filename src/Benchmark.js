@@ -31,7 +31,7 @@ class Benchmark extends React.Component {
         this.state = {
             text: startCode
             , graph: []
-            , error: ''
+            , message: ''
             , sending: false
         };
         this.graph = [];
@@ -59,10 +59,11 @@ class Benchmark extends React.Component {
             });
             if (body.result) {
                 this.setState({
-                    graph: JSON.parse(body.result).benchmarks
+                    graph: body.result.benchmarks
                 });
-            } else {
-                this.setState({ error: body.error });
+            }
+            if (body.message) {
+                this.setState({ message: body.message });
             }
         });
     }
@@ -90,7 +91,7 @@ class Benchmark extends React.Component {
                                 <Bar dataKey="real_time" fill="#8884d8" />
                                 <Bar dataKey="cpu_time" fill="#82ca9d" />
                             </BarChart>
-                            <BashOutput text={this.state.error}></BashOutput>
+                            <BashOutput text={this.state.message}></BashOutput>
                         </div>
                     </Col>
                 </Row>
