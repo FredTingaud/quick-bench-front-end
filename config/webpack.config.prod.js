@@ -224,13 +224,7 @@ module.exports = {
       output: {
         comments: false,
         screw_ie8: true
-      },
-      new CopyWebpackPlugin([
-          {
-              from: 'node_modules/monaco-editor/min/vs',
-              to: 'vs',
-          }
-      ])
+      }
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin(cssFilename),
@@ -239,7 +233,13 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json'
-    })
+    }),
+    new CopyWebpackPlugin([
+        {
+            from: 'node_modules/monaco-editor/min/vs',
+            to: 'vs'
+        }
+    ])
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
