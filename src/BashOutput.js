@@ -8,11 +8,15 @@ class BashOutput extends React.Component {
     }
 
     render() {
-        return (
-            <pre>
-                <div className="bash-output" dangerouslySetInnerHTML={this.updateHTML(this.props.text)} />
-            </pre>
-        );
+        if (this.props.text) {
+            return (
+                <pre>
+                    <div className="bash-output" dangerouslySetInnerHTML={this.updateHTML(this.props.text)} />
+                </pre>
+            );
+        } else {
+            return (<div/>);
+        }
     }
 }
 

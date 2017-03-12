@@ -93,8 +93,8 @@ class Benchmark extends React.Component {
                                 <Bar dataKey="real_time" fill="#8884d8" />
                                 <Bar dataKey="cpu_time" fill="#82ca9d" />
                             </BarChart>
-                            <BashOutput text={this.state.message}></BashOutput>
                         </div>
+                        <BashOutput text={this.state.message}></BashOutput>
                     </Col>
                 </Row>
             </Grid>
