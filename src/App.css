@@ -1,15 +1,9 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
-.code-editor textarea.form-control {
-   background-color: #f9f9f9;
-   width: 100%;
-   border: 1px solid black;
-   font-family: monospace;
-   font-size: 1.5em;
-   text-align: left;
-   height: 80vh;
+.code-editor {
+    text-align: left;
 }
 
 .bash-output {
@@ -21,8 +15,8 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 5em;
-  padding: 10px;
-  color: white;
+    background-color: #222;
+    height: 5em;
+    padding: 10px;
+    color: white;
 }

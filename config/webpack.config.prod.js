@@ -7,6 +7,7 @@ var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var url = require('url');
 var paths = require('./paths');
 var getClientEnvironment = require('./env');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 
@@ -223,7 +224,13 @@ module.exports = {
       output: {
         comments: false,
         screw_ie8: true
-      }
+      },
+      new CopyWebpackPlugin([
+          {
+              from: 'node_modules/monaco-editor/min/vs',
+              to: 'vs',
+          }
+      ])
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin(cssFilename),
