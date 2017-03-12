@@ -39,7 +39,9 @@ class Benchmark extends React.Component {
     }
     sendCode() {
         this.setState({
-            sending: true
+            sending: true,
+            graph: [],
+            message: ''
         });
         var obj = {
             "code": this.state.text
