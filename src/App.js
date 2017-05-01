@@ -15,6 +15,9 @@ class App extends Component {
                 <div>
                     <Benchmark url={url} />
                 </div>
+                <div className="App-footer">
+                    Favicon <a href='http://www.freepik.com/free-vector/chronometer-timer-collection_717989.htm'>designed by Freepik</a>
+                </div>
             </div>
         );
     }
