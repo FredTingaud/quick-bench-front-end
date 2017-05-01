@@ -6,12 +6,17 @@
     text-align: left;
 }
 
+.config-separator {
+    margin: 6px;
+    border-width: 1px;
+}
+
 .compilation {
     padding-top: 5px;
 }
 
-.compile-config {
-    padding-bottom: 10px;
+.execute-button {
+    text-align: left;
 }
 
 .bash-output {

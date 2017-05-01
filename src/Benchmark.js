@@ -3,7 +3,7 @@ import CodeEditor from './CodeEditor.js';
 import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Button, Row, Col, Grid, Panel } from 'react-bootstrap';
+import { Button, Row, Col, Grid, Panel, Glyphicon } from 'react-bootstrap';
 
 var request = require('request');
 
@@ -86,8 +86,9 @@ class Benchmark extends React.Component {
                                 <div className="compile-config">
                                     <CompileConfig />
                                 </div>
+                                <hr className="config-separator" />
                                 <div className="execute-button">
-                                    <Button bsStyle="primary" onClick={() => this.sendCode(this.state)} disabled={this.state.sending} >Execute Code</Button>
+                                    <Button bsStyle="primary" onClick={() => this.sendCode(this.state)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run benchmark</Button>
                                 </div>
                             </Panel>
                         </div>
