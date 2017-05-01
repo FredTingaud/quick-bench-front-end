@@ -1,8 +1,9 @@
 import React from 'react';
 import CodeEditor from './CodeEditor.js';
 import BashOutput from './BashOutput.js';
+import CompileConfig from './CompileConfig.js';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Button, Row, Col, Grid } from 'react-bootstrap';
+import { Button, Row, Col, Grid, Panel } from 'react-bootstrap';
 
 var request = require('request');
 
@@ -80,8 +81,15 @@ class Benchmark extends React.Component {
                         </div>
                     </Col>
                     <Col sm={6} >
-                        <div className="execute-button">
-                            <Button bsStyle="primary" onClick={() => this.sendCode(this.state)} disabled={this.state.sending} >Execute Code</Button>
+                        <div className="compilation">
+                            <Panel >
+                                <div className="compile-config">
+                                    <CompileConfig />
+                                </div>
+                                <div className="execute-button">
+                                    <Button bsStyle="primary" onClick={() => this.sendCode(this.state)} disabled={this.state.sending} >Execute Code</Button>
+                                </div>
+                            </Panel>
                         </div>
                         <div className="result-chart">
                             <BarChart width={600} height={300} label="Benchmark Result" data={this.state.graph} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>

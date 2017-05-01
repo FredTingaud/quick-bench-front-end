@@ -6,6 +6,14 @@
     text-align: left;
 }
 
+.compilation {
+    padding-top: 5px;
+}
+
+.compile-config {
+    padding-bottom: 10px;
+}
+
 .bash-output {
     background-color: #222;
     color: white;
