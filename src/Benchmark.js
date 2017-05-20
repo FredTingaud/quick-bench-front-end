@@ -7,24 +7,19 @@ import { Button, Row, Col, Grid, Panel, Glyphicon } from 'react-bootstrap';
 
 var request = require('request');
 
-const startCode = `#include <benchmark/benchmark_api.h>
-
-static void BM_StringCreation(benchmark::State& state) {
+const startCode = `static void BM_StringCreation(benchmark::State& state) {
   while (state.KeepRunning())
     std::string empty_string;
 }
 // Register the function as a benchmark
 BENCHMARK(BM_StringCreation);
 
-// Define another benchmark
 static void BM_StringCopy(benchmark::State& state) {
   std::string x = "hello";
   while (state.KeepRunning())
     std::string copy(x);
 }
 BENCHMARK(BM_StringCopy);
-
-BENCHMARK_MAIN();
 `
 class Benchmark extends React.Component {
     constructor(props) {
