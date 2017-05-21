@@ -94,7 +94,6 @@ class Benchmark extends React.Component {
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="real_time" fill="#8884d8" />
                                 <Bar dataKey="cpu_time" fill="#82ca9d" />
                             </BarChart>
                         </div>
