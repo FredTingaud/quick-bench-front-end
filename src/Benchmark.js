@@ -29,6 +29,9 @@ class Benchmark extends React.Component {
             , graph: []
             , message: ''
             , sending: false
+            , compiler: "clang++-3.8"
+            , version: "17"
+            , optim: "1"
         };
         this.graph = [];
         this.url = this.props.url;
@@ -40,7 +43,10 @@ class Benchmark extends React.Component {
             message: ''
         });
         var obj = {
-            "code": this.state.text
+            "code": this.state.text,
+            "compiler": this.state.compiler,
+            "optim": this.state.optim,
+            "version": this.state.version
         };
         request({
             url: this.url
@@ -79,7 +85,11 @@ class Benchmark extends React.Component {
                         <div className="compilation">
                             <Panel >
                                 <div className="compile-config">
-                                    <CompileConfig />
+                                    <CompileConfig compiler={this.state.compiler} version={this.state.version} optim={this.state.optim}
+                                        onCompilerChange={(c) => this.setState({ compiler: c })}
+                                        onVersionChange={(v) => this.setState({ version: v })}
+                                        onOptimChange={(optim) => this.setState({ optim: optim })}
+                                    />
                                 </div>
                                 <hr className="config-separator" />
                                 <div className="execute-button">
