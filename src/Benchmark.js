@@ -35,41 +35,50 @@ class Benchmark extends React.Component {
         };
         this.graph = [];
         this.url = this.props.url;
+        this.maxCodeSize = this.props.maxCodeSize;
     }
     sendCode() {
-        this.setState({
-            sending: true,
-            graph: [],
-            message: ''
-        });
-        var obj = {
-            "code": this.state.text,
-            "compiler": this.state.compiler,
-            "optim": this.state.optim,
-            "version": this.state.version
-        };
-        request({
-            url: this.url
-            , method: "POST"
-            , json: true
-            , headers: {
-                "content-type": "application/json"
-                ,
-            }
-            , body: obj
-        }, (err, res, body) => {
+        if (this.state.text.length > this.maxCodeSize) {
             this.setState({
-                sending: false
+                graph: [],
+                message: `Your code is ${this.state.text.length} characters long, while the maximum code size is ${this.maxCodeSize}.
+If you think this limitation is stopping you in a legitimate usage of quick-bench, please contact me.`
             });
-            if (body.result) {
+        } else {
+            this.setState({
+                sending: true,
+                graph: [],
+                message: ''
+            });
+            var obj = {
+                "code": this.state.text,
+                "compiler": this.state.compiler,
+                "optim": this.state.optim,
+                "version": this.state.version
+            };
+            request({
+                url: this.url
+                , method: "POST"
+                , json: true
+                , headers: {
+                    "content-type": "application/json"
+                    ,
+                }
+                , body: obj
+            }, (err, res, body) => {
                 this.setState({
-                    graph: body.result.benchmarks
+                    sending: false
                 });
-            }
-            if (body.message) {
-                this.setState({ message: body.message });
-            }
-        });
+                if (body.result) {
+                    this.setState({
+                        graph: body.result.benchmarks
+                    });
+                }
+                if (body.message) {
+                    this.setState({ message: body.message });
+                }
+            });
+        }
     }
     render() {
         return (
