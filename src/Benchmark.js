@@ -6,6 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'rec
 import { Button, Row, Col, Grid, Panel, Glyphicon } from 'react-bootstrap';
 
 var request = require('request');
+const protocolVersion = 1;
 
 const startCode = `static void BM_StringCreation(benchmark::State& state) {
   while (state.KeepRunning())
@@ -54,7 +55,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 "code": this.state.text,
                 "compiler": this.state.compiler,
                 "optim": this.state.optim,
-                "cppVersion": this.state.cppVersion
+                "cppVersion": this.state.cppVersion,
+                "protocolVersion" : protocolVersion
             };
             request({
                 url: this.url
