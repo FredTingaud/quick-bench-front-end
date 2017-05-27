@@ -6,7 +6,7 @@ class CompileConfig extends React.Component {
         super(props);
         this.state = {
             compiler: this.props.compiler,
-            version: this.props.version,
+            cppVersion: this.props.cppVersion,
             optim: this.props.optim,
             compilerTitle: "",
             versionTitle: "",
@@ -23,7 +23,7 @@ class CompileConfig extends React.Component {
     }
     componentDidMount() {
         this.changeCompiler(this.props.compiler);
-        this.changeVersion(this.props.version);
+        this.changeVersion(this.props.cppVersion);
         this.changeOptim(this.props.optim);
     }
     changeCompiler(key) {
@@ -41,7 +41,7 @@ class CompileConfig extends React.Component {
         } else if (key === "17") {
             vName = this.state.v17Name;
         }
-        this.setState({ version: vName });
+        this.setState({ cppVersion: vName });
         this.updateVersionTitle();
         this.props.onVersionChange(key);
     }
@@ -65,7 +65,7 @@ class CompileConfig extends React.Component {
     }
     updateVersionTitle() {
         this.setState((prevState, props) => ({
-            versionTitle: "std = " + prevState.version
+            versionTitle: "std = " + prevState.cppVersion
         }));
     }
     updateOptimTitle() {

@@ -30,7 +30,7 @@ class Benchmark extends React.Component {
             , message: ''
             , sending: false
             , compiler: "clang++-3.8"
-            , version: "17"
+            , cppVersion: "17"
             , optim: "1"
         };
         this.graph = [];
@@ -54,7 +54,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 "code": this.state.text,
                 "compiler": this.state.compiler,
                 "optim": this.state.optim,
-                "version": this.state.version
+                "cppVersion": this.state.cppVersion
             };
             request({
                 url: this.url
@@ -94,9 +94,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         <div className="compilation">
                             <Panel >
                                 <div className="compile-config">
-                                    <CompileConfig compiler={this.state.compiler} version={this.state.version} optim={this.state.optim}
+                                    <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim}
                                         onCompilerChange={(c) => this.setState({ compiler: c })}
-                                        onVersionChange={(v) => this.setState({ version: v })}
+                                        onVersionChange={(v) => this.setState({ cppVersion: v })}
                                         onOptimChange={(optim) => this.setState({ optim: optim })}
                                     />
                                 </div>
