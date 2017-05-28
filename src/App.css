@@ -7,6 +7,10 @@
     padding-top: 5px;
 }
 
+.force-cb {
+    margin-left: 10px;
+}
+
 .bash-output {
     background-color: #222;
     color: white;

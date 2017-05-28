@@ -3,7 +3,7 @@ import CodeEditor from './CodeEditor.js';
 import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Button, Row, Col, Grid, Panel, Glyphicon } from 'react-bootstrap';
+import { Button, Row, Col, Grid, Panel, Glyphicon, Checkbox } from 'react-bootstrap';
 
 var request = require('request');
 const protocolVersion = 1;
@@ -33,6 +33,8 @@ class Benchmark extends React.Component {
             , compiler: "clang++-3.8"
             , cppVersion: "17"
             , optim: "1"
+            , clean: false
+            , force: false
         };
         this.graph = [];
         this.url = this.props.url;
@@ -56,7 +58,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 "compiler": this.state.compiler,
                 "optim": this.state.optim,
                 "cppVersion": this.state.cppVersion,
-                "protocolVersion" : protocolVersion
+                "protocolVersion": protocolVersion,
+                "force": this.state.clean && this.state.force
             };
             request({
                 url: this.url
@@ -69,7 +72,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 , body: obj
             }, (err, res, body) => {
                 this.setState({
-                    sending: false
+                    sending: false,
+                    clean: true,
+                    force: false
                 });
                 if (body.result) {
                     this.setState({
@@ -82,13 +87,25 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             });
         }
     }
+    textChanged(text) {
+        this.setState({
+            text: text,
+            clean: false,
+            force: false
+        })
+    }
+    forceChanged(e) {
+        this.setState({
+            force: e.target.checked
+        })
+    }
     render() {
         return (
             <Grid fluid={true}>
                 <Row>
                     <Col sm={6} >
                         <div className="code-editor">
-                            <CodeEditor onChange={(text) => this.setState({ text: text })}
+                            <CodeEditor onChange={this.textChanged.bind(this)}
                                 code={this.state.text} />
                         </div>
                     </Col>
@@ -105,6 +122,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 <hr className="config-separator" />
                                 <div className="execute-button">
                                     <Button bsStyle="primary" onClick={() => this.sendCode(this.state)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run benchmark</Button>
+                                    {this.state.clean ? <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.force} onChange={this.forceChanged.bind(this)}>Force full recalculation</Checkbox> : null}
                                 </div>
                             </Panel>
                         </div>
