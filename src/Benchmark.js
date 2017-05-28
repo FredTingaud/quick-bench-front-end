@@ -87,17 +87,32 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             });
         }
     }
-    textChanged(text) {
+    setDirty() {
         this.setState({
-            text: text,
             clean: false,
             force: false
-        })
+        });
+    }
+    textChanged(text) {
+        this.setState({ text: text });
+        this.setDirty();
     }
     forceChanged(e) {
         this.setState({
             force: e.target.checked
         })
+    }
+    onCompilerChange(compiler) {
+        this.setState({ compiler: compiler });
+        this.setDirty();
+    }
+    onVersionChanged(version) {
+        this.setState({ cppVersion: version });
+        this.setDirty();
+    }
+    onOptimChange(optim) {
+        this.setState({ optim: optim });
+        this.setDirty();
     }
     render() {
         return (
@@ -114,9 +129,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                             <Panel >
                                 <div className="compile-config">
                                     <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim}
-                                        onCompilerChange={(c) => this.setState({ compiler: c })}
-                                        onVersionChange={(v) => this.setState({ cppVersion: v })}
-                                        onOptimChange={(optim) => this.setState({ optim: optim })}
+                                        onCompilerChange={this.onCompilerChange.bind(this)}
+                                        onVersionChange={this.onVersionChanged.bind(this)}
+                                        onOptimChange={this.onOptimChange.bind(this)}
                                     />
                                 </div>
                                 <hr className="config-separator" />
