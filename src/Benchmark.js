@@ -133,7 +133,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="cpu_time" fill="#82ca9d" />
+                                <Bar name="ratio (CPU time / Noop time)" dataKey="cpu_time" fill="#82ca9d" />
                             </BarChart>
                         </div>
                         <BashOutput text={this.state.message}></BashOutput>
