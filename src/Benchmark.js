@@ -40,6 +40,49 @@ class Benchmark extends React.Component {
         this.url = this.props.url;
         this.maxCodeSize = this.props.maxCodeSize;
     }
+    componentDidMount() {
+        if (this.props.id) {
+            this.getCode(this.props.id);
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.id !== nextProps.id) {
+            this.getCode(nextProps.id);
+        }
+    }
+    getCode(id) {
+        this.setState({
+            sending: true,
+            graph: [],
+            message: ''
+        });
+        request.get(this.url + '/get/' + id, (err, res, body) => {
+            this.setState({
+                sending: false,
+                clean: true,
+                force: false
+            });
+            if (body) {
+                let result = JSON.parse(body);
+                if (result) {
+                    if (result.result) {
+                        this.setState({
+                            text: result.code
+                            , graph: result.result.benchmarks
+                            , compiler: result.compiler
+                            , cppVersion: result.cppVersion
+                            , optim: result.optim
+                        });
+                    }
+                    if (result.message) {
+                        this.setState({
+                            message: result.message
+                        });
+                    }
+                }
+            }
+        });
+    }
     sendCode() {
         if (this.state.text.length > this.maxCodeSize) {
             this.setState({
@@ -67,7 +110,6 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 , json: true
                 , headers: {
                     "content-type": "application/json"
-                    ,
                 }
                 , body: obj
             }, (err, res, body) => {
@@ -80,6 +122,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     this.setState({
                         graph: body.result.benchmarks
                     });
+                    this.props.onLocationChange(body.id);
                 }
                 if (body.message) {
                     this.setState({ message: body.message });
