@@ -5,12 +5,6 @@ class CompileConfig extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            compiler: this.props.compiler,
-            cppVersion: this.props.cppVersion,
-            optim: this.props.optim,
-            compilerTitle: "",
-            versionTitle: "",
-            optimTitle: "",
             o0Name: "None",
             o1Name: "O1",
             o2Name: "O2",
@@ -26,13 +20,11 @@ class CompileConfig extends React.Component {
         this.changeVersion(this.props.cppVersion);
         this.changeOptim(this.props.optim);
     }
-    changeCompiler(key) {
+    compilerTitle(key) {
         let compiler = "clang++-3.8";
-        this.setState({ compiler: compiler })
-        this.updateCompilerTitle();
-        this.props.onCompilerChange(key);
+        return "compiler = " + compiler
     }
-    changeVersion(key) {
+    versionTitle(key) {
         let vName = this.state.v0Name;
         if (key === "11") {
             vName = this.state.v11Name;
@@ -41,11 +33,9 @@ class CompileConfig extends React.Component {
         } else if (key === "17") {
             vName = this.state.v17Name;
         }
-        this.setState({ cppVersion: vName });
-        this.updateVersionTitle();
-        this.props.onVersionChange(key);
+        return "std = " + vName;
     }
-    changeOptim(key) {
+    optimTitle(key) {
         let oName = this.state.o0Name;
         if (key === "1") {
             oName = this.state.o1Name;
@@ -54,38 +44,33 @@ class CompileConfig extends React.Component {
         } else if (key === "3") {
             oName = this.state.o3Name;
         }
-        this.setState({ optim: oName });
-        this.updateOptimTitle();
+        return "optim = " + oName;
+    }
+    changeCompiler(key) {
+        this.props.onCompilerChange(key);
+    }
+    changeVersion(key) {
+        this.props.onVersionChange(key);
+    }
+    changeOptim(key) {
         this.props.onOptimChange(key);
     }
-    updateCompilerTitle() {
-        this.setState((prevState, props) => ({
-            compilerTitle: "compiler = " + prevState.compiler
-        }));
-    }
-    updateVersionTitle() {
-        this.setState((prevState, props) => ({
-            versionTitle: "std = " + prevState.cppVersion
-        }));
-    }
-    updateOptimTitle() {
-        this.setState((prevState, props) => ({
-            optimTitle: "optim = " + prevState.optim
-        }));
-    }
     render() {
+        const compiler = this.props.compiler;
+        const cppVersion = this.props.cppVersion;
+        const optim = this.props.optim;
         return (
             <ButtonToolbar>
-                <DropdownButton id="compiler" bsStyle="default" title={this.state.compilerTitle} onSelect={(key) => this.changeCompiler(key)}>
+                <DropdownButton id="compiler" bsStyle="default" title={this.compilerTitle(compiler)} onSelect={this.changeCompiler}>
                     <MenuItem eventKey="Clang38" >clang++ - 3.8</MenuItem>
                 </DropdownButton>
-                <DropdownButton id="language" bsStyle="default" title={this.state.versionTitle} onSelect={(key) => this.changeVersion(key)}>
+                <DropdownButton id="language" bsStyle="default" title={this.versionTitle(cppVersion)} onSelect={this.changeVersion}>
                     <MenuItem eventKey="0">{this.state.v0Name}</MenuItem>
                     <MenuItem eventKey="11">{this.state.v11Name}</MenuItem>
                     <MenuItem eventKey="14">{this.state.v14Name}</MenuItem>
                     <MenuItem eventKey="17">{this.state.v17Name}</MenuItem>
                 </DropdownButton>
-                <DropdownButton id="optim" bsStyle="default" title={this.state.optimTitle} onSelect={(key) => this.changeOptim(key)}>
+                <DropdownButton id="optim" bsStyle="default" title={this.optimTitle(optim)} onSelect={this.changeOptim}>
                     <MenuItem eventKey="0">{this.state.o0Name}</MenuItem>
                     <MenuItem eventKey="1">{this.state.o1Name}</MenuItem>
                     <MenuItem eventKey="2">{this.state.o2Name}</MenuItem>
