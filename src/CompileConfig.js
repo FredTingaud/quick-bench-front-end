@@ -61,16 +61,16 @@ class CompileConfig extends React.Component {
         const optim = this.props.optim;
         return (
             <ButtonToolbar>
-                <DropdownButton id="compiler" bsStyle="default" title={this.compilerTitle(compiler)} onSelect={this.changeCompiler}>
+                <DropdownButton id="compiler" bsStyle="default" title={this.compilerTitle(compiler)} onSelect={this.changeCompiler.bind(this)}>
                     <MenuItem eventKey="Clang38" >clang++ - 3.8</MenuItem>
                 </DropdownButton>
-                <DropdownButton id="language" bsStyle="default" title={this.versionTitle(cppVersion)} onSelect={this.changeVersion}>
+                <DropdownButton id="language" bsStyle="default" title={this.versionTitle(cppVersion)} onSelect={this.changeVersion.bind(this)}>
                     <MenuItem eventKey="0">{this.state.v0Name}</MenuItem>
                     <MenuItem eventKey="11">{this.state.v11Name}</MenuItem>
                     <MenuItem eventKey="14">{this.state.v14Name}</MenuItem>
                     <MenuItem eventKey="17">{this.state.v17Name}</MenuItem>
                 </DropdownButton>
-                <DropdownButton id="optim" bsStyle="default" title={this.optimTitle(optim)} onSelect={this.changeOptim}>
+                <DropdownButton id="optim" bsStyle="default" title={this.optimTitle(optim)} onSelect={this.changeOptim.bind(this)}>
                     <MenuItem eventKey="0">{this.state.o0Name}</MenuItem>
                     <MenuItem eventKey="1">{this.state.o1Name}</MenuItem>
                     <MenuItem eventKey="2">{this.state.o2Name}</MenuItem>
