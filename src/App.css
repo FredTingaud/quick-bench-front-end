@@ -28,3 +28,25 @@
         font-size: 1em;
         padding-left: 1em;
     }
+
+.linked-code-decoration-inline-0 {
+    background: #8dd3c7 !important;
+}
+.linked-code-decoration-inline-1 {
+    background: #ffffb3 !important;
+}
+.linked-code-decoration-inline-2 {
+    background: #bebada !important;
+}
+.linked-code-decoration-inline-3 {
+    background: #fb8072 !important;
+}
+.linked-code-decoration-inline-4 {
+    background: #80b1d3 !important;
+}
+.linked-code-decoration-inline-5 {
+    background: #fdb462 !important;
+}
+.linked-code-decoration-inline-6 {
+    background: #b3de69 !important;
+}

@@ -44,6 +44,7 @@ class Benchmark extends React.Component {
             , optim: "1"
             , clean: false
             , force: false
+            , benchNames: []
         };
         this.graph = [];
         this.url = this.props.url;
@@ -82,6 +83,7 @@ class Benchmark extends React.Component {
             type: 'bar',
             options: chartOptions
         });
+        this.setState({ benchNames: names });
     }
     showChart(chart) {
         const names = chart.map(v => v.name);
@@ -218,7 +220,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     <Col sm={6} >
                         <div className="code-editor">
                             <CodeEditor onChange={this.textChanged.bind(this)}
-                                code={this.state.text} />
+                                code={this.state.text}
+                                names={this.state.benchNames} />
                         </div>
                     </Col>
                     <Col sm={6} >
