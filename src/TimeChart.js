@@ -1,14 +1,6 @@
 import React from 'react';
 import Chart from 'chart.js';
-
-const PALETTE = ['#8dd3c7',
-    '#ffffb3',
-    '#bebada',
-    '#fb8072',
-    '#80b1d3',
-    '#fdb462',
-    '#b3de69'
-];
+import Palette from './Palette.js';
 
 class TimeChart extends React.Component {
     componentWillReceiveProps(nextProps) {
@@ -60,10 +52,11 @@ class TimeChart extends React.Component {
         this.chart = null;
     }
     showChart(chart) {
-        if (chart.length) {
+        const length = chart.length - 1
+        if (length > 0) {
             const names = chart.map(v => v.name);
             const times = chart.map(v => v.cpu_time);
-            const colors = chart.map((v, i) => v.name === 'Noop' ? '#000' : PALETTE[i % PALETTE.length]);
+            const colors = chart.map((v, i) => v.name === 'Noop' ? '#000' : Palette.pickColor(i, length));
             const chartData = [{
                 data: times,
                 backgroundColor: colors

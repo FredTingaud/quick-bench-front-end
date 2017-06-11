@@ -1,5 +1,6 @@
 import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
+import Palette from './Palette.js';
 
 class CodeEditor extends React.Component {
     constructor(props) {
@@ -24,7 +25,7 @@ class CodeEditor extends React.Component {
         this.prevDecorations = this.editor.deltaDecorations(
             this.prevDecorations, this.decorations);
     }
-    addDecoration(name, i) {
+    addDecoration(name, i, max) {
         const re1 = new RegExp(`\\s${name}\\s*\\(\\s*benchmark\\s*\\:\\:\\s*State\\s*\\&`);
         const re2 = new RegExp(`BENCHMARK\\s*\\(\\s*${name}\\s*\\)\\s*`);
         const match1 = re1.exec(this.text);
@@ -37,7 +38,7 @@ class CodeEditor extends React.Component {
                     range: new this.monaco.Range(l1, 1, l2, 1),
                     options: {
                         isWholeLine: true,
-                        inlineClassName: 'linked-code-decoration-inline-' + i
+                        inlineClassName: Palette.pickCSS(i, max)
                     }
                 });
         }
@@ -45,7 +46,8 @@ class CodeEditor extends React.Component {
     calculateDecorations(names) {
         this.prevDecorations = this.decorations;
         this.decorations = [];
-        names.map((name, i) => this.addDecoration(name, i));
+        const max = names.length - 1
+        names.map((name, i) => this.addDecoration(name, i, max));
         this.updateDecorations();
     }
     componentWillReceiveProps(nextProps) {
