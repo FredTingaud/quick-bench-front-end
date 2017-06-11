@@ -2,20 +2,11 @@ import React from 'react';
 import CodeEditor from './CodeEditor.js';
 import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
-import Chart from 'chart.js';
+import TimeChart from './TimeChart.js';
 import { Button, Row, Col, Grid, Panel, Glyphicon, Checkbox } from 'react-bootstrap';
 
 var request = require('request');
 const protocolVersion = 1;
-
-const PALETTE = ['#8dd3c7',
-    '#ffffb3',
-    '#bebada',
-    '#fb8072',
-    '#80b1d3',
-    '#fdb462',
-    '#b3de69'
-];
 
 const startCode = `static void BM_StringCreation(benchmark::State& state) {
   while (state.KeepRunning())
@@ -51,52 +42,9 @@ class Benchmark extends React.Component {
         this.maxCodeSize = this.props.maxCodeSize;
     }
     componentDidMount() {
-        this.createChart();
         if (this.props.id) {
             this.getCode(this.props.id);
         }
-    }
-    createChart() {
-        const ctx = document.getElementById("result-chart");
-        const chartOptions = {
-            title: {
-                display: true,
-                text: 'ratio (CPU time / Noop time)',
-                position: 'bottom'
-            },
-            legend: {
-                display: false
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        };
-        this.chart = new Chart(ctx, {
-            type: 'bar',
-            options: chartOptions
-        });
-        this.setState({ benchNames: names });
-    }
-    showChart(chart) {
-        const names = chart.map(v => v.name);
-        const times = chart.map(v => v.cpu_time);
-        const colors = chart.map((v, i) => v.name === 'Noop' ? '#000' : PALETTE[i % PALETTE.length]);
-        const chartData = [{
-            data: times,
-            backgroundColor: colors
-        }];
-        this.chart.data.labels = names;
-        this.chart.data.datasets = chartData;
-        this.chart.update();
-        this.setState({ benchNames: names });
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.id !== nextProps.id) {
@@ -126,7 +74,6 @@ class Benchmark extends React.Component {
                             , cppVersion: result.cppVersion
                             , optim: result.optim
                         });
-                        this.showChart(result.result.benchmarks);
                     }
                     if (result.message) {
                         this.setState({
@@ -176,7 +123,6 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     this.setState({
                         graph: body.result.benchmarks
                     });
-                    this.showChart(body.result.benchmarks);
                     this.props.onLocationChange(body.id);
                 }
                 if (body.message) {
@@ -241,7 +187,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 </div>
                             </Panel>
                         </div>
-                        {this.state.graph ? <canvas id="result-chart"></canvas> : null}
+                        < TimeChart benchmarks={this.state.graph} onNamesChange={n => this.setState({ benchNames: n })} />
                         <BashOutput text={this.state.message}></BashOutput>
                     </Col>
                 </Row>
