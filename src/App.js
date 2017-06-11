@@ -15,13 +15,15 @@ class App extends Component {
             location: null
         }
     }
-
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.location) {
+            this.setState({ location: null });
+        }
+    }
     redirect() {
         if (this.state.location) {
-            let location = this.state.location;
-            this.setState({ location: null });
             return (
-                <Redirect push to={'/' + location} />
+                <Redirect push to={'/' + this.state.location} />
             );
         }
         return null;
