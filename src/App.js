@@ -12,16 +12,19 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            location: null
+            location: null,
+            prevlocation: null
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.location) {
-            this.setState({ location: null });
+        if (this.state.location !== this.state.prevlocation) {
+            this.setState({
+                prevlocation: this.state.location
+            });
         }
     }
     redirect() {
-        if (this.state.location) {
+        if (this.state.location !== this.state.prevlocation) {
             return (
                 <Redirect push to={'/' + this.state.location} />
             );
