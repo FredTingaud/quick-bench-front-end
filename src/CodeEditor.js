@@ -31,20 +31,34 @@ class CodeEditor extends React.Component {
         const match1 = re1.exec(this.text);
         const match2 = re2.exec(this.text);
         if (match1 && match2) {
-            const l1 = (this.text.substr(0, match1.index).match(/\n/g) || []).length + 1;
-            const l2 = (this.text.substr(0, match2.index).match(/\n/g) || []).length + 1;
+            const sub1 = this.text.substr(0, match1.index);
+            const sub2 = this.text.substr(0, match2.index);
+            const l1 = (sub1.match(/\n/g) || []).length + 1;
+            const l2 = (sub2.match(/\n/g) || []).length + 1;
             this.decorations.push(
                 {
                     range: new this.monaco.Range(l1, 1, l2, 1),
                     options: {
-                        isWholeLine: true,
-                        inlineClassName: Palette.pickCSS(i, max)
+                        linesDecorationsClassName: Palette.pickCSS(i, max)
                     }
                 });
+            const c1 = this.text.indexOf(name, match1.index) - sub1.lastIndexOf('\n');
+            this.decorations.push({
+                range: new this.monaco.Range(l1, c1, l1, c1 + name.length),
+                options: {
+                    inlineClassName: Palette.pickCSS(i, max)
+                }
+            });
+            const c2 = this.text.indexOf(name, match2.index) - sub2.lastIndexOf('\n');
+            this.decorations.push({
+                range: new this.monaco.Range(l2, c2, l2, c2 + name.length),
+                options: {
+                    inlineClassName: Palette.pickCSS(i, max)
+                }
+            });
         }
     }
     calculateDecorations(names) {
-        this.prevDecorations = this.decorations;
         this.decorations = [];
         const max = names.length - 1
         names.map((name, i) => this.addDecoration(name, i, max));
