@@ -60,8 +60,9 @@ class CodeEditor extends React.Component {
     }
     calculateDecorations(names) {
         this.decorations = [];
-        const max = names.length - 1
-        names.map((name, i) => this.addDecoration(name, i, max));
+        const filtered = names.filter(n => n !== 'Noop');
+        const max = filtered.length;
+        filtered.map((name, i) => this.addDecoration(name, i, max));
         this.updateDecorations();
     }
     componentWillReceiveProps(nextProps) {
