@@ -36,7 +36,7 @@ class Benchmark extends React.Component {
             , clean: false
             , force: false
             , benchNames: []
-            , location: null
+            , location: props.id
         };
         this.graph = [];
         this.url = this.props.url;
@@ -53,9 +53,8 @@ class Benchmark extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.location) {
+        if (this.state.location !== prevState.location) {
             this.props.onLocationChange(this.state.location);
-            this.setState({ location: null });
         }
     }
     getCode(id) {
@@ -194,7 +193,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 </div>
                             </Panel>
                         </div>
-                        < TimeChart benchmarks={this.state.graph} onNamesChange={n => this.setState({ benchNames: n })} />
+                        <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} />
                         <BashOutput text={this.state.message}></BashOutput>
                     </Col>
                 </Row>

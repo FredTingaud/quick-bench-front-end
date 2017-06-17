@@ -10,6 +10,7 @@
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.2",
+    "react-file-download": "^0.3.4",
     "react-monaco-editor": "^0.8.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1"
