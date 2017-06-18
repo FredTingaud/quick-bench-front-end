@@ -16,8 +16,8 @@ class App extends Component {
             prevlocation: null
         }
     }
-    componentDidMount() {
-        var all = document.getElementsByClassName('whole-content');
+    changeMargin() {
+        var all = document.getElementsByClassName('container-fluid');
         for (var i = 0; i < all.length; i++) {
             all[i].style.marginTop = this.header.clientHeight + 'px';
         }
@@ -39,7 +39,7 @@ class App extends Component {
     }
 
     Home = ({ match }) => (
-        <Benchmark className="whole-content" id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />
+        <Benchmark onDisplay={() => this.changeMargin()} id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />
     )
 
     render() {

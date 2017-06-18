@@ -46,6 +46,7 @@ class Benchmark extends React.Component {
         if (this.props.id) {
             this.getCode(this.props.id);
         }
+        this.props.onDisplay();
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.id !== nextProps.id) {
