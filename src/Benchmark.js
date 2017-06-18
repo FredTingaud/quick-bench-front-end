@@ -168,8 +168,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
     render() {
         return (
             <Grid fluid={true}>
-                <Row>
-                    <Col sm={6} >
+                <Row className="full-size">
+                    <Col sm={6} className="full-size">
                         <div className="code-editor">
                             <CodeEditor onChange={this.textChanged.bind(this)}
                                 code={this.state.text}

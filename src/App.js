@@ -16,6 +16,12 @@ class App extends Component {
             prevlocation: null
         }
     }
+    componentDidMount() {
+        var all = document.getElementsByClassName('whole-content');
+        for (var i = 0; i < all.length; i++) {
+            all[i].style.marginTop = this.header.clientHeight + 'px';
+        }
+    }
     componentDidUpdate(prevProps, prevState) {
         if (this.state.location !== this.state.prevlocation) {
             this.setState({
@@ -33,17 +39,17 @@ class App extends Component {
     }
 
     Home = ({ match }) => (
-            <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />
+        <Benchmark className="whole-content" id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />
     )
 
     render() {
         return (
             <BrowserRouter history={this.state.location}>
-                <div className="App">
-                    <Header />
-                    <Route exact path="/" component={this.Home} />
-                    <Route exact path="/:id" component={this.Home} />
-                    {this.redirect()}
+                <div className="App full-size">
+                    <div ref={div => { this.header = div; }}><Header /></div>
+                        <Route exact path="/" component={this.Home} />
+                        <Route exact path="/:id" component={this.Home} />
+                        {this.redirect()}
                 </div>
             </BrowserRouter>
         );

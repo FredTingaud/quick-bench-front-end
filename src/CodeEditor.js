@@ -16,6 +16,13 @@ class CodeEditor extends React.Component {
         if (this.props.names) {
             this.calculateDecorations(this.props.names);
         }
+        window.addEventListener("resize", () => this.updateDimensions());
+    }
+    editorWillUnmount() {
+        window.removeEventListener("resize", () => this.updateDimensions());
+    }
+    updateDimensions() {
+        this.editor.layout();
     }
     handleChange(value) {
         this.text = value;
@@ -77,8 +84,6 @@ class CodeEditor extends React.Component {
         };
         return (
             <MonacoEditor ref="monaco"
-                width="100%"
-                height="600"
                 language="cpp"
                 options={options}
                 onChange={(newValue) => this.handleChange(newValue)}

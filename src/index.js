@@ -6,6 +6,6 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 import './index.css';
 
 ReactDOM.render(
-    <App />,
+    <App className="full-size" />,
     document.getElementById('root')
 );
