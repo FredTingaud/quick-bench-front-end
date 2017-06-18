@@ -120,7 +120,7 @@ class TimeChart extends React.Component {
     }
     renderIfVisible() {
         const tooltip = (
-            <Tooltip>Download chart</Tooltip>
+            <Tooltip id="tooltip-save">Download chart</Tooltip>
         );
         if (this.props.benchmarks.length) {
             return (
