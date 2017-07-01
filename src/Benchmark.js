@@ -3,10 +3,11 @@ import CodeEditor from './CodeEditor.js';
 import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import TimeChart from './TimeChart.js';
+import AssemblyEditor from './AssemblyEditor.js';
 import { Button, Row, Col, Grid, Panel, Glyphicon, Checkbox } from 'react-bootstrap';
 
 var request = require('request');
-const protocolVersion = 1;
+const protocolVersion = 2;
 
 const startCode = `static void BM_StringCreation(benchmark::State& state) {
   while (state.KeepRunning())
@@ -37,6 +38,7 @@ class Benchmark extends React.Component {
             , force: false
             , benchNames: []
             , location: props.id
+            , annotation: ''
         };
         this.graph = [];
         this.url = this.props.url;
@@ -49,7 +51,7 @@ class Benchmark extends React.Component {
         this.props.onDisplay();
     }
     componentWillReceiveProps(nextProps) {
-        if (this.props.id !== nextProps.id) {
+        if (this.props.id !== nextProps.id && this.state.location !== nextProps.id) {
             this.getCode(nextProps.id);
         }
     }
@@ -62,6 +64,7 @@ class Benchmark extends React.Component {
         this.setState({
             sending: true,
             graph: [],
+            annotation: '',
             message: ''
         });
         request.get(this.url + '/get/' + id, (err, res, body) => {
@@ -80,6 +83,7 @@ class Benchmark extends React.Component {
                             , compiler: result.compiler
                             , cppVersion: result.cppVersion
                             , optim: result.optim
+                            , location: id
                         });
                     }
                     if (result.message) {
@@ -87,14 +91,18 @@ class Benchmark extends React.Component {
                             message: result.message
                         });
                     }
+                    if (result.annotation) {
+                        this.setState({ annotation: result.annotation });
+                    }
                 }
             }
         });
     }
-    sendCode() {
+    sendCode(annotated) {
         if (this.state.text.length > this.maxCodeSize) {
             this.setState({
                 graph: [],
+                annotation: '',
                 message: `Your code is ${this.state.text.length} characters long, while the maximum code size is ${this.maxCodeSize}.
 If you think this limitation is stopping you in a legitimate usage of quick-bench, please contact me.`
             });
@@ -102,6 +110,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             this.setState({
                 sending: true,
                 graph: [],
+                annotation: '',
                 message: ''
             });
             var obj = {
@@ -110,7 +119,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 "optim": this.state.optim,
                 "cppVersion": this.state.cppVersion,
                 "protocolVersion": protocolVersion,
-                "force": this.state.clean && this.state.force
+                "force": this.state.clean && this.state.force,
+                "isAnnotated": annotated
             };
             request({
                 url: this.url
@@ -131,6 +141,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         graph: body.result.benchmarks,
                         location: body.id
                     });
+                }
+                if (body.annotation) {
+                    this.setState({ annotation: body.annotation });
                 }
                 if (body.message) {
                     this.setState({ message: body.message });
@@ -177,7 +190,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 names={this.state.benchNames} />
                         </div>
                     </Col>
-                    <Col sm={6} >
+                    <Col sm={6} className="full-size">
                         <div className="compilation">
                             <Panel >
                                 <div className="compile-config">
@@ -189,13 +202,17 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 </div>
                                 <hr className="config-separator" />
                                 <div className="execute-button">
-                                    <Button bsStyle="primary" onClick={() => this.sendCode(this.state)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run benchmark</Button>
+                                    <Button bsStyle="primary" onClick={() => this.sendCode(false)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run benchmark</Button>
+                                    <Button bsStyle="success" onClick={() => this.sendCode(true)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run annotated benchmark</Button>
                                     {this.state.clean ? <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.force} onChange={this.forceChanged.bind(this)}>Force full recalculation</Checkbox> : null}
                                 </div>
                             </Panel>
                         </div>
                         <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} />
                         <BashOutput text={this.state.message}></BashOutput>
+                        <div className="code-editor">
+                            <AssemblyEditor code={this.state.annotation} />
+                        </div>
                     </Col>
                 </Row>
             </Grid>

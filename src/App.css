@@ -14,7 +14,7 @@ html, body {
 }
 
 .force-cb {
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .bash-output {
@@ -52,6 +52,25 @@ html, body {
     left: 0px;
     right: 0px;
     bottom: 0px;
+}
+
+.execute-button .btn {
+    margin-right: 5px;
+}
+
+.ratio-line {
+    color: forestgreen !important;
+    font-style: oblique;
+    vertical-align: bottom;
+}
+
+.asm-keyword {
+    color: blue !important;
+}
+
+.asm-title {
+    color: red !important;
+    font-size: 100%;
 }
 
 .linked-code-decoration-inline-0 {
