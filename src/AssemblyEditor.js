@@ -112,9 +112,11 @@ class AssemblyEditor extends React.Component {
         this.editor.setModel(models[0]);
     }
     handleSelect(key) {
-        this.state.states[this.state.index] = this.editor.saveViewState();
+        let newStates = [...this.state.states];
+        newStates[this.state.index] = this.editor.saveViewState();
         this.setState({
             index: key
+            , states: newStates
         });
 
         this.editor.setModel(this.state.models[key]);
