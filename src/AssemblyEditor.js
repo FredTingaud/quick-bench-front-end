@@ -33,7 +33,7 @@ class AssemblyEditor extends React.Component {
         window.removeEventListener("resize", () => this.updateDimensions());
     }
     updateDimensions() {
-        this.editor.layout();
+        window.requestAnimationFrame(() => this.editor.layout());
     }
     componentWillReceiveProps(nextProps) {
         if (this.editor && nextProps.code !== this.props.code) {
