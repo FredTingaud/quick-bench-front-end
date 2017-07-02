@@ -45,13 +45,24 @@ class AssemblyEditor extends React.Component {
             this.makeCode(nextProps.code);
         }
     }
-    splitLine(lines, codes, string, decorations) {
+    splitLine(lines, codes, string, decorations, title) {
         let res = string.match(RE_CODE);
         if (res && res.length === 4) {
             let ratio = parseFloat(res[1]);
             let code = '';
             if (ratio > 0) {
                 code = res[1] + '%';
+                let i = this.props.names.indexOf(title);
+                if (i > -1) {
+                    const namesCount = this.props.names.filter(n => n !== 'Noop').length;
+                    decorations.push(
+                        {
+                            range: new this.monaco.Range(lines.length + 1, 1, lines.length + 1, 1),
+                            options: {
+                                linesDecorationsClassName: Palette.pickCSS(i, namesCount)
+                            }
+                        });
+                }
             }
             code = code + ' '.repeat(RATIO_WIDTH - code.length) + res[3];
             decorations.push({
@@ -92,7 +103,7 @@ class AssemblyEditor extends React.Component {
                     let index = lines.length - 1;
                     let rows = [];
 
-                    blocks[i].split('\n').map(s => this.splitLine(lines[index], rows, s, decorations));
+                    blocks[i].split('\n').map(s => this.splitLine(lines[index], rows, s, decorations, titles[index]));
                     let e = this.monaco.editor;
                     let model = e.createModel(rows.join('\n'), 'asm');
                     models.push(model);
