@@ -190,7 +190,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 names={this.state.benchNames} />
                         </div>
                     </Col>
-                    <Col sm={6} className="full-size">
+                    <Col sm={6} className="right-block">
                         <div className="compilation">
                             <Panel >
                                 <div className="compile-config">
@@ -210,7 +210,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         </div>
                         <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} />
                         <BashOutput text={this.state.message}></BashOutput>
-                        <div className="code-editor">
+                        <div className="code-editor2">
                             <AssemblyEditor code={this.state.annotation} />
                         </div>
                     </Col>
