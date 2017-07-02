@@ -55,11 +55,6 @@ class Benchmark extends React.Component {
             this.getCode(nextProps.id);
         }
     }
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.location !== prevState.location) {
-            this.props.onLocationChange(this.state.location);
-        }
-    }
     getCode(id) {
         this.setState({
             sending: true,
@@ -141,6 +136,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         graph: body.result.benchmarks,
                         location: body.id
                     });
+                    this.props.onLocationChange(body.id);
                 }
                 if (body.annotation) {
                     this.setState({ annotation: body.annotation });
