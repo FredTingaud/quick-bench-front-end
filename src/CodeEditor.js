@@ -1,6 +1,8 @@
 import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import Palette from './Palette.js';
+import elementResizeEvent from 'element-resize-event';
+import unbind from 'element-resize-event';
 
 class CodeEditor extends React.Component {
     constructor(props) {
@@ -16,10 +18,12 @@ class CodeEditor extends React.Component {
         if (this.props.names) {
             this.calculateDecorations(this.props.names);
         }
-        window.addEventListener("resize", () => this.updateDimensions());
+        var element = document.getElementById("codeContainer");
+        elementResizeEvent(element, () => this.updateDimensions());
     }
     editorWillUnmount() {
-        window.removeEventListener("resize", () => this.updateDimensions());
+        var element = document.getElementById("codeContainer");
+        unbind(element);
     }
     updateDimensions() {
         this.editor.layout();
@@ -83,13 +87,15 @@ class CodeEditor extends React.Component {
             selectOnLineNumbers: true
         };
         return (
-            <MonacoEditor ref="monaco"
-                language="cpp"
-                options={options}
-                onChange={(newValue) => this.handleChange(newValue)}
-                editorDidMount={(e, m) => this.editorDidMount(e, m)}
-                value={this.props.code}
-            />
+            <div className="full-size" id="codeContainer">
+                <MonacoEditor ref="monaco"
+                    language="cpp"
+                    options={options}
+                    onChange={(newValue) => this.handleChange(newValue)}
+                    editorDidMount={(e, m) => this.editorDidMount(e, m)}
+                    value={this.props.code}
+                />
+            </div>
         );
     }
 }

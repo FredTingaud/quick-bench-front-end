@@ -2,6 +2,8 @@ import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import Palette from './Palette.js';
 import { Tab, Tabs } from 'react-bootstrap';
+import elementResizeEvent from 'element-resize-event';
+import unbind from 'element-resize-event';
 
 const RE_CODE = /\s*([0-9\\.]+) +:\s+([0-9a-f]+):\s+(.*)/;
 const RE_TITLE = /-{11} ([^\s]*)\s*/;
@@ -26,14 +28,17 @@ class AssemblyEditor extends React.Component {
         editor.focus();
         this.editor = editor;
         this.monaco = monaco;
-        window.addEventListener("resize", () => this.updateDimensions());
+
+        var element = document.getElementById("assemblyContainer");
+        elementResizeEvent(element, () => this.updateDimensions());
         this.makeCode(this.props.code);
     }
     editorWillUnmount() {
-        window.removeEventListener("resize", () => this.updateDimensions());
+        var element = document.getElementById("assemblyContainer");
+        unbind(element);
     }
     updateDimensions() {
-        window.requestAnimationFrame(() => this.editor.layout());
+        window.requestAnimationFrame(() => { this.editor.layout() });
     }
     componentWillReceiveProps(nextProps) {
         if (this.editor && nextProps.code !== this.props.code) {
@@ -107,7 +112,7 @@ class AssemblyEditor extends React.Component {
         this.editor.setModel(models[0]);
     }
     handleSelect(key) {
-            this.state.states[this.state.index] = this.editor.saveViewState();
+        this.state.states[this.state.index] = this.editor.saveViewState();
         this.setState({
             index: key
         });
@@ -120,7 +125,7 @@ class AssemblyEditor extends React.Component {
             return <Tab title={name} eventKey={i} key={name} />
         });
 
-        return (<Tabs onSelect={(key) => this.handleSelect(key)} defaultActiveKey={0} id="bench-asm-selection">
+        return (<Tabs onSelect={(key) => this.handleSelect(key)} defaultActiveKey={this.state.index} id="bench-asm-selection">
             {tabsList}
         </Tabs>);
     }
@@ -132,7 +137,7 @@ class AssemblyEditor extends React.Component {
             , lineNumbersMinChars: 10
         };
         return (
-            <div className="full-size">
+            <div className="full-size" id="assemblyContainer">
                 {this.fillTabs()}
                 <MonacoEditor ref="monaco"
                     language="asm"
