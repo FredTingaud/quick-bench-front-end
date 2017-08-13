@@ -150,13 +150,15 @@ class AssemblyEditor extends React.Component {
             , lineNumbersMinChars: 10
         };
         return (
-            <div className="full-size" id="assemblyContainer">
+            <div className="right-block">
                 {this.fillTabs()}
-                <MonacoEditor ref="monaco"
-                    language="asm"
-                    options={options}
-                    editorDidMount={(e, m) => this.editorDidMount(e, m)}
-                />
+                <div className="code-editor2" id="assemblyContainer">
+                    <MonacoEditor ref="monaco"
+                        language="asm"
+                        options={options}
+                        editorDidMount={(e, m) => this.editorDidMount(e, m)}
+                    />
+                </div>
             </div>
         );
     }

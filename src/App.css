@@ -54,7 +54,6 @@ html, body {
 
 .code-editor2 {
     flex: 1;
-    flex-grow: 2;
     overflow: hidden;
 }
 

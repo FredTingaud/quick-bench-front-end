@@ -206,9 +206,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         </div>
                         <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} />
                         <BashOutput text={this.state.message}></BashOutput>
-                        <div className="code-editor2">
                             <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} />
-                        </div>
                     </Col>
                 </Row>
             </Grid>
