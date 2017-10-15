@@ -9,19 +9,25 @@ import { Button, Row, Col, Grid, Panel, Glyphicon, Checkbox } from 'react-bootst
 var request = require('request');
 const protocolVersion = 2;
 
-const startCode = `static void BM_StringCreation(benchmark::State& state) {
-  while (state.KeepRunning())
-    std::string empty_string;
+const startCode = `static void StringCreation(benchmark::State& state) {
+  // Code inside this loop is measured repeatedly
+  for (auto _ : state) {
+    std::string created_string("hello");
+    // Make sure the variable is not optimized away by compiler
+    benchmark::DoNotOptimize(created_string);
+  }
 }
 // Register the function as a benchmark
-BENCHMARK(BM_StringCreation);
+BENCHMARK(StringCreation);
 
-static void BM_StringCopy(benchmark::State& state) {
+static void StringCopy(benchmark::State& state) {
+  // Code before the loop is not measured
   std::string x = "hello";
-  while (state.KeepRunning())
+  for (auto _ : state) {
     std::string copy(x);
+  }
 }
-BENCHMARK(BM_StringCopy);
+BENCHMARK(StringCopy);
 `
 class Benchmark extends React.Component {
     constructor(props) {
