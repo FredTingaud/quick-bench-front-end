@@ -39,7 +39,7 @@ class Benchmark extends React.Component {
             , sending: false
             , compiler: "clang++-3.8"
             , cppVersion: "17"
-            , optim: "1"
+            , optim: "3"
             , clean: false
             , force: false
             , benchNames: []
