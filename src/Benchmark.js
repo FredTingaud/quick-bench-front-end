@@ -206,7 +206,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 <div className="execute-button">
                                     <Button bsStyle="primary" onClick={() => this.sendCode(true)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Full Benchmark</Button>
                                     <Button bsStyle="info" onClick={() => this.sendCode(false)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Light Benchmark</Button>
-                                    {this.state.clean ? <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.force} onChange={this.forceChanged.bind(this)}>Force full recalculation</Checkbox> : null}
+                                    {this.state.clean ? <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.force} onChange={this.forceChanged.bind(this)}>Clear cached results</Checkbox> : null}
                                 </div>
                             </Panel>
                         </div>
