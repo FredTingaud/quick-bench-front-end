@@ -45,6 +45,7 @@ class Benchmark extends React.Component {
             , benchNames: []
             , location: props.id
             , annotation: ''
+            , isAnnotated: true
         };
         this.graph = [];
         this.url = this.props.url;
@@ -93,13 +94,18 @@ class Benchmark extends React.Component {
                         });
                     }
                     if (result.annotation) {
-                        this.setState({ annotation: result.annotation });
+                        this.setState({
+                            annotation: result.annotation
+                            , isAnnotated: true
+                        });
+                    } else {
+                        this.setState({ isAnnotated: false });
                     }
                 }
             }
         });
     }
-    sendCode(annotated) {
+    sendCode() {
         if (this.state.text.length > this.maxCodeSize) {
             this.setState({
                 graph: [],
@@ -121,7 +127,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 "cppVersion": this.state.cppVersion,
                 "protocolVersion": protocolVersion,
                 "force": this.state.clean && this.state.force,
-                "isAnnotated": annotated
+                "isAnnotated": this.state.isAnnotated
             };
             request({
                 url: this.url
@@ -180,7 +186,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         this.setState({ optim: optim });
         this.setDirty();
     }
-
+    toggleAnnotated(e) {
+        this.setState({ isAnnotated: e.target.checked });
+    }
     render() {
         return (
             <Grid fluid={true}>
@@ -204,15 +212,15 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 </div>
                                 <hr className="config-separator" />
                                 <div className="execute-button">
-                                    <Button bsStyle="primary" onClick={() => this.sendCode(true)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Full Benchmark</Button>
-                                    <Button bsStyle="info" onClick={() => this.sendCode(false)} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Light Benchmark</Button>
+                                    <Button bsStyle="primary" onClick={() => this.sendCode()} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Benchmark</Button>
+                                    <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.isAnnotated} onChange={e => this.toggleAnnotated(e)} >Record disassembly</Checkbox>
                                     {this.state.clean ? <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.force} onChange={this.forceChanged.bind(this)}>Clear cached results</Checkbox> : null}
                                 </div>
                             </Panel>
                         </div>
                         <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} />
                         <BashOutput text={this.state.message}></BashOutput>
-                            <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} />
+                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} />
                     </Col>
                 </Row>
             </Grid>
