@@ -38,7 +38,7 @@ class TimeChart extends React.Component {
                 position: 'bottom'
             },
             legend: {
-                display: false
+                display: true
             },
             tooltips: {
                 mode: 'index',
@@ -49,6 +49,12 @@ class TimeChart extends React.Component {
                     ticks: {
                         beginAtZero: true
                     }
+                }],
+                xAxes: [{
+                    id: 'bar'
+                }, {
+                    id: 'line',
+                    type: 'linear'
                 }]
             }
         };
@@ -68,18 +74,75 @@ class TimeChart extends React.Component {
         const length = this.state.chart.length - 1
         if (length > 0) {
             const input = this.state.chart.filter((v) => this.filterNoop(v));
-            const names = input.map(v => v.name);
-            const times = input.map(v => v.cpu_time);
-            const colors = input.map((v, i) => v.name === 'Noop' ? '#000' : Palette.pickColor(i, length));
-            const chartData = [{
-                data: times,
-                backgroundColor: colors
-            }];
-            this.chart.data.labels = names;
-            this.chart.data.datasets = chartData;
-            this.chart.update();
-            this.props.onNamesChange(names);
+            const x = input.filter(v => v.name.indexOf('/') > -1);
+            if (x.length > 1) {
+                this.drawLineChart(input);
+            } else {
+                this.drawBarChart(input);
+            }
         }
+    }
+    drawBarChart(input) {
+        const length = this.state.chart.length - 1
+        const names = input.map(v => v.name);
+        const times = input.map(v => v.cpu_time);
+        const colors = input.map((v, i) => v.name === 'Noop' ? '#000' : Palette.pickColor(i, length));
+        const chartData = [{
+            data: times,
+            backgroundColor: colors,
+            type: 'bar',
+            xAxisID: 'bar'
+        }];
+        this.chart.data.labels = names;
+        this.chart.data.datasets = chartData;
+        this.chart.options.legend.display = false;
+        this.chart.options.scales.xAxes[1].display = false;
+        this.chart.update();
+        this.props.onNamesChange(names);
+    }
+    drawLineChart(input) {
+        let max = 1;
+        let chartData = [];
+        const horizontals = input.filter(v => v.name.indexOf('/') === -1);
+        let functionNames = input.filter(v => v.name.indexOf('/') > -1).map(v => v.name.substring(0, v.name.indexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
+        let names = input.filter(v => v.name.indexOf('/') > -1).map(v => v.name.substring(0, v.name.lastIndexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
+        for (let i = 0; i < names.length; ++i) {
+            let n = names[i];
+            const times = input.filter(v => v.name.indexOf('/') > -1 && v.name.startsWith(n + '/')).map(v => ({ x: parseInt(v.name.substring(v.name.lastIndexOf('/') + 1), 10), y: v.cpu_time }));
+            const color = n === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(n.split('/')[0]), functionNames.length + horizontals.length);
+            chartData.push({
+                data: times,
+                backgroundColor: color,
+                borderColor: color,
+                type: 'line',
+                label: n,
+                fill: false,
+                xAxisID: 'line'
+            });
+
+            max = Math.max(max, ...times.map(elt => elt.x));
+        }
+        names = names.concat(horizontals.map(v => v.name));
+        functionNames = functionNames.concat(horizontals.map(v => v.name));
+        for (let i = 0; i < horizontals.length; ++i) {
+            let v = horizontals[i];
+            const times2 = [{ x: 0, y: v.cpu_time }, { x: max, y: v.cpu_time }];
+            const colors2 = v.name === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(v.name), functionNames.length);
+            chartData.push({
+                data: times2,
+                backgroundColor: colors2,
+                borderColor: colors2,
+                type: 'line',
+                label: v.name,
+                fill: false,
+                xAxisID: 'line'
+            });
+        }
+        this.chart.data.labels = names;
+        this.chart.data.datasets = chartData;
+        this.chart.options.scales.xAxes[0].display = false;
+        this.chart.update();
+        this.props.onNamesChange(functionNames);
     }
     dataURItoBlob(dataURI, type) {
         var byteString = atob(dataURI.split(',')[1]);
