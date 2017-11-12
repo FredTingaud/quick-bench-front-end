@@ -37,7 +37,7 @@ class Benchmark extends React.Component {
             , graph: []
             , message: ''
             , sending: false
-            , compiler: "clang++-3.8"
+            , compiler: "clang-5.0"
             , cppVersion: "17"
             , optim: "3"
             , clean: false
@@ -79,10 +79,11 @@ class Benchmark extends React.Component {
                 let result = JSON.parse(body);
                 if (result) {
                     if (result.result) {
+                        let compiler = (result.compiler === 'clang++-3.8' ? 'clang-3.8' : result.compiler);
                         this.setState({
                             text: result.code
                             , graph: result.result.benchmarks
-                            , compiler: result.compiler
+                            , compiler: compiler
                             , cppVersion: result.cppVersion
                             , optim: result.optim
                             , location: id
