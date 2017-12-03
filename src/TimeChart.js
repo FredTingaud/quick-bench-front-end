@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from 'chart.js';
 import Palette from './Palette.js';
-import { Button, Glyphicon, Panel, Checkbox, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button, Glyphicon, Panel, Checkbox, OverlayTrigger, Tooltip, Form, FormControl } from 'react-bootstrap';
 import fileDownload from 'react-file-download';
 
 class TimeChart extends React.Component {
@@ -9,7 +9,8 @@ class TimeChart extends React.Component {
         super(props);
         this.state = {
             chart: props.benchmarks,
-            showNoop: false
+            showNoop: false,
+            chartStyle: 'Line'
         };
     }
     componentWillReceiveProps(nextProps) {
@@ -74,8 +75,7 @@ class TimeChart extends React.Component {
         const length = this.state.chart.length - 1
         if (length > 0) {
             const input = this.state.chart.filter((v) => this.filterNoop(v));
-            const x = input.filter(v => v.name.indexOf('/') > -1);
-            if (x.length > 1) {
+            if (input.find(v => v.name.indexOf('/') > -1) && this.state.chartStyle === 'Line') {
                 this.drawLineChart(input);
             } else {
                 this.drawBarChart(input);
@@ -96,6 +96,7 @@ class TimeChart extends React.Component {
         this.chart.data.labels = names;
         this.chart.data.datasets = chartData;
         this.chart.options.legend.display = false;
+        this.chart.options.scales.xAxes[0].display = true;
         this.chart.options.scales.xAxes[1].display = false;
         this.chart.update();
         this.props.onNamesChange(names);
@@ -141,6 +142,7 @@ class TimeChart extends React.Component {
         this.chart.data.labels = names;
         this.chart.data.datasets = chartData;
         this.chart.options.scales.xAxes[0].display = false;
+        this.chart.options.scales.xAxes[1].display = true;
         this.chart.update();
         this.props.onNamesChange(functionNames);
     }
@@ -181,6 +183,19 @@ class TimeChart extends React.Component {
     toggleNoop(e) {
         this.setState({ showNoop: e.target.checked }, () => this.showChart());
     }
+    changeChartStyle(e) {
+        this.setState({ chartStyle: e.target.value }, () => this.showChart());
+    }
+    renderIfParametric() {
+        if (this.state.chart.find(v => v.name.indexOf('/') > -1)) {
+            return (<FormControl componentClass="select" className="pull-right" onChange={(e) => this.changeChartStyle(e)} defaultValue={this.state.chartStyle}>
+                <option value="Bar">Bar</option>
+                <option value="Line">Line</option>
+            </FormControl>
+            );
+        }
+        return null;
+    }
     renderIfVisible() {
         const tooltip = (
             <Tooltip id="tooltip-save">Download chart</Tooltip>
@@ -189,14 +204,17 @@ class TimeChart extends React.Component {
             return (
                 <Panel>
                     < canvas id='result-chart' />
-                    <OverlayTrigger placement='bottom' overlay={tooltip}>
-                        <Button onClick={() => this.saveChart()}>
-                            <Glyphicon glyph='floppy-save' />
-                        </Button>
-                    </OverlayTrigger>
-                    <Checkbox className="force-cb" inline={true} checked={this.state.showNoop} onChange={(e) => this.toggleNoop(e)}>
-                        Show Noop bar
-                    </Checkbox>
+                    <Form inline>
+                        <OverlayTrigger placement='bottom' overlay={tooltip}>
+                            <Button onClick={() => this.saveChart()}>
+                                <Glyphicon glyph='floppy-save' />
+                            </Button>
+                        </OverlayTrigger>
+                        <Checkbox className="force-cb" inline={true} checked={this.state.showNoop} onChange={(e) => this.toggleNoop(e)}>
+                            Show Noop bar
+                        </Checkbox>
+                        {this.renderIfParametric()}
+                    </Form>
                 </Panel>
             );
         }
