@@ -52,7 +52,10 @@ class TimeChart extends React.Component {
                     }
                 }],
                 xAxes: [{
-                    id: 'bar'
+                    id: 'bar',
+                    ticks: {
+                        autoSkip: false
+                    }
                 }, {
                     id: 'line',
                     type: 'linear'
