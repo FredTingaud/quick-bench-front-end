@@ -90,6 +90,10 @@ html, body {
     font-size: 100%;
 }
 
+.line-img {
+    height: 1.3em;
+}
+
 .linked-code-decoration-inline-0 {
     background: #5ed9cd !important;
 }

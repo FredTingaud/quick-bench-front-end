@@ -64,6 +64,9 @@ class Header extends React.Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav pullRight>
+                        <NavDropdown title="Support Quick Bench" id="basic-nav-dropdown">
+                            <MenuItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src="ico/Patreon.svg" className="line-img" /> Support on Patreon</MenuItem>
+                        </NavDropdown>
                         <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)}>
                             <MenuItem eventKey="about">About Quick-bench</MenuItem>
                             <MenuItem eventKey="benchmark">How to write my benchmarks</MenuItem>
