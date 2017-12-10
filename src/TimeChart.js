@@ -105,7 +105,8 @@ class TimeChart extends React.Component {
         this.props.onNamesChange(names);
     }
     drawLineChart(input) {
-        let max = 1;
+        let max;
+        let min;
         let chartData = [];
         const horizontals = input.filter(v => v.name.indexOf('/') === -1);
         let functionNames = input.filter(v => v.name.indexOf('/') > -1).map(v => v.name.substring(0, v.name.indexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
@@ -124,13 +125,14 @@ class TimeChart extends React.Component {
                 xAxisID: 'line'
             });
 
-            max = Math.max(max, ...times.map(elt => elt.x));
+            max = Math.max(...times.map(elt => elt.x));
+            min = Math.min(...times.map(elt => elt.x));
         }
         names = names.concat(horizontals.map(v => v.name));
         functionNames = functionNames.concat(horizontals.map(v => v.name));
         for (let i = 0; i < horizontals.length; ++i) {
             let v = horizontals[i];
-            const times2 = [{ x: 0, y: v.cpu_time }, { x: max, y: v.cpu_time }];
+            const times2 = [{ x: min, y: v.cpu_time }, { x: max, y: v.cpu_time }];
             const colors2 = v.name === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(v.name), functionNames.length);
             chartData.push({
                 data: times2,
