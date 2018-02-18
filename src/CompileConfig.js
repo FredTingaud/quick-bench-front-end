@@ -18,7 +18,8 @@ class CompileConfig extends React.Component {
             cc50Name: "clang-5.0",
             cg55Name: "gcc-5.5",
             cg64Name: "gcc-6.4",
-            cg72Name: "gcc-7.2"
+            cg72Name: "gcc-7.2",
+            cg73Name: "gcc-7.3"
         };
     }
     componentDidMount() {
@@ -40,6 +41,8 @@ class CompileConfig extends React.Component {
             compiler = this.state.cg64Name;
         } else if (key === "gcc-7.2") {
             compiler = this.state.cg72Name;
+        } else if (key === "gcc-7.3") {
+            compiler = this.state.cg73Name;
         }
         return "compiler = " + compiler
     }
@@ -86,6 +89,7 @@ class CompileConfig extends React.Component {
                     <MenuItem eventKey="gcc-5.5" >{this.state.cg55Name}</MenuItem>
                     <MenuItem eventKey="gcc-6.4" >{this.state.cg64Name}</MenuItem>
                     <MenuItem eventKey="gcc-7.2" >{this.state.cg72Name}</MenuItem>
+                    <MenuItem eventKey="gcc-7.3" >{this.state.cg73Name}</MenuItem>
                 </DropdownButton>
                 <DropdownButton id="language" bsStyle="default" title={this.versionTitle(cppVersion)} onSelect={this.changeVersion.bind(this)}>
                     <MenuItem eventKey="11">{this.state.v11Name}</MenuItem>
