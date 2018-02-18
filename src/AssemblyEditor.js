@@ -1,7 +1,7 @@
 import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import Palette from './Palette.js';
-import { Tab, Tabs } from 'react-bootstrap';
+import { Tab, Tabs, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import elementResizeEvent from 'element-resize-event';
 import unbind from 'element-resize-event';
 
@@ -18,6 +18,7 @@ class AssemblyEditor extends React.Component {
             , lines: []
             , models: []
             , titles: []
+            , fullScreen: false
         }
         this.prevDecorations = [];
     }
@@ -44,6 +45,11 @@ class AssemblyEditor extends React.Component {
         if (this.editor && nextProps.code !== this.props.code) {
             this.makeCode(nextProps.code);
         }
+    }
+    switchFullScreen() {
+        let fullScreen = !this.state.fullScreen;
+        this.props.setFullScreen(fullScreen);
+        this.setState({ fullScreen: fullScreen });
     }
     splitLine(lines, codes, string, decorations, title) {
         let res = string.match(RE_CODE);
@@ -151,7 +157,14 @@ class AssemblyEditor extends React.Component {
         };
         return (
             <div className="right-block">
-                {this.fillTabs()}
+                <Row>
+                    <Col xs={11}>
+                        {this.fillTabs()}
+                    </Col>
+                    <Col className="pull-right" xs={1}>
+                        { this.state.titles.length === 0 ? null : <Button bsSize="small" onClick={() => this.switchFullScreen()} ><Glyphicon glyph={this.state.fullScreen ? "resize-small" : "resize-full"} /></Button> }
+                    </Col>
+                </Row>
                 <div className="code-editor2" id="assemblyContainer">
                     <MonacoEditor ref="monaco"
                         language="asm"

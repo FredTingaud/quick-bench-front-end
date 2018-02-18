@@ -46,6 +46,7 @@ class Benchmark extends React.Component {
             , location: props.id
             , annotation: ''
             , isAnnotated: true
+            , assemblyFull: false
         };
         this.graph = [];
         this.url = this.props.url;
@@ -202,26 +203,28 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         </div>
                     </Col>
                     <Col sm={6} className="right-block">
-                        <div className="compilation">
-                            <Panel >
-                                <div className="compile-config">
-                                    <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim}
-                                        onCompilerChange={this.onCompilerChange.bind(this)}
-                                        onVersionChange={this.onVersionChanged.bind(this)}
-                                        onOptimChange={this.onOptimChange.bind(this)}
-                                    />
-                                </div>
-                                <hr className="config-separator" />
-                                <div className="execute-button">
-                                    <Button bsStyle="primary" onClick={() => this.sendCode()} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Benchmark</Button>
-                                    <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.isAnnotated} onChange={e => this.toggleAnnotated(e)} >Record disassembly</Checkbox>
-                                    {this.state.clean ? <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.force} onChange={this.forceChanged.bind(this)}>Clear cached results</Checkbox> : null}
-                                </div>
-                            </Panel>
+                        <div style={{ display: this.state.assemblyFull ? "none" : "block" }}>
+                            <div className="compilation">
+                                <Panel >
+                                    <div className="compile-config">
+                                        <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim}
+                                            onCompilerChange={this.onCompilerChange.bind(this)}
+                                            onVersionChange={this.onVersionChanged.bind(this)}
+                                            onOptimChange={this.onOptimChange.bind(this)}
+                                        />
+                                    </div>
+                                    <hr className="config-separator" />
+                                    <div className="execute-button">
+                                        <Button bsStyle="primary" onClick={() => this.sendCode()} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Benchmark</Button>
+                                        <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.isAnnotated} onChange={e => this.toggleAnnotated(e)} >Record disassembly</Checkbox>
+                                        {this.state.clean ? <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.force} onChange={this.forceChanged.bind(this)}>Clear cached results</Checkbox> : null}
+                                    </div>
+                                </Panel>
+                            </div>
+                            <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} />
+                            <BashOutput text={this.state.message} />
                         </div>
-                        <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} />
-                        <BashOutput text={this.state.message}></BashOutput>
-                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} />
+                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} setFullScreen={fs => this.setState({ assemblyFull: fs })} />
                     </Col>
                 </Row>
             </Grid>
