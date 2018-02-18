@@ -4,6 +4,7 @@ import AboutDialog from './dialogs/AboutDialog.js';
 import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import AuthorDialog from './dialogs/AuthorDialog.js';
 import ThanksDialog from './dialogs/ThanksDialog.js';
+import PrivacyDialog from './dialogs/PrivacyDialog.js';
 
 class Header extends React.Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class Header extends React.Component {
             showAbout: false,
             showBenchmark: false,
             showAuthor: false,
-            showThanks: false
+            showThanks: false,
+            showPrivacy: false
         };
     }
     openInfo(key) {
@@ -25,6 +27,8 @@ class Header extends React.Component {
                 this.openAuthor();
             } else if (key === 'favicon') {
                 this.openFavicon();
+            } else if (key === 'privacy') {
+                this.openPrivacy();
             }
         }
     }
@@ -52,6 +56,12 @@ class Header extends React.Component {
     closeFavicon() {
         this.setState({ showThanks: false });
     }
+    openPrivacy() {
+        this.setState({ showPrivacy: true });
+    }
+    closePrivacy() {
+        this.setState({ showPrivacy: false });
+    }
 
     render() {
         return (
@@ -74,15 +84,17 @@ class Header extends React.Component {
                             <MenuItem href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</MenuItem>
                             <MenuItem href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</MenuItem>
                             <MenuItem divider />
+                            <MenuItem eventKey="privacy">Privacy</MenuItem>
                             <MenuItem eventKey="favicon">Thanks</MenuItem>
                             <MenuItem eventKey="author">About the author</MenuItem>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
-                <AboutDialog show={this.state.showAbout} onHide={this.closeAbout.bind(this)} />
-                <BenchmarkDialog show={this.state.showBenchmark} onHide={this.closeBenchmark.bind(this)} />
-                <AuthorDialog show={this.state.showAuthor} onHide={this.closeAuthor.bind(this)} />
-                <ThanksDialog show={this.state.showThanks} onHide={this.closeFavicon.bind(this)}/>
+                <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
+                <BenchmarkDialog show={this.state.showBenchmark} onHide={() => this.closeBenchmark()} />
+                <AuthorDialog show={this.state.showAuthor} onHide={() => this.closeAuthor()} />
+                <PrivacyDialog show={this.state.showPrivacy} onHide={() => this.closePrivacy()} />
+                <ThanksDialog show={this.state.showThanks} onHide={() => this.closeFavicon()} />
             </Navbar>
         );
     }
