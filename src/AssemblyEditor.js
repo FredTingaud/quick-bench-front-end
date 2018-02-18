@@ -148,6 +148,18 @@ class AssemblyEditor extends React.Component {
             {tabsList}
         </Tabs>);
     }
+    renderHeader() {
+        return (
+            <Row>
+                <Col xs={11}>
+                    {this.fillTabs()}
+                </Col>
+                <Col className="pull-right" xs={1}>
+                    <Button bsSize="small" onClick={() => this.switchFullScreen()} ><Glyphicon glyph={this.state.fullScreen ? "resize-small" : "resize-full"} /></Button>
+                    </Col>
+            </Row>
+        );
+    }
     render() {
         const options = {
             selectOnLineNumbers: true
@@ -157,14 +169,7 @@ class AssemblyEditor extends React.Component {
         };
         return (
             <div className="right-block">
-                <Row>
-                    <Col xs={11}>
-                        {this.fillTabs()}
-                    </Col>
-                    <Col className="pull-right" xs={1}>
-                        { this.state.titles.length === 0 ? null : <Button bsSize="small" onClick={() => this.switchFullScreen()} ><Glyphicon glyph={this.state.fullScreen ? "resize-small" : "resize-full"} /></Button> }
-                    </Col>
-                </Row>
+                { this.state.titles.length === 0 ? null : this.renderHeader() }
                 <div className="code-editor2" id="assemblyContainer">
                     <MonacoEditor ref="monaco"
                         language="asm"
