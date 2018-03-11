@@ -7,7 +7,7 @@ import AssemblyEditor from './AssemblyEditor.js';
 import { Button, Row, Col, Grid, Panel, Glyphicon, Checkbox } from 'react-bootstrap';
 
 var request = require('request');
-const protocolVersion = 2;
+const protocolVersion = 3;
 
 const startCode = `static void StringCreation(benchmark::State& state) {
   // Code inside this loop is measured repeatedly
@@ -47,6 +47,7 @@ class Benchmark extends React.Component {
             , annotation: ''
             , isAnnotated: true
             , assemblyFull: false
+            , lib: "gnu"
         };
         this.graph = [];
         this.url = this.props.url;
@@ -88,6 +89,7 @@ class Benchmark extends React.Component {
                             , cppVersion: result.cppVersion
                             , optim: result.optim
                             , location: id
+                            , lib: result.lib
                         });
                     }
                     if (result.message) {
@@ -129,7 +131,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 "cppVersion": this.state.cppVersion,
                 "protocolVersion": protocolVersion,
                 "force": this.state.clean && this.state.force,
-                "isAnnotated": this.state.isAnnotated
+                "isAnnotated": this.state.isAnnotated,
+                "lib": this.state.lib
             };
             request({
                 url: this.url
@@ -188,6 +191,10 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         this.setState({ optim: optim });
         this.setDirty();
     }
+    onLibChange(lib) {
+        this.setState({ lib: lib });
+        this.setDirty();
+    }
     toggleAnnotated(e) {
         this.setState({ isAnnotated: e.target.checked });
     }
@@ -207,10 +214,11 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                             <div className="compilation">
                                 <Panel >
                                     <div className="compile-config">
-                                        <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim}
-                                            onCompilerChange={this.onCompilerChange.bind(this)}
-                                            onVersionChange={this.onVersionChanged.bind(this)}
-                                            onOptimChange={this.onOptimChange.bind(this)}
+                                        <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim} lib={this.state.lib}
+                                            onCompilerChange={c => this.onCompilerChange(c)}
+                                            onVersionChange={v => this.onVersionChanged(v)}
+                                            onOptimChange={optim => this.onOptimChange(optim)}
+                                            onLibChange={lib => this.onLibChange(lib)}
                                         />
                                     </div>
                                     <hr className="config-separator" />
