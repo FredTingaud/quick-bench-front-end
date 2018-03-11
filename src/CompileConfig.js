@@ -12,6 +12,7 @@ const cc38Name = 'clang-3.8';
 const cc39Name = 'clang-3.9';
 const cc40Name = 'clang-4.0';
 const cc50Name = 'clang-5.0';
+const cc60Name = 'clang-6.0';
 const cg55Name = 'gcc-5.5';
 const cg64Name = 'gcc-6.4';
 const cg72Name = 'gcc-7.2';
@@ -34,6 +35,8 @@ class CompileConfig extends React.Component {
             compiler = cc40Name;
         } else if (key === 'clang-5.0') {
             compiler = cc50Name;
+        } else if (key === 'clang-6.0') {
+            compiler = cc60Name;
         } else if (key === 'gcc-5.5') {
             compiler = cg55Name;
         } else if (key === 'gcc-6.4') {
@@ -99,6 +102,7 @@ class CompileConfig extends React.Component {
                     <MenuItem eventKey="clang-3.9">{cc39Name}</MenuItem>
                     <MenuItem eventKey="clang-4.0">{cc40Name}</MenuItem>
                     <MenuItem eventKey="clang-5.0">{cc50Name}</MenuItem>
+                    <MenuItem eventKey="clang-6.0">{cc60Name}</MenuItem>
                     <MenuItem eventKey="gcc-5.5" >{cg55Name}</MenuItem>
                     <MenuItem eventKey="gcc-6.4" >{cg64Name}</MenuItem>
                     <MenuItem eventKey="gcc-7.2" >{cg72Name}</MenuItem>

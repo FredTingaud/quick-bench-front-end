@@ -37,7 +37,7 @@ class Benchmark extends React.Component {
             , graph: []
             , message: ''
             , sending: false
-            , compiler: "clang-5.0"
+            , compiler: "clang-6.0"
             , cppVersion: "17"
             , optim: "3"
             , clean: false
