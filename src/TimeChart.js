@@ -35,7 +35,7 @@ class TimeChart extends React.Component {
         const chartOptions = {
             title: {
                 display: true,
-                text: 'ratio (CPU time / Noop time)',
+                text: ['ratio (CPU time / Noop time)', 'Lower is faster'],
                 position: 'bottom'
             },
             legend: {
