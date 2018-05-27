@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 var AU = require('ansi_up');
-var ansi_up = new AU.default;
+var ansi_up = new AU.default();
 
 class BashOutput extends React.Component {
     updateHTML(text) {
