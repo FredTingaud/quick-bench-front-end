@@ -12,9 +12,9 @@ class AboutDialog extends React.Component {
                     This website is created and maintained by Fred Tingaud.<br />
                     You can contact me:
                     <br />
-                    <a href="mailto:ftingaud+quick-bench@gmail.com" target="_blank">By mail</a>
+                    <a href="mailto:ftingaud+quick-bench@gmail.com" target="_blank" rel="noopener noreferrer">By mail</a>
                     <br />
-                    <a href="https://twitter.com/FredTingaudDev" target="_blank">On Twitter</a><br />
+                    <a href="https://twitter.com/FredTingaudDev" target="_blank" rel="noopener noreferrer">On Twitter</a><br />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.onHide}>OK</Button>

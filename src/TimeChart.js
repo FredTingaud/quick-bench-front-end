@@ -2,7 +2,7 @@ import React from 'react';
 import Chart from 'chart.js';
 import Palette from './Palette.js';
 import { Button, Glyphicon, Panel, Checkbox, OverlayTrigger, Tooltip, Form, FormControl } from 'react-bootstrap';
-import fileDownload from 'react-file-download';
+import fileDownload from 'js-file-download';
 
 class TimeChart extends React.Component {
     constructor(props) {

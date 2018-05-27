@@ -46,6 +46,10 @@ html, body {
     overflow: hidden;
 }
 
+.panel {
+    padding: 15px;
+}
+
 .right-block {
     height: 100%;
     display: flex;
@@ -59,7 +63,6 @@ html, body {
 
 .full-size {
     height: 100%;
-    width: 100%;
 }
 
 .container-fluid {

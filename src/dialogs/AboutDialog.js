@@ -26,7 +26,7 @@ class AboutDialog extends React.Component {
                         and the cost it will represent for me.</p>
 
                     <h4>I found a bug!</h4>
-                    <p><a href="https://github.com/FredTingaud/quick-bench-front-end/issues" target="_blank">Please report it here.</a></p>
+                    <p><a href="https://github.com/FredTingaud/quick-bench-front-end/issues" target="_blank" rel="noopener noreferrer">Please report it here.</a></p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.onHide}>OK</Button>
