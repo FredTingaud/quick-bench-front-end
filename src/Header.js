@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 import AboutDialog from './dialogs/AboutDialog.js';
 import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import AuthorDialog from './dialogs/AuthorDialog.js';
@@ -68,7 +69,7 @@ class Header extends React.Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#">Quick C++ Benchmark</a>
+                        <Link to="/">Quick C++ Benchmark</Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

@@ -1,8 +1,24 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#ffffff">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
     <link rel="apple-touch-icon" sizes="57x57" href="%PUBLIC_URL%/ico/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="%PUBLIC_URL%/ico/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="%PUBLIC_URL%/ico/apple-icon-72x72.png">
@@ -16,34 +32,40 @@
     <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/ico/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="%PUBLIC_URL%/ico/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/ico/favicon-16x16.png">
-    <link rel="manifest" href="%PUBLIC_URL%/ico/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="%PUBLIC_URL%/ico/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="shortcut icon" href="%PUBLIC_URL%%PUBLIC_URL%/ico/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>Quick C++ Benchmarks</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113878092-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
 
-        gtag('config', 'UA-113878092-1');
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113878092-1"></script> 
+    <script> 
+      window.dataLayer = window.dataLayer || []; 
+      
+      function gtag() {
+        dataLayer.push(arguments);
+      } 
+      
+      gtag('js', new Date()); 
+      gtag('config', 'UA-113878092-1'); 
     </script>
-</head>
-<body>
-    <div id="root" class="full-size"></div>
+    <script src="/vs/loader.js"></script>
+    <script>
+      require.config({ paths: { 'vs': '/vs' } });
+      
+      window.MonacoEnvironment = {
+        getWorkerUrl: function(workerId, label) {
+          return '/monaco-editor-worker-loader-proxy.js';
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -51,8 +73,8 @@
       You can add webfonts, meta tags, or analytics to this file.
       The build step will place the bundled scripts into the <body> tag.
 
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
+  </body>
 </html>
