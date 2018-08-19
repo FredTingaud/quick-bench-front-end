@@ -101,10 +101,19 @@ class TimeChart extends React.Component {
         this.chart.options.legend.display = false;
         this.chart.options.scales.xAxes[0].display = true;
         this.chart.options.scales.xAxes[1].display = false;
+        this.chart.options.tooltips.callbacks.afterBody = this.nameCallback(input);
         this.chart.update();
         this.props.onNamesChange(names);
         this.props.onDescriptionChange(this.makeDescription(input));
     }
+    nameCallback(input) {
+        return (tooltipItem, data) => {
+            const index = tooltipItem[0].index;
+            const val = input[index].cpu_time;
+            return [''].concat(input.filter((v, i) => i !== index).map(v => this.describe(val, v.cpu_time, v.name)));
+        };
+    }
+
     joinNames(names) {
         return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
     }
