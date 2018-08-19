@@ -18,9 +18,6 @@ class TimeChart extends React.Component {
             this.destroyChart();
         }
     }
-    arrayEquals(a1, a2) {
-        return (a1 === a2) || (a1.length === a2.length && JSON.stringify(a1) === JSON.stringify(a2));
-    }
     componentDidUpdate(prevProps, prevState) {
         if (!this.arrayEquals(this.props.benchmarks, prevProps.benchmarks)) {
             if (prevProps.benchmarks.length === 0) {
@@ -28,6 +25,9 @@ class TimeChart extends React.Component {
             }
             this.setState({ chart: this.props.benchmarks }, () => this.showChart());
         }
+    }
+    arrayEquals(a1, a2) {
+        return (a1 === a2) || (a1.length === a2.length && JSON.stringify(a1) === JSON.stringify(a2));
     }
     createChart() {
         const ctx = document.getElementById('result-chart');
@@ -75,7 +75,7 @@ class TimeChart extends React.Component {
         return this.state.showNoop || v.name !== 'Noop';
     }
     showChart() {
-        const length = this.state.chart.length - 1
+        const length = this.state.chart.length - 1;
         if (length > 0) {
             const input = this.state.chart.filter((v) => this.filterNoop(v));
             if (input.find(v => v.name.indexOf('/') > -1) && this.state.chartStyle === 'Line') {
@@ -86,7 +86,7 @@ class TimeChart extends React.Component {
         }
     }
     drawBarChart(input) {
-        const length = this.state.chart.length - 1
+        const length = this.state.chart.length - 1;
         const names = input.map(v => v.name);
         const times = input.map(v => v.cpu_time);
         const colors = input.map((v, i) => v.name === 'Noop' ? '#000' : Palette.pickColor(i, length));
@@ -103,6 +103,10 @@ class TimeChart extends React.Component {
         this.chart.options.scales.xAxes[1].display = false;
         this.chart.update();
         this.props.onNamesChange(names);
+        this.props.onDescriptionChange(this.makeDescription(input));
+    }
+    joinNames(names) {
+        return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
     }
     drawLineChart(input) {
         let max;
@@ -150,6 +154,7 @@ class TimeChart extends React.Component {
         this.chart.options.scales.xAxes[1].display = true;
         this.chart.update();
         this.props.onNamesChange(functionNames);
+        this.props.onDescriptionChange(`Parametrized performances comparison of ${this.joinNames(names)}`);
     }
     dataURItoBlob(dataURI, type) {
         var byteString = atob(dataURI.split(',')[1]);
@@ -193,18 +198,28 @@ class TimeChart extends React.Component {
     }
     renderIfParametric() {
         if (this.state.chart.find(v => v.name.indexOf('/') > -1)) {
-            return (<FormControl componentClass="select" className="pull-right" onChange={(e) => this.changeChartStyle(e)} defaultValue={this.state.chartStyle}>
+            return <FormControl componentClass="select" className="pull-right" onChange={(e) => this.changeChartStyle(e)} defaultValue={this.state.chartStyle}>
                 <option value="Bar">Bar</option>
                 <option value="Line">Line</option>
-            </FormControl>
-            );
+            </FormControl>;
         }
         return null;
     }
+    describe(v1, v2, name) {
+        if (v1 / v2 > 0.99 && v1 / v2 < 1.01)
+            return `equivalent to ${name}`;
+        if (v1 > v2)
+            return `${(v1 / v2).toLocaleString(undefined, { maximumSignificantDigits: 2})} times slower than ${name}`;
+        return `${(v2 / v1).toLocaleString(undefined, { maximumSignificantDigits: 2 })} times faster than ${name}`;
+    }
+    makeDescription(r) {
+        let start = `${r[0].name} is `;
+        let val = r[0].cpu_time;
+        let res = r.slice(1).map(v => this.describe(val, v.cpu_time, v.name));
+        return start + res.slice(0, -1).join(', ') + (res.length > 1 ? ' and ' : '') + res[res.length - 1];
+    }
     renderIfVisible() {
-        const tooltip = (
-            <Tooltip id="tooltip-save">Download chart</Tooltip>
-        );
+        const tooltip = <Tooltip id="tooltip-save">Download chart</Tooltip>;
         if (this.props.benchmarks.length) {
             return (
                 <Panel>
@@ -215,7 +230,7 @@ class TimeChart extends React.Component {
                                 <Glyphicon glyph='floppy-save' />
                             </Button>
                         </OverlayTrigger>
-                        <Checkbox className="force-cb" inline={true} checked={this.state.showNoop} onChange={(e) => this.toggleNoop(e)}>
+                        <Checkbox className="force-cb" inline checked={this.state.showNoop} onChange={(e) => this.toggleNoop(e)}>
                             Show Noop bar
                         </Checkbox>
                         {this.renderIfParametric()}

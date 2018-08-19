@@ -28,7 +28,7 @@ static void StringCopy(benchmark::State& state) {
   }
 }
 BENCHMARK(StringCopy);
-`
+`;
 class Benchmark extends React.Component {
     constructor(props) {
         super(props);
@@ -81,7 +81,7 @@ class Benchmark extends React.Component {
                 let result = JSON.parse(body);
                 if (result) {
                     if (result.result) {
-                        let compiler = (result.compiler === 'clang++-3.8' ? 'clang-3.8' : result.compiler);
+                        let compiler = result.compiler === 'clang++-3.8' ? 'clang-3.8' : result.compiler;
                         this.setState({
                             text: result.code
                             , graph: result.result.benchmarks
@@ -177,7 +177,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
     forceChanged(e) {
         this.setState({
             force: e.target.checked
-        })
+        });
     }
     onCompilerChange(compiler) {
         this.setState({ compiler: compiler });
@@ -200,13 +200,14 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
     }
     render() {
         return (
-            <Grid fluid={true}>
+            <Grid fluid>
                 <Row className="full-size">
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
                             <CodeEditor onChange={this.textChanged.bind(this)}
                                 code={this.state.text}
-                                names={this.state.benchNames} />
+                                names={this.state.benchNames}
+                            />
                         </div>
                     </Col>
                     <Col sm={6} className="right-block">
@@ -224,12 +225,12 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                     <hr className="config-separator" />
                                     <div className="execute-button">
                                         <Button bsStyle="primary" onClick={() => this.sendCode()} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Benchmark</Button>
-                                        <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.isAnnotated} onChange={e => this.toggleAnnotated(e)} >Record disassembly</Checkbox>
-                                        {this.state.clean ? <Checkbox className="force-cb" ref="force" inline={true} checked={this.state.force} onChange={this.forceChanged.bind(this)}>Clear cached results</Checkbox> : null}
+                                        <Checkbox className="force-cb" ref="force" inline checked={this.state.isAnnotated} onChange={e => this.toggleAnnotated(e)} >Record disassembly</Checkbox>
+                                        {this.state.clean ? <Checkbox className="force-cb" ref="force" inline checked={this.state.force} onChange={this.forceChanged.bind(this)}>Clear cached results</Checkbox> : null}
                                     </div>
                                 </Panel>
                             </div>
-                            <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} />
+                            <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} onDescriptionChange={d => this.props.onDescriptionChange(d)} />
                             <BashOutput text={this.state.message} />
                         </div>
                         <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} setFullScreen={fs => this.setState({ assemblyFull: fs })} />
