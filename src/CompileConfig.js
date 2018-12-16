@@ -8,6 +8,7 @@ const o3Name = 'O3';
 const v11Name = 'c++11';
 const v14Name = 'c++14';
 const v17Name = 'c++17';
+const v20Name = 'c++20';
 const cc38Name = 'clang-3.8';
 const cc39Name = 'clang-3.9';
 const cc40Name = 'clang-4.0';
@@ -23,6 +24,12 @@ const lGName = 'libstdc++(GNU)';
 const lCName = 'libc++(LLVM)';
 
 class CompileConfig extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            maxVersion: 20
+        };
+    }
     componentDidMount() {
         this.changeCompiler(this.props.compiler);
         this.changeVersion(this.props.cppVersion);
@@ -63,6 +70,8 @@ class CompileConfig extends React.Component {
             vName = v14Name;
         } else if (key === '17') {
             vName = v17Name;
+        } else if (key === '20') {
+            vName = v20Name;
         }
         return 'std = ' + vName;
     }
@@ -84,7 +93,21 @@ class CompileConfig extends React.Component {
         }
         return 'STL = ' + lName;
     }
+    refreshMaxCppVersion(key) {
+        let maxV;
+        if (key.startsWith("clang-")) {
+            maxV = (parseInt(key.charAt("clang-".length)) >= 6) ? 20 : 17;
+        } else if (key.startsWith("gcc-")) {
+            maxV = (parseInt(key.charAt("gcc-".length)) >= 8) ? 20 : 17;
+        }
+        this.setState({ maxVersion: maxV });
+        if (this.props.cppVersion === "20" && maxV < 20) {
+            console.log("changing version");
+            this.changeVersion("17");
+        }
+    }
     changeCompiler(key) {
+        this.refreshMaxCppVersion(key);
         this.props.onCompilerChange(key);
     }
     changeVersion(key) {
@@ -101,6 +124,7 @@ class CompileConfig extends React.Component {
         const cppVersion = this.props.cppVersion;
         const optim = this.props.optim;
         const lib = this.props.lib;
+        const maxVersion = this.state.maxVersion;
         return (
             <ButtonToolbar>
                 <DropdownButton id="compiler" bsStyle="default" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)}>
@@ -120,6 +144,7 @@ class CompileConfig extends React.Component {
                     <MenuItem eventKey="11">{v11Name}</MenuItem>
                     <MenuItem eventKey="14">{v14Name}</MenuItem>
                     <MenuItem eventKey="17">{v17Name}</MenuItem>
+                    <MenuItem eventKey="20" disabled={maxVersion < 20}>{v20Name}</MenuItem>
                 </DropdownButton>
                 <DropdownButton id="optim" bsStyle="default" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)}>
                     <MenuItem eventKey="0">{o0Name}</MenuItem>
