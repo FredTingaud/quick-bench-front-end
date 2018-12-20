@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
 import AboutDialog from './dialogs/AboutDialog.js';
 import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import AuthorDialog from './dialogs/AuthorDialog.js';
@@ -14,8 +14,14 @@ class Header extends React.Component {
             showBenchmark: false,
             showAuthor: false,
             showThanks: false,
-            showPrivacy: false
+            showPrivacy: false,
+            showEasterEgg: this.shouldShowEasterEgg(),
+            showingEasterEgg: false,
         };
+    }
+    shouldShowEasterEgg() {
+        let currentTime = new Date();
+        return currentTime.getMonth() === 11 && currentTime.getDate() < 27;
     }
     openInfo(key) {
         if (key) {
@@ -62,13 +68,22 @@ class Header extends React.Component {
     closePrivacy() {
         this.setState({ showPrivacy: false });
     }
-
+    easterEgg() {
+        if (this.state.showingEasterEgg)
+            this.props.setStyle('');
+        else
+            this.props.setStyle('Christmas.css');
+        this.setState({ showingEasterEgg: !this.state.showingEasterEgg });
+    }
     render() {
         return (
             <Navbar inverse collapseOnSelect>
+                <Nav hidden={!this.state.showEasterEgg} onSelect={() => this.easterEgg()}>
+                    <NavItem eventKey><img src="ico/christmas-tree.svg" className="line-img" alt="A surprise?" /></NavItem>
+                </Nav>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#">Quick C++ Benchmark</a>
+                        <a href="#">Quick C++ Benchmark</a> 
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

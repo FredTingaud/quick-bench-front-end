@@ -14,6 +14,22 @@ const PALETTE = [
     "#5bdca8"
 ];
 
+const CHRISTMAS_PALETTE = [
+    '#A22C27',
+    '#4F2621',
+    '#9F8241',
+    '#EBD592',
+    '#929867',
+    '#4AA7A7',
+    '#93B849',
+    '#50362A',
+    '#A80030',
+    '#DDDDC2',
+    '#BFD4B7',
+    '#CA7560',
+    '#D6D68B',
+];
+
 function index(i, length) {
     if (length < 4) {
         return Math.round(i * PALETTE.length / length)
@@ -25,8 +41,8 @@ function index(i, length) {
 }
 
 export default {
-    pickColor(i, length) {
-        return PALETTE[index(i, length)];
+    pickColor(i, length, special) {
+        return special ? CHRISTMAS_PALETTE[index(i, length)] : PALETTE[index(i, length)];
     },
     pickCSS(i, length) {
         return 'linked-code-decoration-inline-' + index(i, length);

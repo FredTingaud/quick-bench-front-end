@@ -230,7 +230,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                     </div>
                                 </Panel>
                             </div>
-                            <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} onDescriptionChange={d => this.props.onDescriptionChange(d)} />
+                            <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} onDescriptionChange={d => this.props.onDescriptionChange(d)} specialPalette={this.props.specialPalette} />
                             <BashOutput text={this.state.message} />
                         </div>
                         <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} setFullScreen={fs => this.setState({ assemblyFull: fs })} />

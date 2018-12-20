@@ -17,7 +17,8 @@ class App extends Component {
         this.state = {
             location: null,
             prevlocation: null,
-            description: DEFAULT_DESCRIPTION
+            description: DEFAULT_DESCRIPTION,
+            stylePath: ''
         };
     }
     componentDidUpdate(prevProps, prevState) {
@@ -41,8 +42,12 @@ class App extends Component {
         }
         return null;
     }
+    setStyle(css) {
+        console.log(`Setting style ${process.env.PUBLIC_URL}/${css}`);
+        this.setState({ stylePath: css });
+    }
 
-    Home = ({ match }) => <Benchmark onDisplay={() => this.changeMargin()} id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} onDescriptionChange={(d) => this.setState({ description: d ? d : DEFAULT_DESCRIPTION })} />;
+    Home = ({ match }) => <Benchmark onDisplay={() => this.changeMargin()} id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} onDescriptionChange={(d) => this.setState({ description: d ? d : DEFAULT_DESCRIPTION })} specialPalette={this.state.stylePath !== ''} />;
 
     render() {
         return (
@@ -58,11 +63,12 @@ class App extends Component {
                         <meta property="og:url" content="http://quick-bench.com/" />
                         <meta property="og:title" content="Quick C++ Benchmarks" />
                         <meta property="og:description" content={this.state.description} />
+                        {this.state.stylePath ? <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} /> : null}
                     </Helmet>
-                    <div ref={div => { this.header = div; }}><Header /></div>
-                        <Route exact path="/" component={this.Home} />
-                        <Route exact path="/:id" component={this.Home} />
-                        {this.redirect()}
+                    <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} /></div>
+                    <Route exact path="/" component={this.Home} />
+                    <Route exact path="/:id" component={this.Home} />
+                    {this.redirect()}
                 </div>
             </BrowserRouter>
         );
