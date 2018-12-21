@@ -27,7 +27,7 @@ body{
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #B70D00;
+    background-color: #A32C28;
     border-color: #f8b229;
 }
 .btn-primary[disabled] {
@@ -36,6 +36,11 @@ body{
     border-color: #f8b229;
 }
 
+.btn-primary:hover[disabled] {
+    color: #fff;
+    background-color: #A32C28;
+    border-color: #f8b229;
+}
     .navbar-inverse .navbar-nav > li > a {
         color: #EBD592 !important;
     }
