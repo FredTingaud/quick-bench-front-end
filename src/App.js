@@ -43,7 +43,6 @@ class App extends Component {
         return null;
     }
     setStyle(css) {
-        console.log(`Setting style ${process.env.PUBLIC_URL}/${css}`);
         this.setState({ stylePath: css });
     }
 

@@ -111,7 +111,6 @@ class CompileConfig extends React.Component {
         }
         this.setState({ maxVersion: maxV });
         if (this.props.cppVersion === "20" && maxV < 20) {
-            console.log("changing version");
             this.changeVersion("17");
         }
     }
