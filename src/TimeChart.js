@@ -19,7 +19,7 @@ class TimeChart extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        if (!this.arrayEquals(this.props.benchmarks, prevProps.benchmarks) || this.props.specialPalette !== prevProps.specialPalette) {
+        if (!this.arrayEquals(this.props.benchmarks, prevProps.benchmarks) || (this.props.benchmarks.length > 0 && this.props.specialPalette !== prevProps.specialPalette)) {
             if (prevProps.benchmarks.length === 0) {
                 this.createChart();
             }
