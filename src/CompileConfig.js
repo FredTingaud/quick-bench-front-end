@@ -14,10 +14,13 @@ const cc39Name = 'clang-3.9';
 const cc40Name = 'clang-4.0';
 const cc50Name = 'clang-5.0';
 const cc60Name = 'clang-6.0';
+const cc70Name = 'clang-7.0';
 const cg55Name = 'gcc-5.5';
 const cg64Name = 'gcc-6.4';
+const cg65Name = 'gcc-6.5';
 const cg72Name = 'gcc-7.2';
 const cg73Name = 'gcc-7.3';
+const cg74Name = 'gcc-7.4';
 const cg81Name = 'gcc-8.1';
 const cg82Name = 'gcc-8.2';
 const lGName = 'libstdc++(GNU)';
@@ -46,14 +49,20 @@ class CompileConfig extends React.Component {
             compiler = cc50Name;
         } else if (key === 'clang-6.0') {
             compiler = cc60Name;
+        } else if (key === 'clang-7.0') {
+            compiler = cc70Name;
         } else if (key === 'gcc-5.5') {
             compiler = cg55Name;
         } else if (key === 'gcc-6.4') {
             compiler = cg64Name;
+        } else if (key === 'gcc-6.5') {
+            compiler = cg65Name;
         } else if (key === 'gcc-7.2') {
             compiler = cg72Name;
         } else if (key === 'gcc-7.3') {
             compiler = cg73Name;
+        } else if (key === 'gcc-7.4') {
+            compiler = cg74Name;
         } else if (key === 'gcc-8.1') {
             compiler = cg81Name;
         } else if (key === 'gcc-8.2') {
@@ -133,10 +142,13 @@ class CompileConfig extends React.Component {
                     <MenuItem eventKey="clang-4.0">{cc40Name}</MenuItem>
                     <MenuItem eventKey="clang-5.0">{cc50Name}</MenuItem>
                     <MenuItem eventKey="clang-6.0">{cc60Name}</MenuItem>
+                    <MenuItem eventKey="clang-7.0">{cc70Name}</MenuItem>
                     <MenuItem eventKey="gcc-5.5" >{cg55Name}</MenuItem>
                     <MenuItem eventKey="gcc-6.4" >{cg64Name}</MenuItem>
+                    <MenuItem eventKey="gcc-6.5" >{cg65Name}</MenuItem>
                     <MenuItem eventKey="gcc-7.2" >{cg72Name}</MenuItem>
                     <MenuItem eventKey="gcc-7.3" >{cg73Name}</MenuItem>
+                    <MenuItem eventKey="gcc-7.4" >{cg74Name}</MenuItem>
                     <MenuItem eventKey="gcc-8.1" >{cg81Name}</MenuItem>
                     <MenuItem eventKey="gcc-8.2" >{cg82Name}</MenuItem>
                 </DropdownButton>
