@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, DropdownItem, Dropdown, Form } from 'react-bootstrap';
 import AboutDialog from './dialogs/AboutDialog.js';
 import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import AuthorDialog from './dialogs/AuthorDialog.js';
@@ -77,34 +77,35 @@ class Header extends React.Component {
     }
     render() {
         return (
-            <Navbar inverse collapseOnSelect>
-                <Nav hidden={!this.state.showEasterEgg} onSelect={() => this.easterEgg()}>
-                    <NavItem eventKey><img src="ico/christmas-tree.svg" className="line-img" alt="A surprise?" /></NavItem>
-                </Nav>
-                <Navbar.Header>
-                    <Navbar.Brand>
-                        <a href="#">Quick C++ Benchmark</a> 
-                    </Navbar.Brand>
-                    <Navbar.Toggle />
-                </Navbar.Header>
-                <Navbar.Collapse>
-                    <Nav pullRight>
-                        <NavDropdown title="Support Quick Bench" id="basic-nav-dropdown">
-                            <MenuItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src="ico/Patreon.svg" className="line-img" alt="Patreon icon" /> Support on Patreon</MenuItem>
-                        </NavDropdown>
-                        <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)}>
-                            <MenuItem eventKey="about">About Quick-bench</MenuItem>
-                            <MenuItem eventKey="benchmark">How to write my benchmarks</MenuItem>
-                            <MenuItem divider />
-                            <MenuItem href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</MenuItem>
-                            <MenuItem href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</MenuItem>
-                            <MenuItem divider />
-                            <MenuItem eventKey="privacy">Privacy</MenuItem>
-                            <MenuItem eventKey="favicon">Thanks</MenuItem>
-                            <MenuItem eventKey="author">About the author</MenuItem>
-                        </NavDropdown>
+            <Navbar bg="dark" variant="dark" collapseOnSelect>
+                <Nav className="mr-auto">
+                    <Nav hidden={!this.state.showEasterEgg} onSelect={() => this.easterEgg()}>
+                        <Nav.Link eventKey><img src="ico/christmas-tree.svg" className="line-img" alt="A surprise?" /></Nav.Link>
                     </Nav>
-                </Navbar.Collapse>
+                    <Navbar.Brand>
+                        Quick C++ Benchmark
+                </Navbar.Brand>
+                </Nav>
+                <Form inline>
+                    <Navbar.Collapse className="mr-sm-2">
+                        <Nav>
+                            <NavDropdown title="Support Quick Bench" id="basic-nav-dropdown">
+                                <DropdownItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src="ico/Patreon.svg" className="line-img" alt="Patreon icon" /> Support on Patreon</DropdownItem>
+                            </NavDropdown>
+                            <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)}>
+                                <DropdownItem eventKey="about">About Quick-bench</DropdownItem>
+                                <DropdownItem eventKey="benchmark">How to write my benchmarks</DropdownItem>
+                                <Dropdown.Divider />
+                                <DropdownItem href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</DropdownItem>
+                                <DropdownItem href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</DropdownItem>
+                                <Dropdown.Divider />
+                                <DropdownItem eventKey="privacy">Privacy</DropdownItem>
+                                <DropdownItem eventKey="favicon">Thanks</DropdownItem>
+                                <DropdownItem eventKey="author">About the author</DropdownItem>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Form>
                 <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
                 <BenchmarkDialog show={this.state.showBenchmark} onHide={() => this.closeBenchmark()} />
                 <AuthorDialog show={this.state.showAuthor} onHide={() => this.closeAuthor()} />

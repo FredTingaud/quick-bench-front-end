@@ -1,8 +1,9 @@
 import React from 'react';
 import Chart from 'chart.js';
 import Palette from './Palette.js';
-import { Button, Glyphicon, Panel, Checkbox, OverlayTrigger, Tooltip, Form, FormControl } from 'react-bootstrap';
+import { Button, Card, FormCheck, OverlayTrigger, Tooltip, Form, FormControl } from 'react-bootstrap';
 import fileDownload from 'js-file-download';
+import { GoDesktopDownload } from "react-icons/go";
 
 class TimeChart extends React.Component {
     constructor(props) {
@@ -207,7 +208,7 @@ class TimeChart extends React.Component {
     }
     renderIfParametric() {
         if (this.state.chart.find(v => v.name.indexOf('/') > -1)) {
-            return <FormControl componentClass="select" className="pull-right" onChange={(e) => this.changeChartStyle(e)} defaultValue={this.state.chartStyle}>
+            return <FormControl as="select" className="pull-right" onChange={(e) => this.changeChartStyle(e)} defaultValue={this.state.chartStyle}>
                 <option value="Bar">Bar</option>
                 <option value="Line">Line</option>
             </FormControl>;
@@ -231,20 +232,18 @@ class TimeChart extends React.Component {
         const tooltip = <Tooltip id="tooltip-save">Download chart</Tooltip>;
         if (this.props.benchmarks.length) {
             return (
-                <Panel>
+                <Card body className="my-2" >
                     < canvas id='result-chart' />
                     <Form inline>
                         <OverlayTrigger placement='bottom' overlay={tooltip}>
-                            <Button onClick={() => this.saveChart()}>
-                                <Glyphicon glyph='floppy-save' />
+                            <Button variant="default" onClick={() => this.saveChart()} className="mr-2">
+                                <GoDesktopDownload />
                             </Button>
                         </OverlayTrigger>
-                        <Checkbox className="force-cb" inline checked={this.state.showNoop} onChange={(e) => this.toggleNoop(e)}>
-                            Show Noop bar
-                        </Checkbox>
+                        <FormCheck className="force-cb" inline id="Noop" custom checked={this.state.showNoop} type="checkbox" onChange={(e) => this.toggleNoop(e)} label="Show Noop bar" />
                         {this.renderIfParametric()}
                     </Form>
-                </Panel>
+                </Card>
             );
         }
         return null;

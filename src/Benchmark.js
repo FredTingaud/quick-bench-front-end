@@ -4,7 +4,8 @@ import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import TimeChart from './TimeChart.js';
 import AssemblyEditor from './AssemblyEditor.js';
-import { Button, Row, Col, Grid, Panel, Glyphicon, Checkbox } from 'react-bootstrap';
+import { Button, Row, Col, Container, Card, FormCheck, Form } from 'react-bootstrap';
+import { MdTimer } from "react-icons/md";
 
 var request = require('request');
 const protocolVersion = 3;
@@ -200,7 +201,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
     }
     render() {
         return (
-            <Grid fluid>
+            <Container fluid>
                 <Row className="full-size">
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
@@ -213,22 +214,20 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     <Col sm={6} className="right-block">
                         <div style={{ display: this.state.assemblyFull ? "none" : "block" }}>
                             <div className="compilation">
-                                <Panel >
-                                    <div className="compile-config">
-                                        <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim} lib={this.state.lib}
-                                            onCompilerChange={c => this.onCompilerChange(c)}
-                                            onVersionChange={v => this.onVersionChanged(v)}
-                                            onOptimChange={optim => this.onOptimChange(optim)}
-                                            onLibChange={lib => this.onLibChange(lib)}
-                                        />
-                                    </div>
+                                <Card body className="my-2">
+                                    <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim} lib={this.state.lib}
+                                        onCompilerChange={c => this.onCompilerChange(c)}
+                                        onVersionChange={v => this.onVersionChanged(v)}
+                                        onOptimChange={optim => this.onOptimChange(optim)}
+                                        onLibChange={lib => this.onLibChange(lib)}
+                                    />
                                     <hr className="config-separator" />
-                                    <div className="execute-button">
-                                        <Button bsStyle="primary" onClick={() => this.sendCode()} disabled={this.state.sending} > <Glyphicon glyph="time" /> Run Benchmark</Button>
-                                        <Checkbox className="force-cb" ref="force" inline checked={this.state.isAnnotated} onChange={e => this.toggleAnnotated(e)} >Record disassembly</Checkbox>
-                                        {this.state.clean ? <Checkbox className="force-cb" ref="force" inline checked={this.state.force} onChange={this.forceChanged.bind(this)}>Clear cached results</Checkbox> : null}
-                                    </div>
-                                </Panel>
+                                    <Form inline>
+                                        <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="mr-2"> <MdTimer /> Run Benchmark</Button>
+                                        <FormCheck ref="force" checked={this.state.isAnnotated} custom type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="mr-2" />
+                                        {this.state.clean ? <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" /> : null}
+                                    </Form>
+                                </Card>
                             </div>
                             <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} onDescriptionChange={d => this.props.onDescriptionChange(d)} specialPalette={this.props.specialPalette} />
                             <BashOutput text={this.state.message} />
@@ -236,7 +235,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} setFullScreen={fs => this.setState({ assemblyFull: fs })} />
                     </Col>
                 </Row>
-            </Grid>
+            </Container>
         );
     }
 }

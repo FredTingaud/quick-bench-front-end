@@ -3,4 +3,4 @@ self.MonacoEnvironment = {
 }
 
  // eslint-disable-next-line
-importScripts('/vs/base/worker/workerMain.js')
+importScripts('/vs/base/worker/workerMain.js', '/vs/basic-languages/cpp/cpp.js')

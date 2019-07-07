@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropdownButton, ButtonToolbar, MenuItem } from 'react-bootstrap';
+import { DropdownButton, ButtonToolbar, DropdownItem } from 'react-bootstrap';
 
 const o0Name = 'None';
 const o1Name = 'O1';
@@ -135,37 +135,37 @@ class CompileConfig extends React.Component {
         const maxVersion = this.state.maxVersion;
         return (
             <ButtonToolbar>
-                <DropdownButton id="compiler" bsStyle="default" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)}>
-                    <MenuItem eventKey="clang-3.8">{cc38Name}</MenuItem>
-                    <MenuItem eventKey="clang-3.9">{cc39Name}</MenuItem>
-                    <MenuItem eventKey="clang-4.0">{cc40Name}</MenuItem>
-                    <MenuItem eventKey="clang-5.0">{cc50Name}</MenuItem>
-                    <MenuItem eventKey="clang-6.0">{cc60Name}</MenuItem>
-                    <MenuItem eventKey="clang-7.0">{cc70Name}</MenuItem>
-                    <MenuItem eventKey="gcc-5.5" >{cg55Name}</MenuItem>
-                    <MenuItem eventKey="gcc-6.4" >{cg64Name}</MenuItem>
-                    <MenuItem eventKey="gcc-6.5" >{cg65Name}</MenuItem>
-                    <MenuItem eventKey="gcc-7.2" >{cg72Name}</MenuItem>
-                    <MenuItem eventKey="gcc-7.3" >{cg73Name}</MenuItem>
-                    <MenuItem eventKey="gcc-7.4" >{cg74Name}</MenuItem>
-                    <MenuItem eventKey="gcc-8.1" >{cg81Name}</MenuItem>
-                    <MenuItem eventKey="gcc-8.2" >{cg82Name}</MenuItem>
+                <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
+                    <DropdownItem eventKey="clang-3.8">{cc38Name}</DropdownItem>
+                    <DropdownItem eventKey="clang-3.9">{cc39Name}</DropdownItem>
+                    <DropdownItem eventKey="clang-4.0">{cc40Name}</DropdownItem>
+                    <DropdownItem eventKey="clang-5.0">{cc50Name}</DropdownItem>
+                    <DropdownItem eventKey="clang-6.0">{cc60Name}</DropdownItem>
+                    <DropdownItem eventKey="clang-7.0">{cc70Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-5.5" >{cg55Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-6.4" >{cg64Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-6.5" >{cg65Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-7.2" >{cg72Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-7.3" >{cg73Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-7.4" >{cg74Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-8.1" >{cg81Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-8.2" >{cg82Name}</DropdownItem>
                 </DropdownButton>
-                <DropdownButton id="language" bsStyle="default" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)}>
-                    <MenuItem eventKey="11">{v11Name}</MenuItem>
-                    <MenuItem eventKey="14">{v14Name}</MenuItem>
-                    <MenuItem eventKey="17">{v17Name}</MenuItem>
-                    <MenuItem eventKey="20" disabled={maxVersion < 20}>{v20Name}</MenuItem>
+                <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
+                    <DropdownItem eventKey="11">{v11Name}</DropdownItem>
+                    <DropdownItem eventKey="14">{v14Name}</DropdownItem>
+                    <DropdownItem eventKey="17">{v17Name}</DropdownItem>
+                    <DropdownItem eventKey="20" disabled={maxVersion < 20}>{v20Name}</DropdownItem>
                 </DropdownButton>
-                <DropdownButton id="optim" bsStyle="default" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)}>
-                    <MenuItem eventKey="0">{o0Name}</MenuItem>
-                    <MenuItem eventKey="1">{o1Name}</MenuItem>
-                    <MenuItem eventKey="2">{o2Name}</MenuItem>
-                    <MenuItem eventKey="3">{o3Name}</MenuItem>
+                <DropdownButton id="optim" variant="outline-dark" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)} className="mr-2">
+                    <DropdownItem eventKey="0">{o0Name}</DropdownItem>
+                    <DropdownItem eventKey="1">{o1Name}</DropdownItem>
+                    <DropdownItem eventKey="2">{o2Name}</DropdownItem>
+                    <DropdownItem eventKey="3">{o3Name}</DropdownItem>
                 </DropdownButton>
-                <DropdownButton id="libc" bsStyle="default" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} >
-                    <MenuItem eventKey="gnu">{lGName}</MenuItem>
-                    <MenuItem eventKey="llvm">{lCName}</MenuItem>
+                <DropdownButton id="libc" variant="outline-dark" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} >
+                    <DropdownItem eventKey="gnu">{lGName}</DropdownItem>
+                    <DropdownItem eventKey="llvm">{lCName}</DropdownItem>
                 </DropdownButton>
             </ButtonToolbar>
         );

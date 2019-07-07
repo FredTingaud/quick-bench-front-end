@@ -1,21 +1,3 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-.config-separator {
-    margin: 6px;
-    border-width: 1px;
-}
-
-.compilation {
-    padding-top: 5px;
-}
-
-.force-cb {
-    margin-left: 5px;
-}
 
 .bash-output {
     background-color: #222;
@@ -24,30 +6,10 @@ html, body {
     font-family: monospace;
 }
 
-.navbar-brand, .navbar-inverse {
-    color: white !important;
-    font-size: 1.2em;
-}
-
-    .navbar-inverse .navbar-nav > li > a {
-        color: white !important;
-        font-size: 1em;
-        padding-left: 1em;
-    }
-
-.nav-tabs > li > a {
-    padding: 1px 3px 1px 3px!important;
-    border-radius: 2px 2px 0 0 !important;
-}
-
 .code-editor {
     height: 100%;
     width: 100%;
     overflow: hidden;
-}
-
-.panel {
-    padding: 15px;
 }
 
 .right-block {
@@ -71,10 +33,6 @@ html, body {
     left: 0px;
     right: 0px;
     bottom: 0px;
-}
-
-.execute-button .btn {
-    margin-right: 5px;
 }
 
 .ratio-line {
