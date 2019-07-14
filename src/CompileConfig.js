@@ -15,6 +15,8 @@ const cc40Name = 'clang-4.0';
 const cc50Name = 'clang-5.0';
 const cc60Name = 'clang-6.0';
 const cc70Name = 'clang-7.0';
+const cc71Name = 'clang-7.1';
+const cc80Name = 'clang-8.0';
 const cg55Name = 'gcc-5.5';
 const cg64Name = 'gcc-6.4';
 const cg65Name = 'gcc-6.5';
@@ -23,6 +25,8 @@ const cg73Name = 'gcc-7.3';
 const cg74Name = 'gcc-7.4';
 const cg81Name = 'gcc-8.1';
 const cg82Name = 'gcc-8.2';
+const cg83Name = 'gcc-8.3';
+const cg90Name = 'gcc-9.0';
 const lGName = 'libstdc++(GNU)';
 const lCName = 'libc++(LLVM)';
 
@@ -51,6 +55,10 @@ class CompileConfig extends React.Component {
             compiler = cc60Name;
         } else if (key === 'clang-7.0') {
             compiler = cc70Name;
+        } else if (key === 'clang-7.1') {
+            compiler = cc71Name;
+        } else if (key === 'clang-8.0') {
+            compiler = cc80Name;
         } else if (key === 'gcc-5.5') {
             compiler = cg55Name;
         } else if (key === 'gcc-6.4') {
@@ -67,6 +75,10 @@ class CompileConfig extends React.Component {
             compiler = cg81Name;
         } else if (key === 'gcc-8.2') {
             compiler = cg82Name;
+        } else if (key === 'gcc-8.3') {
+            compiler = cg83Name;
+        } else if (key === 'gcc-9.0') {
+            compiler = cg90Name;
         }
         if (key.startsWith('gcc') && this.props.lib !== 'gnu') {
             this.changeLib('gnu');
@@ -142,6 +154,8 @@ class CompileConfig extends React.Component {
                     <DropdownItem eventKey="clang-5.0">{cc50Name}</DropdownItem>
                     <DropdownItem eventKey="clang-6.0">{cc60Name}</DropdownItem>
                     <DropdownItem eventKey="clang-7.0">{cc70Name}</DropdownItem>
+                    <DropdownItem eventKey="clang-7.1">{cc71Name}</DropdownItem>
+                    <DropdownItem eventKey="clang-8.0">{cc80Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-5.5" >{cg55Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-6.4" >{cg64Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-6.5" >{cg65Name}</DropdownItem>
@@ -150,6 +164,8 @@ class CompileConfig extends React.Component {
                     <DropdownItem eventKey="gcc-7.4" >{cg74Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-8.1" >{cg81Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-8.2" >{cg82Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-8.3" >{cg83Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-9.0" >{cg90Name}</DropdownItem>
                 </DropdownButton>
                 <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
                     <DropdownItem eventKey="11">{v11Name}</DropdownItem>
