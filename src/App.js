@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import './App.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
-const url = process.env.REACT_APP_SERVER + ':' + process.env.REACT_APP_PORT;
+const url = window.location.origin;
 
 const maxCodeSize = 20000;
 
