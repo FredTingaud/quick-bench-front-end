@@ -4,7 +4,7 @@ var ansi_up = new AU.default();
 
 class BashOutput extends React.Component {
     updateHTML(text) {
-        return { __html: ansi_up.ansi_to_html(text) };
+        return { __html: ansi_up.ansi_to_html(text.replace(/<br>/g, '\n')) };
     }
 
     render() {
