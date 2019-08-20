@@ -1,6 +1,6 @@
 {
   "short_name": "Quick Bench",
-  "name": "Quick C++ Benchmarks",
+  "name": "C++ Build Benchmarks",
   "icons": [
     {
       "src": "/android-icon-36x36.png",

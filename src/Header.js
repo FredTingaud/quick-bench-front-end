@@ -83,7 +83,7 @@ class Header extends React.Component {
                         <Nav.Link eventKey><img src="ico/christmas-tree.svg" className="line-img" alt="A surprise?" /></Nav.Link>
                     </Nav>
                     <Navbar.Brand>
-                        Quick C++ Benchmark
+                        C++ Build Benchmark
                 </Navbar.Brand>
                 </Nav>
                 <Form inline>

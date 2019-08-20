@@ -3,32 +3,25 @@ import CodeEditor from './CodeEditor.js';
 import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import TimeChart from './TimeChart.js';
-import AssemblyEditor from './AssemblyEditor.js';
 import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 
 var request = require('request');
 const protocolVersion = 3;
 
-const startCode = `static void StringCreation(benchmark::State& state) {
-  // Code inside this loop is measured repeatedly
-  for (auto _ : state) {
-    std::string created_string("hello");
-    // Make sure the variable is not optimized away by compiler
-    benchmark::DoNotOptimize(created_string);
-  }
-}
-// Register the function as a benchmark
-BENCHMARK(StringCreation);
+const startCode1 = `#include <cstdio>
 
-static void StringCopy(benchmark::State& state) {
-  // Code before the loop is not measured
-  std::string x = "hello";
-  for (auto _ : state) {
-    std::string copy(x);
-  }
+int main() {
+    puts("Hello World");
+    return 0;
 }
-BENCHMARK(StringCopy);
+`;
+const startCode2 = `#include <iostream>
+
+int main() {
+    std::cout << "Hello World\\n";
+    return 0;
+}
 `;
 const includeStr = '#include <benchmark/benchmark.h>\n';
 const mainStr = '\nBENCHMARK_MAIN();';
@@ -36,7 +29,7 @@ class Benchmark extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: startCode
+            texts: [startCode1, startCode2]
             , graph: []
             , message: ''
             , sending: false
@@ -107,7 +100,7 @@ class Benchmark extends React.Component {
                     if (result.result) {
                         let compiler = result.compiler === 'clang++-3.8' ? 'clang-3.8' : result.compiler;
                         this.setState({
-                            text: result.code
+                            texts: result.code
                             , graph: result.result.benchmarks
                             , compiler: compiler
                             , cppVersion: result.cppVersion
@@ -134,11 +127,11 @@ class Benchmark extends React.Component {
         });
     }
     sendCode() {
-        if (this.state.text.length > this.maxCodeSize) {
+        if (this.state.texts.some(t => t.length > this.maxCodeSize)) {
             this.setState({
                 graph: [],
                 annotation: '',
-                message: `Your code is ${this.state.text.length} characters long, while the maximum code size is ${this.maxCodeSize}.
+                message: `Your code is ${this.state.texts.length} characters long, while the maximum code size is ${this.maxCodeSize}.
 If you think this limitation is stopping you in a legitimate usage of quick-bench, please contact me.`
             });
         } else {
@@ -149,14 +142,17 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 message: ''
             });
             var obj = {
-                "code": this.state.text,
-                "compiler": this.state.compiler,
-                "optim": this.state.optim,
-                "cppVersion": this.state.cppVersion,
+                "units": this.state.texts.map(c => {
+                    return {
+                        "code": c,
+                        "compiler": this.state.compiler,
+                        "optim": this.state.optim,
+                        "cppVersion": this.state.cppVersion,
+                        "lib": this.state.lib
+                    }
+                }),
                 "protocolVersion": protocolVersion,
                 "force": this.state.clean && this.state.force,
-                "isAnnotated": this.state.isAnnotated,
-                "lib": this.state.lib
             };
             request({
                 url: this.url
@@ -266,8 +262,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             force: false
         });
     }
-    textChanged(text) {
-        this.setState({ text: text });
+    textChanged(texts) {
+        this.setState({ texts: texts });
         this.setDirty();
     }
     forceChanged(e) {
@@ -311,7 +307,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
                             <CodeEditor onChange={this.textChanged.bind(this)}
-                                code={this.state.text}
+                                code={this.state.texts}
                                 names={this.state.benchNames}
                             />
                         </div>
@@ -342,7 +338,6 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                             <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} onDescriptionChange={d => this.props.onDescriptionChange(d)} specialPalette={this.props.specialPalette} />
                             <BashOutput text={this.state.message} />
                         </div>
-                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} setFullScreen={fs => this.setState({ assemblyFull: fs })} />
                     </Col>
                 </Row>
             </Container>

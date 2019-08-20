@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tab, Tabs, Row, Col } from 'react-bootstrap';
 import MonacoEditor from 'react-monaco-editor';
 import Palette from './Palette.js';
 import elementResizeEvent from 'element-resize-event';
@@ -7,6 +8,11 @@ import unbind from 'element-resize-event';
 class CodeEditor extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            index: 0
+            , titles: ['Code 1', 'Code 2']
+            , fullScreen: false
+        }
         this.decorations = [];
         this.prevDecorations = [];
         this.text = props.code;
@@ -109,19 +115,46 @@ class CodeEditor extends React.Component {
             this.calculateDecorations(nextProps.names);
         }
     }
+    handleSelect(key) {
+        this.setState({
+            index: key
+        });
+    }
+    fillTabs() {
+        let tabsList = this.state.titles.map(function (name, i) {
+            return <Tab title={name} eventKey={i} key={name} />
+        });
+
+        return (<Tabs onSelect={(key) => this.handleSelect(key)} defaultActiveKey={this.state.index} id="bench-asm-selection">
+            {tabsList}
+            <Tab title="+" eventKey={this.state.titles.length} key={"+"} />
+        </Tabs>);
+    }
+    renderHeader() {
+        return (
+            <Row>
+                <Col xs={12}>
+                    {this.fillTabs()}
+                </Col>
+            </Row>
+        );
+    }
     render() {
         const options = {
             selectOnLineNumbers: true
         };
         return (
-            <div className="full-size" id="codeContainer">
-                <MonacoEditor
-                    language="cpp"
-                    options={options}
-                    onChange={(newValue) => this.handleChange(newValue)}
-                    editorDidMount={(e, m) => this.editorDidMount(e, m)}
-                    value={this.props.code}
-                />
+            <div className="full-size">
+                {this.renderHeader()}
+                <div className="full-size" id="codeContainer">
+                    <MonacoEditor
+                        language="cpp"
+                        options={options}
+                        onChange={(newValue) => this.handleChange(newValue)}
+                        editorDidMount={(e, m) => this.editorDidMount(e, m)}
+                        value={this.props.code[this.state.index]}
+                    />
+                </div>
             </div>
         );
     }
