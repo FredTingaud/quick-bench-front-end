@@ -47,30 +47,33 @@ class CodeEditor extends React.Component {
     addDecoration(name, i, max) {
         const re1 = new RegExp(`\\s${name}\\s*\\(\\s*benchmark\\s*\\:\\:\\s*State\\s*\\&`);
         const re2 = new RegExp(`BENCHMARK\\s*\\(\\s*${name}\\s*\\)\\s*`);
-        const match1 = re1.exec(this.text);
-        const match2 = re2.exec(this.text);
+        const match1 = this.editor.getModel().findNextMatch(re1, {
+            column: 1,
+            lineNumber: 1
+        }, true, true, null, false);
+        const match2 = this.editor.getModel().findNextMatch(re2, {
+            column: 1,
+            lineNumber: 1
+        }, true, true, null, false);
+
         if (match1 && match2) {
-            const sub1 = this.text.substr(0, match1.index);
-            const sub2 = this.text.substr(0, match2.index);
-            const l1 = (sub1.match(/\n/g) || []).length + 1;
-            const l2 = (sub2.match(/\n/g) || []).length + 1;
             this.decorations.push(
                 {
-                    range: new this.monaco.Range(l1, 1, l2, 1),
+                    range: match1.range.plusRange(match2.range),
                     options: {
                         linesDecorationsClassName: Palette.pickCSS(i, max)
                     }
                 });
-            const c1 = this.text.indexOf(name, match1.index) - sub1.lastIndexOf('\n');
+            const r1 = this.editor.getModel().findNextMatch(name, match1.range.getStartPosition(), false, true, null, false);
             this.decorations.push({
-                range: new this.monaco.Range(l1, c1, l1, c1 + name.length),
+                range: r1.range,
                 options: {
                     inlineClassName: Palette.pickCSS(i, max)
                 }
             });
-            const c2 = this.text.indexOf(name, match2.index) - sub2.lastIndexOf('\n');
+            const r2 = this.editor.getModel().findNextMatch(name, match2.range.getStartPosition(), false, true, null, false);
             this.decorations.push({
-                range: new this.monaco.Range(l2, c2, l2, c2 + name.length),
+                range: r2.range,
                 options: {
                     inlineClassName: Palette.pickCSS(i, max)
                 }
