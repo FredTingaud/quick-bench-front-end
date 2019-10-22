@@ -10,6 +10,7 @@ class CodeEditor extends React.Component {
         this.decorations = [];
         this.prevDecorations = [];
         this.text = props.code;
+        this.dirty = false;
     }
     editorDidMount(editor, monaco) {
         editor.focus();
@@ -36,6 +37,7 @@ class CodeEditor extends React.Component {
     }
     handleChange(value) {
         this.text = value;
+        this.dirty = true;
         this.props.onChange(value);
     }
     updateDecorations() {
@@ -75,16 +77,32 @@ class CodeEditor extends React.Component {
             });
         }
     }
+    addTypingDecoration() {
+        const re = new RegExp(`#\\s*include\\s*<\\s*(C|c)\\+\\+\\s*>`);
+        var match = this.editor.getModel().findNextMatch(re, {
+            column: 1,
+            lineNumber: 1
+        }, true, true, null, false);
+        if (match) {
+            this.decorations.push({
+                range: match.range,
+                options: {
+                    inlineClassName: 'rainbow-decoration'
+                }
+            });
+        }
+    }
     calculateDecorations(names) {
         this.decorations = [];
         const filtered = names.filter(n => n !== 'Noop');
         const max = filtered.length;
         filtered.map((name, i) => this.addDecoration(name, i, max));
+        this.addTypingDecoration();
         this.updateDecorations();
+        this.dirty = false;
     }
     componentWillReceiveProps(nextProps) {
-        this.text = nextProps.code;
-        if (this.monaco && this.props.names !== nextProps.names) {
+        if (this.monaco && (this.dirty || this.props.names !== nextProps.names)) {
             this.calculateDecorations(nextProps.names);
         }
     }
