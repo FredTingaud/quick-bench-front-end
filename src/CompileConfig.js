@@ -30,6 +30,7 @@ const cg81Name = 'gcc-8.1';
 const cg82Name = 'gcc-8.2';
 const cg83Name = 'gcc-8.3';
 const cg91Name = 'gcc-9.1';
+const cg92Name = 'gcc-9.2';
 const lGName = 'libstdc++(GNU)';
 const lCName = 'libc++(LLVM)';
 
@@ -82,6 +83,8 @@ class CompileConfig extends React.Component {
             compiler = cg83Name;
         } else if (key === 'gcc-9.1') {
             compiler = cg91Name;
+        } else if (key === 'gcc-9.2') {
+            compiler = cg92Name;
         }
         if (key.startsWith('gcc') && this.props.lib !== 'gnu') {
             this.changeLib('gnu');
@@ -176,6 +179,7 @@ class CompileConfig extends React.Component {
                     <DropdownItem eventKey="gcc-8.2" >{cg82Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-8.3" >{cg83Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-9.1" >{cg91Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-9.2" >{cg92Name}</DropdownItem>
                 </DropdownButton>
                 <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
                     <DropdownItem eventKey="11">{v11Name}</DropdownItem>
