@@ -2,9 +2,12 @@ import React from 'react';
 import { DropdownButton, ButtonToolbar, DropdownItem } from 'react-bootstrap';
 
 const o0Name = 'None';
+const oGName = 'Og';
 const o1Name = 'O1';
 const o2Name = 'O2';
+const oSName = 'Os';
 const o3Name = 'O3';
+const oFName = 'OFast';
 const v11Name = 'c++11';
 const v14Name = 'c++14';
 const v17Name = 'c++17';
@@ -104,7 +107,14 @@ class CompileConfig extends React.Component {
             oName = o2Name;
         } else if (key === '3') {
             oName = o3Name;
+        } else if (key === 'G') {
+            oName = oGName;
+        } else if (key === 'S') {
+            oName = oSName;
+        } else if (key === 'F') {
+            oName = oFName;
         }
+
         return 'optim = ' + oName;
     }
     libTitle(key) {
@@ -175,9 +185,12 @@ class CompileConfig extends React.Component {
                 </DropdownButton>
                 <DropdownButton id="optim" variant="outline-dark" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)} className="mr-2">
                     <DropdownItem eventKey="0">{o0Name}</DropdownItem>
+                    <DropdownItem eventKey="G">{oGName}</DropdownItem>
                     <DropdownItem eventKey="1">{o1Name}</DropdownItem>
                     <DropdownItem eventKey="2">{o2Name}</DropdownItem>
+                    <DropdownItem eventKey="S">{oSName}</DropdownItem>
                     <DropdownItem eventKey="3">{o3Name}</DropdownItem>
+                    <DropdownItem eventKey="F">{oFName}</DropdownItem>
                 </DropdownButton>
                 <DropdownButton id="libc" variant="outline-dark" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} >
                     <DropdownItem eventKey="gnu">{lGName}</DropdownItem>
