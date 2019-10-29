@@ -20,6 +20,7 @@ const cc60Name = 'clang-6.0';
 const cc70Name = 'clang-7.0';
 const cc71Name = 'clang-7.1';
 const cc80Name = 'clang-8.0';
+const cc90Name = 'clang-9.0';
 const cg55Name = 'gcc-5.5';
 const cg64Name = 'gcc-6.4';
 const cg65Name = 'gcc-6.5';
@@ -63,6 +64,8 @@ class CompileConfig extends React.Component {
             compiler = cc71Name;
         } else if (key === 'clang-8.0') {
             compiler = cc80Name;
+        } else if (key === 'clang-9.0') {
+            compiler = cc90Name;
         } else if (key === 'gcc-5.5') {
             compiler = cg55Name;
         } else if (key === 'gcc-6.4') {
@@ -169,6 +172,7 @@ class CompileConfig extends React.Component {
                     <DropdownItem eventKey="clang-7.0">{cc70Name}</DropdownItem>
                     <DropdownItem eventKey="clang-7.1">{cc71Name}</DropdownItem>
                     <DropdownItem eventKey="clang-8.0">{cc80Name}</DropdownItem>
+                    <DropdownItem eventKey="clang-9.0">{cc90Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-5.5" >{cg55Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-6.4" >{cg64Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-6.5" >{cg65Name}</DropdownItem>
