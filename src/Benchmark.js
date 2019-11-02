@@ -4,7 +4,7 @@ import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import TimeChart from './TimeChart.js';
 import AssemblyEditor from './AssemblyEditor.js';
-import { Button, Row, Col, Container, Card, FormCheck, Form } from 'react-bootstrap';
+import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 
 var request = require('request');
@@ -165,6 +165,64 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             });
         }
     }
+    compilerCeId() {
+        if (this.state.compiler.startsWith('clang'))
+            return 'clang' + this.state.compiler.substr(6).replace('.', '') + '0';
+        return 'g' + this.state.compiler.substr(4).replace('.', '');
+    }
+    optimCe() {
+        switch (this.state.optim) {
+            case 'G':
+                return '-Og';
+            case 'F':
+                return '-Ofast';
+            case 'S':
+                return '-Os';
+            default:
+                return '-O' + this.state.optim;
+        }
+    }
+    versionCe() {
+        switch (this.state.cppVersion) {
+            case '20':
+                return '2a';
+            case '17':
+                return '1z';
+            default:
+                return this.state.cppVersion;
+        }
+    }
+    b64UTFEncode(str) {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, v) {
+            return String.fromCharCode(parseInt(v, 16));
+        }));
+    }
+    optionsCe() {
+        const cppVersion = '-std=c++' + this.versionCe();
+        return cppVersion + ' ' + this.optimCe();
+    }
+    codeCe() {
+        return '#include <benchmark/benchmark.h>\n' + this.state.text + '\nBENCHMARK_MAIN();';
+    }
+    openCodeInCE() {
+        var clientstate = {
+            "sessions": [{
+                "id": 0,
+                "language": "c++",
+                "source": this.codeCe(),
+                "compilers": [{
+                    "id": this.compilerCeId(),
+                    "options": this.optionsCe(),
+                    "libs": [{
+                        "name": "benchmark",
+                        "ver": "140"
+                    }]
+                }]
+            }]
+        };
+        var link = window.location.protocol + '//godbolt.org/clientstate/' + this.b64UTFEncode(JSON.stringify(clientstate));
+        window.open(link, '_blank');
+    }
     setDirty() {
         this.setState({
             clean: false,
@@ -199,6 +257,16 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
     toggleAnnotated(e) {
         this.setState({ isAnnotated: e.target.checked });
     }
+    buttonHeight() {
+        const run = document.getElementById('Run');
+        if (run == null)
+            return '5px';
+        const compStyle = window.getComputedStyle(run, null);
+        // We remove 4px more because for some reason otherwise it is possible that the CE button ends-up slightly bigger than the run button
+        // Which because the whole toolbar is the same size, would start an infinit loop of 
+        // "run" growing -> CE grows to react -> is bigger than run -> grows the toolbar
+        return `calc(${compStyle.height} - ${compStyle.paddingTop} - ${compStyle.paddingBottom} - 4px)`;
+    }
     render() {
         return (
             <Container fluid>
@@ -222,11 +290,16 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                         onLibChange={lib => this.onLibChange(lib)}
                                     />
                                     <hr className="config-separator" />
-                                    <Form inline>
-                                        <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="mr-2"> <MdTimer /> Run Benchmark</Button>
-                                        <FormCheck ref="force" checked={this.state.isAnnotated} custom type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="mr-2" />
-                                        {this.state.clean ? <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" /> : null}
-                                    </Form>
+                                    <ButtonToolbar className="justify-content-between">
+                                        <Form inline>
+                                            <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="mr-2" id="Run"> <MdTimer /> Run Benchmark</Button>
+                                            <FormCheck ref="force" checked={this.state.isAnnotated} custom type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="mr-2" />
+                                            {this.state.clean ? <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" /> : null}
+                                        </Form>
+                                        <Form inline>
+                                            <Button variant="outline-dark" onClick={() => this.openCodeInCE()} className="float-right"><img src="ico/Compiler-Explorer.svg" style={{ height: this.buttonHeight() }} alt="Open in Compiler Explorer" /></Button>
+                                        </Form>
+                                    </ButtonToolbar>
                                 </Card>
                             </div>
                             <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} onDescriptionChange={d => this.props.onDescriptionChange(d)} specialPalette={this.props.specialPalette} />
