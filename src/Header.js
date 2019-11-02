@@ -99,7 +99,7 @@ class Header extends React.Component {
                                 <DropdownItem href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</DropdownItem>
                                 <DropdownItem href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</DropdownItem>
                                 <Dropdown.Divider />
-                                <DropdownItem eventKey="privacy">Privacy</DropdownItem>
+                                <DropdownItem eventKey="privacy">Privacy Policy</DropdownItem>
                                 <DropdownItem eventKey="favicon">Thanks</DropdownItem>
                                 <DropdownItem eventKey="author">About the author</DropdownItem>
                             </NavDropdown>
