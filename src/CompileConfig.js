@@ -27,6 +27,7 @@ const cg65Name = 'gcc-6.5';
 const cg72Name = 'gcc-7.2';
 const cg73Name = 'gcc-7.3';
 const cg74Name = 'gcc-7.4';
+const cg75Name = 'gcc-7.5';
 const cg81Name = 'gcc-8.1';
 const cg82Name = 'gcc-8.2';
 const cg83Name = 'gcc-8.3';
@@ -78,6 +79,8 @@ class CompileConfig extends React.Component {
             compiler = cg73Name;
         } else if (key === 'gcc-7.4') {
             compiler = cg74Name;
+        } else if (key === 'gcc-7.5') {
+            compiler = cg75Name;
         } else if (key === 'gcc-8.1') {
             compiler = cg81Name;
         } else if (key === 'gcc-8.2') {
@@ -179,6 +182,7 @@ class CompileConfig extends React.Component {
                     <DropdownItem eventKey="gcc-7.2" >{cg72Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-7.3" >{cg73Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-7.4" >{cg74Name}</DropdownItem>
+                    <DropdownItem eventKey="gcc-7.5" >{cg75Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-8.1" >{cg81Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-8.2" >{cg82Name}</DropdownItem>
                     <DropdownItem eventKey="gcc-8.3" >{cg83Name}</DropdownItem>
