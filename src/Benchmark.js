@@ -50,9 +50,30 @@ class Benchmark extends React.Component {
             , assemblyFull: false
             , lib: "gnu"
         };
+
+        let stateFromHash = this.getStateFromHash();
+        if (stateFromHash) {
+            this.state.text = stateFromHash.text;
+            if (stateFromHash.compiler) this.state.compiler = stateFromHash.compiler;
+            if (stateFromHash.cppVersion) this.state.cppVersion = stateFromHash.cppVersion;
+            if (stateFromHash.optim) this.state.optim = stateFromHash.optim;
+            if (stateFromHash.lib) this.state.lib = stateFromHash.lib;
+        }
+
         this.graph = [];
         this.url = this.props.url;
         this.maxCodeSize = this.props.maxCodeSize;
+    }
+    getStateFromHash() {
+        if (window.location.hash) {
+            let state = this.decodeHash(window.location.hash);
+            window.location.hash = "";
+            if (state.text) {
+                return state;
+            }
+        }
+
+        return false;
     }
     componentDidMount() {
         if (this.props.id) {
@@ -196,6 +217,19 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, v) {
             return String.fromCharCode(parseInt(v, 16));
         }));
+    }
+    decodeHash(str) {
+        try {
+            let base64ascii = str.substr(1);
+            if (base64ascii) {
+                return JSON.parse(atob(base64ascii).replace(/&\$([0-9a-fA-F]*);/g, function (match, v) {
+                    return String.fromCharCode(parseInt(v, 16));
+                }));
+            }
+        } catch (err) {
+            console.error(err);
+        }
+        return false;
     }
     optionsCe() {
         const cppVersion = '-std=c++' + this.versionCe();
