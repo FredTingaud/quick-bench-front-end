@@ -30,6 +30,8 @@ static void StringCopy(benchmark::State& state) {
 }
 BENCHMARK(StringCopy);
 `;
+const includeStr = '#include <benchmark/benchmark.h>\n';
+const mainStr = '\nBENCHMARK_MAIN();';
 class Benchmark extends React.Component {
     constructor(props) {
         super(props);
@@ -53,7 +55,7 @@ class Benchmark extends React.Component {
 
         let stateFromHash = this.getStateFromHash();
         if (stateFromHash) {
-            this.state.text = stateFromHash.text;
+            this.state.text = this.importCode(stateFromHash.text);
             if (stateFromHash.compiler) this.state.compiler = stateFromHash.compiler;
             if (stateFromHash.cppVersion) this.state.cppVersion = stateFromHash.cppVersion;
             if (stateFromHash.optim) this.state.optim = stateFromHash.optim;
@@ -235,15 +237,18 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         const cppVersion = '-std=c++' + this.versionCe();
         return cppVersion + ' ' + this.optimCe();
     }
-    codeCe() {
-        return '#include <benchmark/benchmark.h>\n' + this.state.text + '\nBENCHMARK_MAIN();';
+    exportCode() {
+        return includeStr + this.state.text + mainStr;
+    }
+    importCode(text) {
+        return text.replace(includeStr, '').replace(mainStr, '');
     }
     openCodeInCE() {
         var clientstate = {
             "sessions": [{
                 "id": 0,
                 "language": "c++",
-                "source": this.codeCe(),
+                "source": this.exportCode(),
                 "compilers": [{
                     "id": this.compilerCeId(),
                     "options": this.optionsCe(),
