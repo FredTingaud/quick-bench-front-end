@@ -224,9 +224,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         try {
             let base64ascii = str.substr(1);
             if (base64ascii) {
-                return JSON.parse(atob(base64ascii).replace(/&\$([0-9a-fA-F]*);/g, function (match, v) {
-                    return String.fromCharCode(parseInt(v, 16));
-                }));
+                return JSON.parse(atob(base64ascii));
             }
         } catch (err) {
             console.error(err);
