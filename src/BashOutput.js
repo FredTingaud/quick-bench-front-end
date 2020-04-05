@@ -8,7 +8,7 @@ class BashOutput extends React.Component {
     }
 
     render() {
-        if (this.props.text) {
+        if (this.props.text && typeof this.props.text === 'string') {
             return (
                 <pre>
                     <div className="bash-output" dangerouslySetInnerHTML={this.updateHTML(this.props.text)} />
