@@ -3,7 +3,7 @@ import CodeEditor from './CodeEditor.js';
 import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import TimeChart from './TimeChart.js';
-import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form } from 'react-bootstrap';
+import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 
 var request = require('request');
@@ -33,6 +33,7 @@ class Benchmark extends React.Component {
             , graph: []
             , message: ''
             , sending: false
+            , progress: 0
             , compiler: "clang-9.0"
             , cppVersion: "20"
             , optim: "3"
@@ -142,6 +143,11 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 annotation: '',
                 message: ''
             });
+            this.setState({ progress: 0 });
+            let interval = setInterval(() => {
+                this.setState({ progress: this.state.progress + 100 / 120 });
+            }, 1000);
+
             var obj = {
                 "tabs": this.state.texts.map(c => {
                     return {
@@ -169,6 +175,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     clean: true,
                     force: false
                 });
+                clearInterval(interval);
                 if (body.result) {
                     let g = this.makeGraph(body.result)
                     this.setState({
@@ -334,6 +341,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                             <Button variant="outline-dark" onClick={() => this.openCodeInCE()} className="float-right"><img src="ico/Compiler-Explorer.svg" style={{ height: this.buttonHeight() }} alt="Open in Compiler Explorer" /></Button>
                                         </Form>
                                     </ButtonToolbar>
+                                    {this.state.sending ? <ProgressBar animated now={this.state.progress} /> : null}
                                 </Card>
                             </div>
                             <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} onDescriptionChange={d => this.props.onDescriptionChange(d)} specialPalette={this.props.specialPalette} />
