@@ -15,7 +15,7 @@ class CodeEditor extends React.Component {
         }
         this.decorations = [];
         this.prevDecorations = [];
-        this.text = props.code;
+        this.texts = props.code;
         this.dirty = false;
     }
     editorDidMount(editor, monaco) {
@@ -42,9 +42,9 @@ class CodeEditor extends React.Component {
         this.editor.layout();
     }
     handleChange(value) {
-        this.text = value;
+        this.texts[this.state.index] = value;
         this.dirty = true;
-        this.props.onChange(value);
+        this.props.onChange(this.texts);
     }
     updateDecorations() {
         this.prevDecorations = this.editor.deltaDecorations(

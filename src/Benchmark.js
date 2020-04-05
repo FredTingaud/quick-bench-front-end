@@ -81,6 +81,15 @@ class Benchmark extends React.Component {
             this.getCode(nextProps.id);
         }
     }
+    makeGraph(result) {
+        return result.map((r, i) => {
+            let times = r.times.map(t => parseFloat(t)).reduce((s, t) => (s + t));
+            return {
+                x: '' + i,
+                y: times
+            };
+        });
+    }
     getCode(id) {
         this.setState({
             sending: true,
@@ -98,29 +107,21 @@ class Benchmark extends React.Component {
                 let result = JSON.parse(body);
                 if (result) {
                     if (result.result) {
-                        let compiler = result.compiler === 'clang++-3.8' ? 'clang-3.8' : result.compiler;
+                        let compiler = result.tabs[0].compiler === 'clang++-3.8' ? 'clang-3.8' : result.tabs[0].compiler;
                         this.setState({
-                            texts: result.code
-                            , graph: result.result.benchmarks
+                            texts: result.tabs.map(t => t.code)
+                            , graph: this.makeGraph(result.result)
                             , compiler: compiler
-                            , cppVersion: result.cppVersion
-                            , optim: result.optim
+                            , cppVersion: result.tabs[0].cppVersion
+                            , optim: result.tabs[0].optim
                             , location: id
-                            , lib: result.lib
+                            , lib: result.tabs[0].lib
                         });
                     }
                     if (result.message) {
                         this.setState({
                             message: result.message
                         });
-                    }
-                    if (result.annotation) {
-                        this.setState({
-                            annotation: result.annotation
-                            , isAnnotated: true
-                        });
-                    } else {
-                        this.setState({ isAnnotated: false });
                     }
                 }
             }
@@ -142,7 +143,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 message: ''
             });
             var obj = {
-                "units": this.state.texts.map(c => {
+                "tabs": this.state.texts.map(c => {
                     return {
                         "code": c,
                         "compiler": this.state.compiler,
@@ -169,8 +170,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     force: false
                 });
                 if (body.result) {
+                    let g = this.makeGraph(body.result)
                     this.setState({
-                        graph: body.result.benchmarks,
+                        graph: g,
                         location: body.id
                     });
                     this.props.onLocationChange(body.id);
@@ -306,7 +308,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 <Row className="full-size">
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
-                            <CodeEditor onChange={this.textChanged.bind(this)}
+                            <CodeEditor onChange={t => this.textChanged(t)}
                                 code={this.state.texts}
                                 names={this.state.benchNames}
                             />

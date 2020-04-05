@@ -73,13 +73,16 @@ class TimeChart extends React.Component {
         this.chart = null;
     }
     filterNoop(v) {
-        return this.state.showNoop || v.name !== 'Noop';
+        return this.state.showNoop || v.x !== 'Noop';
+    }
+    valueCount() {
+        return this.state.chart.length - this.state.chart.some(v => v.x === 'Noop') ? 1 : 0;
     }
     showChart() {
-        const length = this.state.chart.length - 1;
+        const length = this.valueCount();
         if (length > 0) {
             const input = this.state.chart.filter((v) => this.filterNoop(v));
-            if (input.find(v => v.name.indexOf('/') > -1) && this.state.chartStyle === 'Line') {
+            if (input.find(v => v.x.indexOf('/') > -1) && this.state.chartStyle === 'Line') {
                 this.drawLineChart(input);
             } else {
                 this.drawBarChart(input);
@@ -87,10 +90,10 @@ class TimeChart extends React.Component {
         }
     }
     drawBarChart(input) {
-        const length = this.state.chart.length - 1;
-        const names = input.map(v => v.name);
-        const times = input.map(v => v.cpu_time);
-        const colors = input.map((v, i) => v.name === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.specialPalette));
+        const length = this.valueCount();
+        const names = input.map(v => v.x);
+        const times = input.map(v => v.y);
+        const colors = input.map((v, i) => v.x === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.specialPalette));
         const chartData = [{
             data: times,
             backgroundColor: colors,
@@ -110,8 +113,8 @@ class TimeChart extends React.Component {
     nameCallback(input) {
         return (tooltipItem, data) => {
             const index = tooltipItem[0].index;
-            const val = input[index].cpu_time;
-            return [''].concat(input.filter((v, i) => i !== index).map(v => this.describe(val, v.cpu_time, v.name)));
+            const val = input[index].y;
+            return [''].concat(input.filter((v, i) => i !== index).map(v => this.describe(val, v.y, v.x)));
         };
     }
 
@@ -122,12 +125,12 @@ class TimeChart extends React.Component {
         let max;
         let min;
         let chartData = [];
-        const horizontals = input.filter(v => v.name.indexOf('/') === -1);
-        let functionNames = input.filter(v => v.name.indexOf('/') > -1).map(v => v.name.substring(0, v.name.indexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
-        let names = input.filter(v => v.name.indexOf('/') > -1).map(v => v.name.substring(0, v.name.lastIndexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
+        const horizontals = input.filter(v => v.x.indexOf('/') === -1);
+        let functionNames = input.filter(v => v.x.indexOf('/') > -1).map(v => v.x.substring(0, v.x.indexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
+        let names = input.filter(v => v.x.indexOf('/') > -1).map(v => v.x.substring(0, v.x.lastIndexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
         for (let i = 0; i < names.length; ++i) {
             let n = names[i];
-            const times = input.filter(v => v.name.indexOf('/') > -1 && v.name.startsWith(n + '/')).map(v => ({ x: parseInt(v.name.substring(v.name.lastIndexOf('/') + 1), 10), y: v.cpu_time }));
+            const times = input.filter(v => v.x.indexOf('/') > -1 && v.x.startsWith(n + '/')).map(v => ({ x: parseInt(v.x.substring(v.x.lastIndexOf('/') + 1), 10), y: v.y }));
             const color = n === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(n.split('/')[0]), functionNames.length + horizontals.length, this.props.specialPalette);
             chartData.push({
                 data: times,
@@ -142,18 +145,18 @@ class TimeChart extends React.Component {
             max = Math.max(...times.map(elt => elt.x));
             min = Math.min(...times.map(elt => elt.x));
         }
-        names = names.concat(horizontals.map(v => v.name));
-        functionNames = functionNames.concat(horizontals.map(v => v.name));
+        names = names.concat(horizontals.map(v => v.x));
+        functionNames = functionNames.concat(horizontals.map(v => v.x));
         for (let i = 0; i < horizontals.length; ++i) {
             let v = horizontals[i];
-            const times2 = [{ x: min, y: v.cpu_time }, { x: max, y: v.cpu_time }];
-            const colors2 = v.name === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(v.name), functionNames.length, this.props.specialPalette);
+            const times2 = [{ x: min, y: v.y }, { x: max, y: v.y }];
+            const colors2 = v.x === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(v.x), functionNames.length, this.props.specialPalette);
             chartData.push({
                 data: times2,
                 backgroundColor: colors2,
                 borderColor: colors2,
                 type: 'line',
-                label: v.name,
+                label: v.x,
                 fill: false,
                 xAxisID: 'line'
             });
@@ -207,7 +210,7 @@ class TimeChart extends React.Component {
         this.setState({ chartStyle: e.target.value }, () => this.showChart());
     }
     renderIfParametric() {
-        if (this.state.chart.find(v => v.name.indexOf('/') > -1)) {
+        if (this.state.chart.find(v => v.x.indexOf('/') > -1)) {
             return <FormControl as="select" className="pull-right" onChange={(e) => this.changeChartStyle(e)} defaultValue={this.state.chartStyle}>
                 <option value="Bar">Bar</option>
                 <option value="Line">Line</option>
@@ -223,9 +226,9 @@ class TimeChart extends React.Component {
         return `${(v2 / v1).toLocaleString(undefined, { maximumSignificantDigits: 2 })} times faster than ${name}`;
     }
     makeDescription(r) {
-        let start = `${r[0].name} is `;
-        let val = r[0].cpu_time;
-        let res = r.slice(1).map(v => this.describe(val, v.cpu_time, v.name));
+        let start = `${r[0].x} is `;
+        let val = r[0].y;
+        let res = r.slice(1).map(v => this.describe(val, v.y, v.x));
         return start + res.slice(0, -1).join(', ') + (res.length > 1 ? ' and ' : '') + res[res.length - 1];
     }
     renderIfVisible() {
