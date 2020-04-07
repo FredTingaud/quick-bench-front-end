@@ -76,7 +76,7 @@ class TimeChart extends React.Component {
         return this.state.showNoop || v.x !== 'Noop';
     }
     valueCount() {
-        return this.state.chart.length - this.state.chart.some(v => v.x === 'Noop') ? 1 : 0;
+        return this.state.chart.length - (this.state.chart.some(v => v.x === 'Noop') ? 1 : 0);
     }
     showChart() {
         const length = this.valueCount();
