@@ -41,16 +41,6 @@
     <title>Quick C++ Benchmarks</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
-    <script src="/vs/loader.js"></script>
-    <script>
-      require.config({ paths: { 'vs': '/vs' } });
-      
-      window.MonacoEnvironment = {
-        getWorkerUrl: function(workerId, label) {
-          return 'monaco-editor-worker-loader-proxy.js';
-        }
-      };
-    </script>
   </head>
   <body>
       <noscript>
