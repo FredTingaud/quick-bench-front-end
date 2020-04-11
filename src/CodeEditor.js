@@ -4,6 +4,11 @@ import MonacoEditor from 'react-monaco-editor';
 import Palette from './Palette.js';
 import elementResizeEvent from 'element-resize-event';
 import unbind from 'element-resize-event';
+import { MdClose } from "react-icons/md";
+
+function closeTab(index) {
+    this.closeTab(index);
+}
 
 class CodeEditor extends React.Component {
     constructor(props) {
@@ -17,6 +22,10 @@ class CodeEditor extends React.Component {
         this.prevDecorations = [];
         this.texts = props.code;
         this.dirty = false;
+        this.freezeTab = false;
+
+        // Binding here because at the call site, "this" is referring to the enclosing tab
+        closeTab = this.closeTab.bind(this);
     }
     editorDidMount(editor, monaco) {
         editor.focus();
@@ -116,18 +125,49 @@ class CodeEditor extends React.Component {
         }
     }
     handleSelect(key) {
+        if (this.freezeTab && this.state.titles.length > 0)
+            return;
+        const index = parseInt(key);
+        if (index === this.state.titles.length) {
+            this.texts.push('');
+            const index = this.state.titles.length;
+            this.setState({
+                titles: this.state.titles.concat(`Code ${index + 1}`),
+                index: index
+            });
+            return;
+        }
         this.setState({
-            index: key
+            index: index
         });
+    }
+    closeTab(index) {
+        const newIndex = this.state.index >= index ? Math.max(0, this.state.index - 1) : this.state.index;
+
+        this.freezeTab = true;
+
+        this.texts.splice(index, 1);
+        let titles = this.state.titles;
+        titles.splice(index, 1);
+
+        this.setState({ index: newIndex, titles: titles }, () => {
+            this.freezeTab = false;
+            this.props.onChange(this.texts);
+        });
+
+        this.dirty = true;
     }
     fillTabs() {
         let tabsList = this.state.titles.map(function (name, i) {
-            return <Tab title={name} eventKey={i} key={name} />
+            return <Tab title={
+                <>
+                    {name}<button className="close-button" onClick={() => closeTab(i)} ><MdClose /></button>
+                </>} eventKey={i} />
         });
 
-        return (<Tabs onSelect={(key) => this.handleSelect(key)} defaultActiveKey={this.state.index} id="bench-asm-selection">
+        return (<Tabs onSelect={(key) => this.handleSelect(key)} activeKey={this.state.index.toString()} id="bench-asm-selection">
             {tabsList}
-            <Tab title="+" eventKey={this.state.titles.length} key={"+"} />
+            <Tab title="+" eventKey={this.state.titles.length} />
         </Tabs>);
     }
     renderHeader() {

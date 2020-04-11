@@ -60,6 +60,12 @@
     max-width: 90%;
 }
 
+.close-button {
+    padding: 0 0 0 5px;
+    border: none;
+    background: none;
+}
+
 .linked-code-decoration-inline-0 {
     background: #5ed9cd !important;
 }
