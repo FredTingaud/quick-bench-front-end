@@ -15,12 +15,10 @@ class CodeEditor extends React.Component {
         super(props);
         this.state = {
             index: 0
-            , titles: ['Code 1', 'Code 2']
             , fullScreen: false
         }
         this.decorations = [];
         this.prevDecorations = [];
-        this.texts = props.code;
         this.dirty = false;
         this.freezeTab = false;
 
@@ -51,9 +49,10 @@ class CodeEditor extends React.Component {
         this.editor.layout();
     }
     handleChange(value) {
-        this.texts[this.state.index] = value;
+        let texts = this.props.code;
+        texts[this.state.index] = value;
         this.dirty = true;
-        this.props.onChange(this.texts);
+        this.props.onChange(texts, this.props.titles);
     }
     updateDecorations() {
         this.prevDecorations = this.editor.deltaDecorations(
@@ -125,17 +124,11 @@ class CodeEditor extends React.Component {
         }
     }
     handleSelect(key) {
-        if (this.freezeTab && this.state.titles.length > 0)
+        if (this.freezeTab && this.props.titles.length > 0)
             return;
         const index = parseInt(key);
-        if (index === this.state.titles.length) {
-            this.texts.push('');
-            const index = this.state.titles.length;
-            this.setState({
-                titles: this.state.titles.concat(`Code ${index + 1}`),
-                index: index
-            });
-            return;
+        if (index === this.props.titles.length) {
+            this.props.onChange(this.props.code.concat(''), this.props.titles.concat(`Code ${index + 1}`));
         }
         this.setState({
             index: index
@@ -146,19 +139,20 @@ class CodeEditor extends React.Component {
 
         this.freezeTab = true;
 
-        this.texts.splice(index, 1);
-        let titles = this.state.titles;
+        let texts = this.props.code;
+        texts.splice(index, 1);
+        let titles = this.props.titles;
         titles.splice(index, 1);
 
-        this.setState({ index: newIndex, titles: titles }, () => {
+        this.setState({ index: newIndex }, () => {
             this.freezeTab = false;
-            this.props.onChange(this.texts);
+            this.props.onChange(texts, titles);
         });
 
         this.dirty = true;
     }
     fillTabs() {
-        let tabsList = this.state.titles.map(function (name, i) {
+        let tabsList = this.props.titles.map(function (name, i) {
             return <Tab title={
                 <>
                     {name}<button className="close-button" onClick={() => closeTab(i)} ><MdClose /></button>
@@ -167,7 +161,7 @@ class CodeEditor extends React.Component {
 
         return (<Tabs onSelect={(key) => this.handleSelect(key)} activeKey={this.state.index.toString()} id="bench-asm-selection">
             {tabsList}
-            <Tab title="+" eventKey={this.state.titles.length} />
+            <Tab title="+" eventKey={this.props.titles.length} />
         </Tabs>);
     }
     renderHeader() {

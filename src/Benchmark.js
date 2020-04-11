@@ -30,6 +30,7 @@ class Benchmark extends React.Component {
         super(props);
         this.state = {
             texts: [startCode1, startCode2]
+            , titles: ['cstdio', 'iostream']
             , graph: []
             , message: ''
             , sending: false
@@ -149,9 +150,10 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             }, 1000);
 
             var obj = {
-                "tabs": this.state.texts.map(c => {
+                "tabs": this.state.texts.map((c, i) => {
                     return {
                         "code": c,
+                        "title": this.state.titles[i],
                         "compiler": this.state.compiler,
                         "optim": this.state.optim,
                         "cppVersion": this.state.cppVersion,
@@ -271,8 +273,11 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             force: false
         });
     }
-    textChanged(texts) {
-        this.setState({ texts: texts });
+    codeChanged(code, titles) {
+        this.setState({
+            texts: code,
+            titles: titles
+        });
         this.setDirty();
     }
     forceChanged(e) {
@@ -315,8 +320,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 <Row className="full-size">
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
-                            <CodeEditor onChange={t => this.textChanged(t)}
+                            <CodeEditor onChange={(c, t) => this.codeChanged(c, t)}
                                 code={this.state.texts}
+                                titles={this.state.titles}
                                 names={this.state.benchNames}
                             />
                         </div>
