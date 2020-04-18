@@ -80,7 +80,7 @@ class Header extends React.Component {
             <Navbar bg="dark" variant="dark" collapseOnSelect>
                 <Nav className="mr-auto">
                     <Nav hidden={!this.state.showEasterEgg} onSelect={() => this.easterEgg()}>
-                        <Nav.Link eventKey><img src="ico/christmas-tree.svg" className="line-img" alt="A surprise?" /></Nav.Link>
+                        <Nav.Link eventKey><img src="/ico/christmas-tree.svg" className="line-img" alt="A surprise?" /></Nav.Link>
                     </Nav>
                     <Navbar.Brand>
                         C++ Build Benchmark
@@ -90,7 +90,7 @@ class Header extends React.Component {
                     <Navbar.Collapse className="mr-sm-2">
                         <Nav>
                             <NavDropdown title="Support Quick Bench" id="basic-nav-dropdown" alignRight>
-                                <DropdownItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src="ico/Patreon.svg" className="line-img" alt="Patreon icon" /> Support on Patreon</DropdownItem>
+                                <DropdownItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src="/ico/Patreon.svg" className="line-img" alt="Patreon icon" /> Support on Patreon</DropdownItem>
                             </NavDropdown>
                             <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)} alignRight>
                                 <DropdownItem eventKey="about">About Quick-bench</DropdownItem>

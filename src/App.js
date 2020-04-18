@@ -37,7 +37,7 @@ class App extends Component {
     redirect() {
         if (this.state.location !== this.state.prevlocation) {
             return (
-                <Redirect push to={'/' + this.state.location} />
+                <Redirect push to={'/b/' + this.state.location} />
             );
         }
         return null;
@@ -66,7 +66,7 @@ class App extends Component {
                     </Helmet>
                     <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} /></div>
                     <Route exact path="/" component={this.Home} />
-                    <Route exact path="/:id" component={this.Home} />
+                    <Route exact path="/b/:id" component={this.Home} />
                     {this.redirect()}
                 </div>
             </BrowserRouter>

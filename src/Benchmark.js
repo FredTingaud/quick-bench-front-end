@@ -99,7 +99,7 @@ class Benchmark extends React.Component {
             annotation: '',
             message: ''
         });
-        request.get(this.url + '/get/' + id, (err, res, body) => {
+        request.get(this.url + '/build/' + id, (err, res, body) => {
             this.setState({
                 sending: false,
                 clean: true,
@@ -164,7 +164,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 "force": this.state.clean && this.state.force,
             };
             request({
-                url: this.url
+                url: this.url + '/build/'
                 , method: "POST"
                 , json: true
                 , headers: {
@@ -344,7 +344,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                             {this.state.clean ? <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" /> : null}
                                         </Form>
                                         <Form inline>
-                                            <Button variant="outline-dark" onClick={() => this.openCodeInCE()} className="float-right"><img src="ico/Compiler-Explorer.svg" style={{ height: this.buttonHeight() }} alt="Open in Compiler Explorer" /></Button>
+                                            <Button variant="outline-dark" onClick={() => this.openCodeInCE()} className="float-right"><img src="/ico/Compiler-Explorer.svg" style={{ height: this.buttonHeight() }} alt="Open in Compiler Explorer" /></Button>
                                         </Form>
                                     </ButtonToolbar>
                                     {this.state.sending ? <ProgressBar animated now={this.state.progress} /> : null}
