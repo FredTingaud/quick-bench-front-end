@@ -28,11 +28,6 @@ class CodeEditor extends React.Component {
         this.editor = editor;
         this.monaco = monaco;
 
-        //const model = monaco.editor.createModel(editor.value, "vs/basic-languages/cpp/cpp");
-
-        //monaco.editor.setModelLanguage(monaco.editor.getModels()[0], "vs/basic-languages/cpp/cpp");
-        //console.log(`${monaco.editor.getModels()[0].uri} ${Object.keys(monaco.editor)}`);
-
         if (this.props.names) {
             this.calculateDecorations(this.props.names);
         }
