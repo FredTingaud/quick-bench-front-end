@@ -6,9 +6,7 @@ import elementResizeEvent from 'element-resize-event';
 import unbind from 'element-resize-event';
 import { MdClose } from "react-icons/md";
 
-function closeTab(index) {
-    this.closeTab(index);
-}
+var closeTab;
 
 class CodeEditor extends React.Component {
     constructor(props) {
