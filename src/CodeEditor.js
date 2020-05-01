@@ -1,21 +1,16 @@
 import React from 'react';
-import { Tab, Tabs, Row, Col, Button } from 'react-bootstrap';
 import MonacoEditor from 'react-monaco-editor';
 import Palette from './Palette.js';
 import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
+import WrappableTabs from './WrappableTabs.js';
 import elementResizeEvent from 'element-resize-event';
 import unbind from 'element-resize-event';
-import { MdClose } from "react-icons/md";
-import { AiOutlineMergeCells, AiOutlineSplitCells } from "react-icons/ai"
-
-var closeTab;
 
 class CodeEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             index: 0
-            , tab: "0"
             , wrapped: false
             , fullScreen: false
             , showConfirm: false
@@ -24,9 +19,6 @@ class CodeEditor extends React.Component {
         this.prevDecorations = [];
         this.dirty = false;
         this.freezeTab = false;
-
-        // Binding here because at the call site, "this" is referring to the enclosing tab
-        closeTab = this.closeTab.bind(this);
     }
     editorDidMount(editor, monaco) {
         editor.focus();
@@ -144,66 +136,20 @@ class CodeEditor extends React.Component {
     unwrap() {
         this.setState({ wrapped: false });
     }
-    handleSelect(key) {
-        if (this.freezeTab && this.props.titles.length > 0)
-            return;
-        if (key === "Merge") {
-            this.wrap();
-            return;
-        }
-        const index = parseInt(key);
-        if (index === this.props.titles.length) {
-            this.props.onChange(this.props.code.concat(''), this.props.titles.concat(`Code ${index + 1}`));
-        }
-        this.setState({
-            index: index,
-            tab: index.toString()
-        });
-    }
-    closeTab(index) {
-        const newIndex = this.state.index >= index ? Math.max(0, this.state.index - 1) : this.state.index;
-        this.freezeTab = true;
-
+    closeTab(removedIndex) {
         let texts = this.props.code;
-        texts.splice(index, 1);
+        texts.splice(removedIndex, 1);
         let titles = this.props.titles;
-        titles.splice(index, 1);
-
-        this.setState({
-            index: newIndex,
-            tab: newIndex.toString()
-        }, () => {
-            this.freezeTab = false;
-            this.props.onChange(texts, titles);
-        });
+        titles.splice(removedIndex, 1);
+        this.props.onChange(texts, titles);
 
         this.dirty = true;
     }
-    unwrapButton() {
-        return <Button onClick={() => this.unwrap()}> <AiOutlineSplitCells /></Button>;
+    addTab() {
+        this.props.onChange(this.props.code.concat(''), this.props.titles.concat(`Code ${this.props.titles.length + 1}`));
     }
-    fillTabs() {
-        let tabsList = this.props.titles.map(function (name, i) {
-            return <Tab title={
-                <>
-                    {name}<button className="close-button" onClick={() => closeTab(i)} ><MdClose /></button>
-                </>} eventKey={i} key={i}/>
-        });
-
-        return (<Tabs onSelect={(key) => this.handleSelect(key)} activeKey={this.state.tab} id="bench-asm-selection">
-            {this.props.titles.length > 1 ? <Tab title={<AiOutlineMergeCells />} eventKey="Merge" key="Merge" /> : null}
-            {tabsList}
-            <Tab title="+" eventKey={this.props.titles.length} key="+" />
-        </Tabs>);
-    }
-    renderHeader() {
-        return (
-            <Row>
-                <Col xs={12}>
-                    {this.state.wrapped ? this.unwrapButton() : this.fillTabs()}
-                </Col>
-            </Row>
-        );
+    selectIndex(index) {
+        this.setState({ index: index });
     }
     render() {
         const options = {
@@ -213,7 +159,16 @@ class CodeEditor extends React.Component {
             <div className="full-size">
                 <ConfirmOverwrite confirm={() => this.confirmWrap()} show={this.state.showConfirm} hide={() => this.hideConfirm()} />
 
-                {this.renderHeader()}
+                <WrappableTabs
+                    titles={this.props.titles}
+                    index={this.state.index}
+                    setIndex={(i) => this.selectIndex(i)}
+                    wrap={() => this.wrap()}
+                    unwrap={() => this.unwrap()}
+                    wrapped={this.state.wrapped}
+                    closeTab={(i) => this.closeTab(i)}
+                    addTab={() => this.addTab()}
+                />
                 <div className="full-size" id="codeContainer">
                     <MonacoEditor
                         language="cpp"
