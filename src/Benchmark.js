@@ -84,7 +84,7 @@ class Benchmark extends React.Component {
         }
     }
     makeGraph(result) {
-        return result.map((r, i) => {
+        return result.filter(r => r.times !== undefined && r.times !== []).map((r, i) => {
             let times = r.times.map(t => parseFloat(t)).reduce((s, t) => (s + t));
             return {
                 x: '' + i,
@@ -112,6 +112,7 @@ class Benchmark extends React.Component {
                         let compiler = result.tabs[0].compiler === 'clang++-3.8' ? 'clang-3.8' : result.tabs[0].compiler;
                         this.setState({
                             texts: result.tabs.map(t => t.code)
+                            , titles : result.tabs.map(t => t.title)
                             , graph: this.makeGraph(result.result)
                             , compiler: compiler
                             , cppVersion: result.tabs[0].cppVersion
