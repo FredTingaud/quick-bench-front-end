@@ -1,10 +1,12 @@
 import React from 'react';
-import { Tab, Tabs, Row, Col } from 'react-bootstrap';
+import { Tab, Tabs, Row, Col, Button } from 'react-bootstrap';
 import MonacoEditor from 'react-monaco-editor';
 import Palette from './Palette.js';
+import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
 import elementResizeEvent from 'element-resize-event';
 import unbind from 'element-resize-event';
 import { MdClose } from "react-icons/md";
+import { AiOutlineMergeCells, AiOutlineSplitCells } from "react-icons/ai"
 
 var closeTab;
 
@@ -13,7 +15,10 @@ class CodeEditor extends React.Component {
         super(props);
         this.state = {
             index: 0
+            , tab: "0"
+            , wrapped: false
             , fullScreen: false
+            , showConfirm: false
         }
         this.decorations = [];
         this.prevDecorations = [];
@@ -43,7 +48,12 @@ class CodeEditor extends React.Component {
     }
     handleChange(value) {
         let texts = this.props.code;
-        texts[this.state.index] = value;
+        if (this.state.wrapped) {
+            texts.fill(value);
+        }
+        else {
+            texts[this.state.index] = value;
+        }
         this.dirty = true;
         this.props.onChange(texts, this.props.titles);
     }
@@ -116,20 +126,42 @@ class CodeEditor extends React.Component {
             this.calculateDecorations(nextProps.names);
         }
     }
+    hideConfirm() {
+        this.setState({ showConfirm: false });
+    }
+    confirmWrap() {
+        // Wrap and overwrite with the text of the current tab
+        this.setState({ wrapped: true }, () => this.handleChange(this.props.code[this.state.index]));
+    }
+    wrap() {
+        if (this.props.code.some((v, i, a) => v !== a[0])) {
+            this.setState({ showConfirm: true });
+        }
+        else {
+            this.confirmWrap();
+        }
+    }
+    unwrap() {
+        this.setState({ wrapped: false });
+    }
     handleSelect(key) {
         if (this.freezeTab && this.props.titles.length > 0)
             return;
+        if (key === "Merge") {
+            this.wrap();
+            return;
+        }
         const index = parseInt(key);
         if (index === this.props.titles.length) {
             this.props.onChange(this.props.code.concat(''), this.props.titles.concat(`Code ${index + 1}`));
         }
         this.setState({
-            index: index
+            index: index,
+            tab: index.toString()
         });
     }
     closeTab(index) {
         const newIndex = this.state.index >= index ? Math.max(0, this.state.index - 1) : this.state.index;
-
         this.freezeTab = true;
 
         let texts = this.props.code;
@@ -137,31 +169,38 @@ class CodeEditor extends React.Component {
         let titles = this.props.titles;
         titles.splice(index, 1);
 
-        this.setState({ index: newIndex }, () => {
+        this.setState({
+            index: newIndex,
+            tab: newIndex.toString()
+        }, () => {
             this.freezeTab = false;
             this.props.onChange(texts, titles);
         });
 
         this.dirty = true;
     }
+    unwrapButton() {
+        return <Button onClick={() => this.unwrap()}> <AiOutlineSplitCells /></Button>;
+    }
     fillTabs() {
         let tabsList = this.props.titles.map(function (name, i) {
             return <Tab title={
                 <>
                     {name}<button className="close-button" onClick={() => closeTab(i)} ><MdClose /></button>
-                </>} eventKey={i} />
+                </>} eventKey={i} key={i}/>
         });
 
-        return (<Tabs onSelect={(key) => this.handleSelect(key)} activeKey={this.state.index.toString()} id="bench-asm-selection">
+        return (<Tabs onSelect={(key) => this.handleSelect(key)} activeKey={this.state.tab} id="bench-asm-selection">
+            {this.props.titles.length > 1 ? <Tab title={<AiOutlineMergeCells />} eventKey="Merge" key="Merge" /> : null}
             {tabsList}
-            <Tab title="+" eventKey={this.props.titles.length} />
+            <Tab title="+" eventKey={this.props.titles.length} key="+" />
         </Tabs>);
     }
     renderHeader() {
         return (
             <Row>
                 <Col xs={12}>
-                    {this.fillTabs()}
+                    {this.state.wrapped ? this.unwrapButton() : this.fillTabs()}
                 </Col>
             </Row>
         );
@@ -172,6 +211,8 @@ class CodeEditor extends React.Component {
         };
         return (
             <div className="full-size">
+                <ConfirmOverwrite confirm={() => this.confirmWrap()} show={this.state.showConfirm} hide={() => this.hideConfirm()} />
+
                 {this.renderHeader()}
                 <div className="full-size" id="codeContainer">
                     <MonacoEditor
