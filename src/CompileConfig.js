@@ -1,5 +1,6 @@
 import React from 'react';
-import { DropdownButton, ButtonToolbar, DropdownItem } from 'react-bootstrap';
+import { DropdownButton, ButtonToolbar, DropdownItem, Card } from 'react-bootstrap';
+import WrappableTabs from './WrappableTabs.js'
 
 const o0Name = 'None';
 const oGName = 'Og';
@@ -40,14 +41,15 @@ class CompileConfig extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            maxVersion: 20
+            maxVersion: 20,
+            wrapped: true
         };
     }
     componentDidMount() {
-        this.changeCompiler(this.props.compiler);
-        this.changeVersion(this.props.cppVersion);
-        this.changeOptim(this.props.optim);
-        this.changeLib(this.props.lib);
+        this.changeCompiler(this.props.options[this.props.index].compiler);
+        this.changeVersion(this.props.options[this.props.index].cppVersion);
+        this.changeOptim(this.props.options[this.props.index].optim);
+        this.changeLib(this.props.options[this.props.index].lib);
     }
     compilerTitle(key) {
         let compiler = cc38Name;
@@ -141,74 +143,128 @@ class CompileConfig extends React.Component {
             maxV = (parseInt(key.charAt("gcc-".length)) >= 8) ? 20 : 17;
         }
         this.setState({ maxVersion: maxV });
-        if (this.props.cppVersion === "20" && maxV < 20) {
+        if (this.props.options[this.props.index].cppVersion === "20" && maxV < 20) {
             this.changeVersion("17");
         }
     }
     changeCompiler(key) {
         this.refreshMaxCppVersion(key);
-        this.props.onCompilerChange(key);
+        let opts = this.props.options;
+        if (this.state.wrapped) {
+            opts.map(o => o.compiler = key);
+        } else {
+            opts[this.props.index].compiler = key;
+        }
+        this.props.onOptionsChange(opts);
     }
     changeVersion(key) {
-        this.props.onVersionChange(key);
+        let opts = this.props.options;
+
+        if (this.state.wrapped)
+            opts.map(o => o.cppVersion = key);
+        else
+            opts[this.props.index].cppVersion = key;
+        this.props.onOptionsChange(opts);
     }
     changeOptim(key) {
-        this.props.onOptimChange(key);
+        let opts = this.props.options;
+        if (this.state.wrapped)
+            opts.map(o => o.optim = key);
+        else
+            opts[this.props.index].optim = key;
+        this.props.onOptionsChange(opts);
     }
     changeLib(key) {
-        this.props.onLibChange(key);
+        let opts = this.props.options;
+        if (this.state.wrapped)
+            opts.map(o => o.lib = key);
+        else
+            opts[this.props.index].lib = key;
+        this.props.onOptionsChange(opts);
+    }
+    currentOptions() {
+        return {
+            compiler: this.props.options[this.props.index].compiler
+            , cppVersion: this.props.options[this.props.index].cppVersion
+            , optim: this.props.options[this.props.index].optim
+            , lib: this.props.options[this.props.index].lib
+        };
+    }
+    wrap() {
+        let opts = this.props.options;
+        opts.fill(this.currentOptions());
+        this.setState({ wrapped: true }, () => this.props.onOptionsChange(opts));
+    }
+    unwrap() {
+        this.setState({ wrapped: false });
     }
     render() {
-        const compiler = this.props.compiler;
-        const cppVersion = this.props.cppVersion;
-        const optim = this.props.optim;
-        const lib = this.props.lib;
+        const compiler = this.props.options[this.props.index].compiler;
+        const cppVersion = this.props.options[this.props.index].cppVersion;
+        const optim = this.props.options[this.props.index].optim;
+        const lib = this.props.options[this.props.index].lib;
         const maxVersion = this.state.maxVersion;
         return (
-            <ButtonToolbar>
-                <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
-                    <DropdownItem eventKey="clang-3.8">{cc38Name}</DropdownItem>
-                    <DropdownItem eventKey="clang-3.9">{cc39Name}</DropdownItem>
-                    <DropdownItem eventKey="clang-4.0">{cc40Name}</DropdownItem>
-                    <DropdownItem eventKey="clang-5.0">{cc50Name}</DropdownItem>
-                    <DropdownItem eventKey="clang-6.0">{cc60Name}</DropdownItem>
-                    <DropdownItem eventKey="clang-7.0">{cc70Name}</DropdownItem>
-                    <DropdownItem eventKey="clang-7.1">{cc71Name}</DropdownItem>
-                    <DropdownItem eventKey="clang-8.0">{cc80Name}</DropdownItem>
-                    <DropdownItem eventKey="clang-9.0">{cc90Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-5.5" >{cg55Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-6.4" >{cg64Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-6.5" >{cg65Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-7.2" >{cg72Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-7.3" >{cg73Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-7.4" >{cg74Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-7.5" >{cg75Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-8.1" >{cg81Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-8.2" >{cg82Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-8.3" >{cg83Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-9.1" >{cg91Name}</DropdownItem>
-                    <DropdownItem eventKey="gcc-9.2" >{cg92Name}</DropdownItem>
-                </DropdownButton>
-                <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
-                    <DropdownItem eventKey="11">{v11Name}</DropdownItem>
-                    <DropdownItem eventKey="14">{v14Name}</DropdownItem>
-                    <DropdownItem eventKey="17">{v17Name}</DropdownItem>
-                    <DropdownItem eventKey="20" disabled={maxVersion < 20}>{v20Name}</DropdownItem>
-                </DropdownButton>
-                <DropdownButton id="optim" variant="outline-dark" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)} className="mr-2">
-                    <DropdownItem eventKey="0">{o0Name}</DropdownItem>
-                    <DropdownItem eventKey="G">{oGName}</DropdownItem>
-                    <DropdownItem eventKey="1">{o1Name}</DropdownItem>
-                    <DropdownItem eventKey="2">{o2Name}</DropdownItem>
-                    <DropdownItem eventKey="S">{oSName}</DropdownItem>
-                    <DropdownItem eventKey="3">{o3Name}</DropdownItem>
-                    <DropdownItem eventKey="F">{oFName}</DropdownItem>
-                </DropdownButton>
-                <DropdownButton id="libc" variant="outline-dark" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} >
-                    <DropdownItem eventKey="gnu">{lGName}</DropdownItem>
-                    <DropdownItem eventKey="llvm">{lCName}</DropdownItem>
-                </DropdownButton>
-            </ButtonToolbar>
+            <Card>
+                <Card.Header>
+                    <WrappableTabs
+                        titles={this.props.titles}
+                        index={this.props.index}
+                        setIndex={(i) => this.props.setIndex(i)}
+                        wrap={() => this.wrap()}
+                        unwrap={() => this.unwrap()}
+                        wrapped={this.state.wrapped}
+                        closeTab={(i) => this.props.closeTab(i)}
+                        addTab={() => this.props.addTab()}
+                    />
+                </Card.Header>
+                <Card.Body>
+                    <ButtonToolbar>
+                        <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
+                            <DropdownItem eventKey="clang-3.8">{cc38Name}</DropdownItem>
+                            <DropdownItem eventKey="clang-3.9">{cc39Name}</DropdownItem>
+                            <DropdownItem eventKey="clang-4.0">{cc40Name}</DropdownItem>
+                            <DropdownItem eventKey="clang-5.0">{cc50Name}</DropdownItem>
+                            <DropdownItem eventKey="clang-6.0">{cc60Name}</DropdownItem>
+                            <DropdownItem eventKey="clang-7.0">{cc70Name}</DropdownItem>
+                            <DropdownItem eventKey="clang-7.1">{cc71Name}</DropdownItem>
+                            <DropdownItem eventKey="clang-8.0">{cc80Name}</DropdownItem>
+                            <DropdownItem eventKey="clang-9.0">{cc90Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-5.5" >{cg55Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-6.4" >{cg64Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-6.5" >{cg65Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-7.2" >{cg72Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-7.3" >{cg73Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-7.4" >{cg74Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-7.5" >{cg75Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-8.1" >{cg81Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-8.2" >{cg82Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-8.3" >{cg83Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-9.1" >{cg91Name}</DropdownItem>
+                            <DropdownItem eventKey="gcc-9.2" >{cg92Name}</DropdownItem>
+                        </DropdownButton>
+                        <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
+                            <DropdownItem eventKey="11">{v11Name}</DropdownItem>
+                            <DropdownItem eventKey="14">{v14Name}</DropdownItem>
+                            <DropdownItem eventKey="17">{v17Name}</DropdownItem>
+                            <DropdownItem eventKey="20" disabled={maxVersion < 20}>{v20Name}</DropdownItem>
+                        </DropdownButton>
+                        <DropdownButton id="optim" variant="outline-dark" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)} className="mr-2">
+                            <DropdownItem eventKey="0">{o0Name}</DropdownItem>
+                            <DropdownItem eventKey="G">{oGName}</DropdownItem>
+                            <DropdownItem eventKey="1">{o1Name}</DropdownItem>
+                            <DropdownItem eventKey="2">{o2Name}</DropdownItem>
+                            <DropdownItem eventKey="S">{oSName}</DropdownItem>
+                            <DropdownItem eventKey="3">{o3Name}</DropdownItem>
+                            <DropdownItem eventKey="F">{oFName}</DropdownItem>
+                        </DropdownButton>
+                        <DropdownButton id="libc" variant="outline-dark" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} >
+                            <DropdownItem eventKey="gnu">{lGName}</DropdownItem>
+                            <DropdownItem eventKey="llvm">{lCName}</DropdownItem>
+                        </DropdownButton>
+                    </ButtonToolbar>
+                </Card.Body>
+            </Card>
         );
     }
 }

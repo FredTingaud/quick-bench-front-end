@@ -35,9 +35,13 @@ class Benchmark extends React.Component {
             , message: ''
             , sending: false
             , progress: 0
-            , compiler: "clang-9.0"
-            , cppVersion: "20"
-            , optim: "3"
+            , index: 0
+            , options: Array(2).fill().map(a => ({
+                compiler: "clang-9.0"
+                , cppVersion: "20"
+                , optim: "3"
+                , lib: "gnu"
+            }))
             , clean: false
             , force: false
             , benchNames: []
@@ -45,7 +49,6 @@ class Benchmark extends React.Component {
             , annotation: ''
             , isAnnotated: true
             , assemblyFull: false
-            , lib: "gnu"
         };
 
         let stateFromHash = this.getStateFromHash();
@@ -112,7 +115,7 @@ class Benchmark extends React.Component {
                         let compiler = result.tabs[0].compiler === 'clang++-3.8' ? 'clang-3.8' : result.tabs[0].compiler;
                         this.setState({
                             texts: result.tabs.map(t => t.code)
-                            , titles : result.tabs.map(t => t.title)
+                            , titles: result.tabs.map(t => t.title)
                             , graph: this.makeGraph(result.result)
                             , compiler: compiler
                             , cppVersion: result.tabs[0].cppVersion
@@ -155,10 +158,10 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     return {
                         "code": c,
                         "title": this.state.titles[i],
-                        "compiler": this.state.compiler,
-                        "optim": this.state.optim,
-                        "cppVersion": this.state.cppVersion,
-                        "lib": this.state.lib
+                        "compiler": this.state.options[i].compiler,
+                        "optim": this.state.options[i].optim,
+                        "cppVersion": this.state.options[i].cppVersion,
+                        "lib": this.state.options[i].lib
                     }
                 }),
                 "protocolVersion": protocolVersion,
@@ -286,20 +289,12 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             force: e.target.checked
         });
     }
-    onCompilerChange(compiler) {
-        this.setState({ compiler: compiler });
+    onOptionsChange(options) {
+        this.setState({ options: options });
         this.setDirty();
     }
-    onVersionChanged(version) {
-        this.setState({ cppVersion: version });
-        this.setDirty();
-    }
-    onOptimChange(optim) {
-        this.setState({ optim: optim });
-        this.setDirty();
-    }
-    onLibChange(lib) {
-        this.setState({ lib: lib });
+    onTitlesChange(titles) {
+        this.setState({ titles: titles });
         this.setDirty();
     }
     toggleAnnotated(e) {
@@ -315,6 +310,33 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         // "run" growing -> CE grows to react -> is bigger than run -> grows the toolbar
         return `calc(${compStyle.height} - ${compStyle.paddingTop} - ${compStyle.paddingBottom} - 4px)`;
     }
+    closeTab(removedIndex) {
+        let texts = this.state.texts;
+        texts.splice(removedIndex, 1);
+        let titles = this.state.titles;
+        titles.splice(removedIndex, 1);
+        let opts = this.state.options;
+        opts.splice(removedIndex, 1);
+        this.setState({
+            code: texts,
+            titles: titles,
+            options: opts
+        });
+
+        this.setDirty();
+    }
+    addTab() {
+        let texts = this.state.texts.concat(this.state.texts[this.state.index]);
+        let titles = this.state.titles.concat(this.state.titles[this.state.index] + '2');
+        let opts = this.state.options.concat({ ...this.state.options[this.state.index] });
+        this.setState({
+            code: texts,
+            titles: titles,
+            options: opts
+        });
+
+        this.setDirty();
+    }
     render() {
         return (
             <Container fluid>
@@ -325,6 +347,10 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 code={this.state.texts}
                                 titles={this.state.titles}
                                 names={this.state.benchNames}
+                                index={this.state.index}
+                                setIndex={i => this.setState({ index: i })}
+                                closeTab={(i) => this.closeTab(i)}
+                                addTab={() => this.addTab()}
                             />
                         </div>
                     </Col>
@@ -332,11 +358,14 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         <div style={{ display: this.state.assemblyFull ? "none" : "block" }}>
                             <div className="compilation">
                                 <Card body className="my-2">
-                                    <CompileConfig compiler={this.state.compiler} cppVersion={this.state.cppVersion} optim={this.state.optim} lib={this.state.lib}
-                                        onCompilerChange={c => this.onCompilerChange(c)}
-                                        onVersionChange={v => this.onVersionChanged(v)}
-                                        onOptimChange={optim => this.onOptimChange(optim)}
-                                        onLibChange={lib => this.onLibChange(lib)}
+                                    <CompileConfig options={this.state.options}
+                                        onOptionsChange={o => this.onOptionsChange(o)}
+                                        onTitlesChange={t => this.onTitlesChange(t)}
+                                        titles={this.state.titles}
+                                        index={this.state.index}
+                                        setIndex={i => this.setState({ index: i })}
+                                        closeTab={(i) => this.closeTab(i)}
+                                        addTab={() => this.addTab()}
                                     />
                                     <hr className="config-separator" />
                                     <ButtonToolbar className="justify-content-between">

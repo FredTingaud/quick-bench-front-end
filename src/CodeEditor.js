@@ -10,8 +10,7 @@ class CodeEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            index: 0
-            , wrapped: false
+            wrapped: false
             , fullScreen: false
             , showConfirm: false
         }
@@ -44,7 +43,7 @@ class CodeEditor extends React.Component {
             texts.fill(value);
         }
         else {
-            texts[this.state.index] = value;
+            texts[this.props.index] = value;
         }
         this.dirty = true;
         this.props.onChange(texts, this.props.titles);
@@ -123,7 +122,7 @@ class CodeEditor extends React.Component {
     }
     confirmWrap() {
         // Wrap and overwrite with the text of the current tab
-        this.setState({ wrapped: true }, () => this.handleChange(this.props.code[this.state.index]));
+        this.setState({ wrapped: true }, () => this.handleChange(this.props.code[this.props.index]));
     }
     wrap() {
         if (this.props.code.some((v, i, a) => v !== a[0])) {
@@ -136,21 +135,6 @@ class CodeEditor extends React.Component {
     unwrap() {
         this.setState({ wrapped: false });
     }
-    closeTab(removedIndex) {
-        let texts = this.props.code;
-        texts.splice(removedIndex, 1);
-        let titles = this.props.titles;
-        titles.splice(removedIndex, 1);
-        this.props.onChange(texts, titles);
-
-        this.dirty = true;
-    }
-    addTab() {
-        this.props.onChange(this.props.code.concat(''), this.props.titles.concat(`Code ${this.props.titles.length + 1}`));
-    }
-    selectIndex(index) {
-        this.setState({ index: index });
-    }
     render() {
         const options = {
             selectOnLineNumbers: true
@@ -161,13 +145,13 @@ class CodeEditor extends React.Component {
 
                 <WrappableTabs
                     titles={this.props.titles}
-                    index={this.state.index}
-                    setIndex={(i) => this.selectIndex(i)}
+                    index={this.props.index}
+                    setIndex={(i) => this.props.setIndex(i)}
                     wrap={() => this.wrap()}
                     unwrap={() => this.unwrap()}
                     wrapped={this.state.wrapped}
-                    closeTab={(i) => this.closeTab(i)}
-                    addTab={() => this.addTab()}
+                    closeTab={(i) => this.props.closeTab(i)}
+                    addTab={() => this.props.addTab()}
                 />
                 <div className="full-size" id="codeContainer">
                     <MonacoEditor
@@ -175,7 +159,7 @@ class CodeEditor extends React.Component {
                         options={options}
                         onChange={(newValue) => this.handleChange(newValue)}
                         editorDidMount={(e, m) => this.editorDidMount(e, m)}
-                        value={this.props.code[this.state.index]}
+                        value={this.props.code[this.props.index]}
                     />
                 </div>
             </div>
