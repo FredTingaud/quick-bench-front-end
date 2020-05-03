@@ -277,10 +277,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             force: false
         });
     }
-    codeChanged(code, titles) {
+    codeChanged(code) {
         this.setState({
-            texts: code,
-            titles: titles
+            texts: code
         });
         this.setDirty();
     }
@@ -343,7 +342,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 <Row className="full-size">
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
-                            <CodeEditor onChange={(c, t) => this.codeChanged(c, t)}
+                            <CodeEditor onChange={c => this.codeChanged(c)}
                                 code={this.state.texts}
                                 titles={this.state.titles}
                                 names={this.state.benchNames}
@@ -351,6 +350,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 setIndex={i => this.setState({ index: i })}
                                 closeTab={(i) => this.closeTab(i)}
                                 addTab={() => this.addTab()}
+                                onTitlesChange={t => this.onTitlesChange(t)}
                             />
                         </div>
                     </Col>

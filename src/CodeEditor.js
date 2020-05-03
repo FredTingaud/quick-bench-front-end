@@ -46,7 +46,7 @@ class CodeEditor extends React.Component {
             texts[this.props.index] = value;
         }
         this.dirty = true;
-        this.props.onChange(texts, this.props.titles);
+        this.props.onChange(texts);
     }
     updateDecorations() {
         this.prevDecorations = this.editor.deltaDecorations(
@@ -152,6 +152,7 @@ class CodeEditor extends React.Component {
                     wrapped={this.state.wrapped}
                     closeTab={(i) => this.props.closeTab(i)}
                     addTab={() => this.props.addTab()}
+                    onTitlesChange={(t) => this.props.onTitlesChange(t)}
                 />
                 <div className="full-size" id="codeContainer">
                     <MonacoEditor

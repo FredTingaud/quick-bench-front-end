@@ -216,6 +216,7 @@ class CompileConfig extends React.Component {
                         wrapped={this.state.wrapped}
                         closeTab={(i) => this.props.closeTab(i)}
                         addTab={() => this.props.addTab()}
+                        onTitlesChange={(t) => this.props.onTitlesChange(t)}
                     />
                 </Card.Header>
                 <Card.Body>
