@@ -368,7 +368,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 addTab={() => this.addTab()}
                                 onTitlesChange={t => this.onTitlesChange(t)}
                                 wrapped={this.state.textsWrapped}
-                                changeWrapped={w => this.setState({ textsWrapped: w })}
+                                changeWrapped={(w, c) => this.setState({ textsWrapped: w }, c)}
                             />
                         </div>
                     </Col>
