@@ -334,7 +334,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         let opts = this.state.options;
         opts.splice(removedIndex, 1);
         this.setState({
-            code: texts,
+            texts: texts,
             titles: titles,
             options: opts
         });
@@ -346,7 +346,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         let titles = this.state.titles.concat(this.state.titles[this.state.index] + '2');
         let opts = this.state.options.concat({ ...this.state.options[this.state.index] });
         this.setState({
-            code: texts,
+            texts: texts,
             titles: titles,
             options: opts
         });
