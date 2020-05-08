@@ -142,7 +142,7 @@ class Benchmark extends React.Component {
                             , options: options
                             , location: id
                             , textsWrapped: result.tabs.every(v => v.code === result.tabs[0].code)
-                            , optionsWrapped: options.every(o => o === options[0])
+                            , optionsWrapped: options.every(o => JSON.stringify(o) === JSON.stringify(options[0]))
                         });
                     }
                     if (result.messages) {
