@@ -23,8 +23,6 @@ int main() {
     return 0;
 }
 `;
-const includeStr = '#include <benchmark/benchmark.h>\n';
-const mainStr = '\nBENCHMARK_MAIN();';
 const chartData = [{
     title: ["Compilation CPU Time", "Lower is faster"],
     property: "time",
@@ -45,7 +43,7 @@ class Benchmark extends React.Component {
             texts: [startCode1, startCode2]
             , titles: ['cstdio', 'iostream']
             , graph: []
-            , message: ''
+            , messages: []
             , sending: false
             , progress: 0
             , index: 0
@@ -118,7 +116,7 @@ class Benchmark extends React.Component {
             sending: true,
             graph: [],
             annotation: '',
-            message: ''
+            messages: []
         });
         request.get(this.url + '/build/' + id, (err, res, body) => {
             this.setState({
@@ -147,9 +145,9 @@ class Benchmark extends React.Component {
                             , optionsWrapped: options.every(o => o === options[0])
                         });
                     }
-                    if (result.message) {
+                    if (result.messages) {
                         this.setState({
-                            message: result.message
+                            messages: result.messages
                         });
                     }
                 }
@@ -161,15 +159,15 @@ class Benchmark extends React.Component {
             this.setState({
                 graph: [],
                 annotation: '',
-                message: `Your code is ${this.state.texts.length} characters long, while the maximum code size is ${this.maxCodeSize}.
-If you think this limitation is stopping you in a legitimate usage of quick-bench, please contact me.`
+                messages: [`Your code is ${this.state.texts.length} characters long, while the maximum code size is ${this.maxCodeSize}.
+If you think this limitation is stopping you in a legitimate usage of quick-bench, please contact me.`]
             });
         } else {
             this.setState({
                 sending: true,
                 graph: [],
                 annotation: '',
-                message: ''
+                messages: []
             });
             this.setState({ progress: 0 });
             let interval = setInterval(() => {
@@ -216,8 +214,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 if (body.annotation) {
                     this.setState({ annotation: body.annotation });
                 }
-                if (body.message) {
-                    this.setState({ message: body.message });
+                if (body.messages) {
+                    this.setState({ messages: body.messages });
                 }
             });
         }
@@ -411,7 +409,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 dataChoices={chartData}
                                 changeDisplay={d => this.setState({ chartIndex: d })}
                             />
-                            <BashOutput text={this.state.message} />
+                            <BashOutput texts={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles} />
                         </div>
                     </Col>
                 </Row>
