@@ -63,6 +63,8 @@ class Benchmark extends React.Component {
             , isAnnotated: true
             , assemblyFull: false
             , chartIndex: 0
+            , textsWrapped: false
+            , optionsWrapped: true
         };
 
         let stateFromHash = this.getStateFromHash();
@@ -128,17 +130,21 @@ class Benchmark extends React.Component {
                 let result = JSON.parse(body);
                 if (result) {
                     if (result.result) {
-                        let compiler = result.tabs[0].compiler === 'clang++-3.8' ? 'clang-3.8' : result.tabs[0].compiler;
-                        let titles = result.tabs.map(t => t.title)
+                        let titles = result.tabs.map(t => t.title);
+                        let options = result.tabs.map(t => ({
+                            compiler: t.compiler
+                            , cppVersion: t.cppVersion
+                            , optim: t.optim
+                            , lib: t.lib
+                        }));
                         this.setState({
                             texts: result.tabs.map(t => t.code)
                             , titles: titles
                             , graph: this.makeGraph(result.result, titles)
-                            , compiler: compiler
-                            , cppVersion: result.tabs[0].cppVersion
-                            , optim: result.tabs[0].optim
+                            , options: options
                             , location: id
-                            , lib: result.tabs[0].lib
+                            , textsWrapped: result.tabs.every(v => v.code === result.tabs[0].code)
+                            , optionsWrapped: options.every(o => o === options[0])
                         });
                     }
                     if (result.message) {
@@ -368,6 +374,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 closeTab={(i) => this.closeTab(i)}
                                 addTab={() => this.addTab()}
                                 onTitlesChange={t => this.onTitlesChange(t)}
+                                wrapped={this.state.textsWrapped}
+                                changeWrapped={w => this.setState({ textsWrapped: w })}
                             />
                         </div>
                     </Col>
@@ -383,6 +391,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                         setIndex={i => this.setState({ index: i })}
                                         closeTab={(i) => this.closeTab(i)}
                                         addTab={() => this.addTab()}
+                                        wrapped={this.state.optionsWrapped}
+                                        changeWrapped={(w, c) => this.setState({ optionsWrapped: w }, c)}
                                     />
                                     <hr className="config-separator" />
                                     <ButtonToolbar className="justify-content-between">

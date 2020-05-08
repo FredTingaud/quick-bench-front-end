@@ -41,8 +41,7 @@ class CompileConfig extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            maxVersion: 20,
-            wrapped: true
+            maxVersion: 20
         };
     }
     compilerTitle(key) {
@@ -144,7 +143,7 @@ class CompileConfig extends React.Component {
     changeCompiler(key) {
         let opts = this.props.options;
         this.refreshMaxCppVersion(key, opts);
-        if (this.state.wrapped) {
+        if (this.props.wrapped) {
             opts.map(o => o.compiler = key);
         } else {
             opts[this.props.index].compiler = key;
@@ -154,7 +153,7 @@ class CompileConfig extends React.Component {
     changeVersion(key) {
         let opts = this.props.options;
 
-        if (this.state.wrapped)
+        if (this.props.wrapped)
             opts.map(o => o.cppVersion = key);
         else
             opts[this.props.index].cppVersion = key;
@@ -162,7 +161,7 @@ class CompileConfig extends React.Component {
     }
     changeOptim(key) {
         let opts = this.props.options;
-        if (this.state.wrapped)
+        if (this.props.wrapped)
             opts.map(o => o.optim = key);
         else
             opts[this.props.index].optim = key;
@@ -170,7 +169,7 @@ class CompileConfig extends React.Component {
     }
     changeLib(key) {
         let opts = this.props.options;
-        if (this.state.wrapped)
+        if (this.props.wrapped)
             opts.map(o => o.lib = key);
         else
             opts[this.props.index].lib = key;
@@ -187,10 +186,10 @@ class CompileConfig extends React.Component {
     wrap() {
         let opts = this.props.options;
         opts.fill(this.currentOptions());
-        this.setState({ wrapped: true }, () => this.props.onOptionsChange(opts));
+        this.props.changeWrapped(true, () => this.props.onOptionsChange(opts));
     }
     unwrap() {
-        this.setState({ wrapped: false });
+        this.props.changeWrapped(false);
     }
     render() {
         const compiler = this.props.options[this.props.index].compiler;
@@ -207,7 +206,7 @@ class CompileConfig extends React.Component {
                         setIndex={(i) => this.props.setIndex(i)}
                         wrap={() => this.wrap()}
                         unwrap={() => this.unwrap()}
-                        wrapped={this.state.wrapped}
+                        wrapped={this.props.wrapped}
                         closeTab={(i) => this.props.closeTab(i)}
                         addTab={() => this.props.addTab()}
                         onTitlesChange={(t) => this.props.onTitlesChange(t)}

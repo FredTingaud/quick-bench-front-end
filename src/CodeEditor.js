@@ -10,8 +10,7 @@ class CodeEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            wrapped: false
-            , fullScreen: false
+            fullScreen: false
             , showConfirm: false
         }
         this.decorations = [];
@@ -39,7 +38,7 @@ class CodeEditor extends React.Component {
     }
     handleChange(value) {
         let texts = this.props.code;
-        if (this.state.wrapped) {
+        if (this.props.wrapped) {
             texts.fill(value);
         }
         else {
@@ -122,7 +121,7 @@ class CodeEditor extends React.Component {
     }
     confirmWrap() {
         // Wrap and overwrite with the text of the current tab
-        this.setState({ wrapped: true }, () => this.handleChange(this.props.code[this.props.index]));
+        this.props.changeWrapped(true, () => this.handleChange(this.props.code[this.props.index]));
     }
     wrap() {
         if (this.props.code.some((v, i, a) => v !== a[0])) {
@@ -133,7 +132,7 @@ class CodeEditor extends React.Component {
         }
     }
     unwrap() {
-        this.setState({ wrapped: false });
+        this.props.changeWrapped(false);
     }
     render() {
         const options = {
@@ -149,7 +148,7 @@ class CodeEditor extends React.Component {
                     setIndex={(i) => this.props.setIndex(i)}
                     wrap={() => this.wrap()}
                     unwrap={() => this.unwrap()}
-                    wrapped={this.state.wrapped}
+                    wrapped={this.props.wrapped}
                     closeTab={(i) => this.props.closeTab(i)}
                     addTab={() => this.props.addTab()}
                     onTitlesChange={(t) => this.props.onTitlesChange(t)}
