@@ -25,6 +25,19 @@ int main() {
 `;
 const includeStr = '#include <benchmark/benchmark.h>\n';
 const mainStr = '\nBENCHMARK_MAIN();';
+const chartData = [{
+    title: ["Compilation CPU Time", "Lower is faster"],
+    property: "time",
+    name: "Time",
+    more: "slower",
+    less: "faster"
+}, {
+    title: "Maximum resident memory size (kB)",
+    property: "memory",
+    name: "Memory",
+    more: "more",
+    less: "less"
+}];
 class Benchmark extends React.Component {
     constructor(props) {
         super(props);
@@ -49,6 +62,7 @@ class Benchmark extends React.Component {
             , annotation: ''
             , isAnnotated: true
             , assemblyFull: false
+            , chartIndex: 0
         };
 
         let stateFromHash = this.getStateFromHash();
@@ -86,12 +100,14 @@ class Benchmark extends React.Component {
             this.getCode(nextProps.id);
         }
     }
-    makeGraph(result) {
-        return result.filter(r => r.times !== undefined && r.times !== []).map((r, i) => {
-            let times = r.times.map(t => parseFloat(t)).reduce((s, t) => (s + t));
+    makeGraph(result, titles) {
+        return result.map((r, i) => ({ times: r.times, memories: r.memories, title: titles[i] })).filter(r => r.times !== undefined && r.times !== []).map((r, i) => {
+            let times = r.times.map(t => parseFloat(t)).reduce((s, t) => (s + t)) / r.times.length;
+            let memories = r.memories.map(t => parseFloat(t)).reduce((s, t) => (s + t)) / r.memories.length;
             return {
-                x: '' + i,
-                y: times
+                x: r.title,
+                time: times,
+                memory: memories
             };
         });
     }
@@ -113,10 +129,11 @@ class Benchmark extends React.Component {
                 if (result) {
                     if (result.result) {
                         let compiler = result.tabs[0].compiler === 'clang++-3.8' ? 'clang-3.8' : result.tabs[0].compiler;
+                        let titles = result.tabs.map(t => t.title)
                         this.setState({
                             texts: result.tabs.map(t => t.code)
-                            , titles: result.tabs.map(t => t.title)
-                            , graph: this.makeGraph(result.result)
+                            , titles: titles
+                            , graph: this.makeGraph(result.result, titles)
                             , compiler: compiler
                             , cppVersion: result.tabs[0].cppVersion
                             , optim: result.tabs[0].optim
@@ -183,7 +200,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                 });
                 clearInterval(interval);
                 if (body.result) {
-                    let g = this.makeGraph(body.result)
+                    let g = this.makeGraph(body.result, this.state.titles)
                     this.setState({
                         graph: g,
                         location: body.id
@@ -380,7 +397,15 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                     {this.state.sending ? <ProgressBar animated now={this.state.progress} /> : null}
                                 </Card>
                             </div>
-                            <TimeChart benchmarks={this.state.graph} id={this.state.location} onNamesChange={n => this.setState({ benchNames: n })} onDescriptionChange={d => this.props.onDescriptionChange(d)} specialPalette={this.props.specialPalette} />
+                            <TimeChart benchmarks={this.state.graph}
+                                id={this.state.location}
+                                chartIndex={this.state.chartIndex}
+                                onNamesChange={n => this.setState({ benchNames: n })}
+                                onDescriptionChange={d => this.props.onDescriptionChange(d)}
+                                specialPalette={this.props.specialPalette}
+                                dataChoices={chartData}
+                                changeDisplay={d => this.setState({ chartIndex: d })}
+                            />
                             <BashOutput text={this.state.message} />
                         </div>
                     </Col>

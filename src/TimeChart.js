@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from 'chart.js';
 import Palette from './Palette.js';
-import { Button, Card, FormCheck, OverlayTrigger, Tooltip, Form, FormControl } from 'react-bootstrap';
+import { Button, Card, OverlayTrigger, Tooltip, Form, FormControl } from 'react-bootstrap';
 import fileDownload from 'js-file-download';
 import { GoDesktopDownload } from "react-icons/go";
 
@@ -20,7 +20,7 @@ class TimeChart extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        if (!this.arrayEquals(this.props.benchmarks, prevProps.benchmarks) || (this.props.benchmarks.length > 0 && this.props.specialPalette !== prevProps.specialPalette)) {
+        if (!this.arrayEquals(this.props.benchmarks, prevProps.benchmarks) || (this.props.benchmarks.length > 0 && this.props.specialPalette !== prevProps.specialPalette) || this.props.chartIndex !== prevProps.chartIndex) {
             if (prevProps.benchmarks.length === 0) {
                 this.createChart();
             }
@@ -36,7 +36,6 @@ class TimeChart extends React.Component {
         const chartOptions = {
             title: {
                 display: true,
-                text: ['ratio (CPU time / Noop time)', 'Lower is faster'],
                 position: 'bottom'
             },
             legend: {
@@ -92,10 +91,10 @@ class TimeChart extends React.Component {
     drawBarChart(input) {
         const length = this.valueCount();
         const names = input.map(v => v.x);
-        const times = input.map(v => v.y);
+        const data = input.map(v => v[this.props.dataChoices[this.props.chartIndex].property]);
         const colors = input.map((v, i) => v.x === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.specialPalette));
         const chartData = [{
-            data: times,
+            data: data,
             backgroundColor: colors,
             type: 'bar',
             xAxisID: 'bar'
@@ -106,6 +105,7 @@ class TimeChart extends React.Component {
         this.chart.options.scales.xAxes[0].display = true;
         this.chart.options.scales.xAxes[1].display = false;
         this.chart.options.tooltips.callbacks.afterBody = this.nameCallback(input);
+        this.chart.options.title.text = this.props.dataChoices[this.props.chartIndex].title;
         this.chart.update();
         this.props.onNamesChange(names);
         this.props.onDescriptionChange(this.makeDescription(input));
@@ -113,8 +113,8 @@ class TimeChart extends React.Component {
     nameCallback(input) {
         return (tooltipItem, data) => {
             const index = tooltipItem[0].index;
-            const val = input[index].y;
-            return [''].concat(input.filter((v, i) => i !== index).map(v => this.describe(val, v.y, v.x)));
+            const val = input[index][this.props.dataChoices[this.props.chartIndex].property];
+            return [''].concat(input.filter((v, i) => i !== index).map(v => this.describe(val, v[this.props.dataChoices[this.props.chartIndex].property], v.x)));
         };
     }
 
@@ -130,7 +130,7 @@ class TimeChart extends React.Component {
         let names = input.filter(v => v.x.indexOf('/') > -1).map(v => v.x.substring(0, v.x.lastIndexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
         for (let i = 0; i < names.length; ++i) {
             let n = names[i];
-            const times = input.filter(v => v.x.indexOf('/') > -1 && v.x.startsWith(n + '/')).map(v => ({ x: parseInt(v.x.substring(v.x.lastIndexOf('/') + 1), 10), y: v.y }));
+            const times = input.filter(v => v.x.indexOf('/') > -1 && v.x.startsWith(n + '/')).map(v => ({ x: parseInt(v.x.substring(v.x.lastIndexOf('/') + 1), 10), y: v[this.props.dataChoices[this.props.chartIndex].property] }));
             const color = n === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(n.split('/')[0]), functionNames.length + horizontals.length, this.props.specialPalette);
             chartData.push({
                 data: times,
@@ -149,7 +149,7 @@ class TimeChart extends React.Component {
         functionNames = functionNames.concat(horizontals.map(v => v.x));
         for (let i = 0; i < horizontals.length; ++i) {
             let v = horizontals[i];
-            const times2 = [{ x: min, y: v.y }, { x: max, y: v.y }];
+            const times2 = [{ x: min, y: v[this.props.dataChoices[this.props.chartIndex].property] }, { x: max, y: v[this.props.dataChoices[this.props.chartIndex].property] }];
             const colors2 = v.x === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(v.x), functionNames.length, this.props.specialPalette);
             chartData.push({
                 data: times2,
@@ -207,29 +207,30 @@ class TimeChart extends React.Component {
         this.setState({ showNoop: e.target.checked }, () => this.showChart());
     }
     changeChartStyle(e) {
-        this.setState({ chartStyle: e.target.value }, () => this.showChart());
-    }
-    renderIfParametric() {
-        if (this.state.chart.find(v => v.x.indexOf('/') > -1)) {
-            return <FormControl as="select" className="pull-right" onChange={(e) => this.changeChartStyle(e)} defaultValue={this.state.chartStyle}>
-                <option value="Bar">Bar</option>
-                <option value="Line">Line</option>
-            </FormControl>;
-        }
-        return null;
+        this.props.changeDisplay(e.target.value);
     }
     describe(v1, v2, name) {
         if (v1 / v2 > 0.99 && v1 / v2 < 1.01)
             return `equivalent to ${name}`;
         if (v1 > v2)
-            return `${(v1 / v2).toLocaleString(undefined, { maximumSignificantDigits: 2})} times slower than ${name}`;
-        return `${(v2 / v1).toLocaleString(undefined, { maximumSignificantDigits: 2 })} times faster than ${name}`;
+            return `${(v1 / v2).toLocaleString(undefined, { maximumSignificantDigits: 2 })} times ${this.props.dataChoices[this.props.chartIndex].more} than ${name}`;
+        return `${(v2 / v1).toLocaleString(undefined, { maximumSignificantDigits: 2 })} times ${this.props.dataChoices[this.props.chartIndex].less} than ${name}`;
     }
     makeDescription(r) {
         let start = `${r[0].x} is `;
-        let val = r[0].y;
-        let res = r.slice(1).map(v => this.describe(val, v.y, v.x));
+        let val = r[0][this.props.dataChoices[this.props.chartIndex].property];
+        let res = r.slice(1).map(v => this.describe(val, v[this.props.dataChoices[this.props.chartIndex].property], v.x));
         return start + res.slice(0, -1).join(', ') + (res.length > 1 ? ' and ' : '') + res[res.length - 1];
+    }
+    renderDisplayTypes() {
+        if (this.props.dataChoices.length > 1) {
+            return <FormControl as="select" className="pull-right" onChange={(e) => this.changeChartStyle(e)} defaultValue={this.props.dataChoices[this.props.chartIndex].name}>
+                {this.props.dataChoices.map((d, i) => {
+                    return <option value={i} key={d.name}>{d.name}</option>
+                })}
+            </FormControl>;
+        }
+        return null;
     }
     renderIfVisible() {
         const tooltip = <Tooltip id="tooltip-save">Download chart</Tooltip>;
@@ -243,8 +244,7 @@ class TimeChart extends React.Component {
                                 <GoDesktopDownload />
                             </Button>
                         </OverlayTrigger>
-                        <FormCheck className="force-cb" inline id="Noop" custom checked={this.state.showNoop} type="checkbox" onChange={(e) => this.toggleNoop(e)} label="Show Noop bar" />
-                        {this.renderIfParametric()}
+                        {this.renderDisplayTypes()}
                     </Form>
                 </Card>
             );
