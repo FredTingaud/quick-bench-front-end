@@ -101,7 +101,7 @@ class Benchmark extends React.Component {
         }
     }
     makeGraph(result, titles) {
-        return result.map((r, i) => ({ times: r.times, memories: r.memories, title: titles[i] })).filter(r => r.times !== undefined && r.times !== []).map((r, i) => {
+        return result.map((r, i) => ({ times: r.times, memories: r.memories, title: titles[i] })).filter(r => typeof r.times !== 'undefined' && typeof r.memories !== 'undefined' && r.times.length && r.memories.length).map((r, i) => {
             let times = r.times.map(t => parseFloat(t)).reduce((s, t) => (s + t)) / r.times.length;
             let memories = r.memories.map(t => parseFloat(t)).reduce((s, t) => (s + t)) / r.memories.length;
             return {
