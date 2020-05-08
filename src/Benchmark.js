@@ -69,7 +69,7 @@ class Benchmark extends React.Component {
 
         let stateFromHash = this.getStateFromHash();
         if (stateFromHash) {
-            this.state.text = this.importCode(stateFromHash.text);
+            this.state.text = stateFromHash.text;
             if (stateFromHash.compiler) this.state.compiler = stateFromHash.compiler;
             if (stateFromHash.cppVersion) this.state.cppVersion = stateFromHash.cppVersion;
             if (stateFromHash.optim) this.state.optim = stateFromHash.optim;
@@ -222,13 +222,13 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             });
         }
     }
-    compilerCeId() {
-        if (this.state.compiler.startsWith('clang'))
-            return 'clang' + this.state.compiler.substr(6).replace('.', '') + '0';
-        return 'g' + this.state.compiler.substr(4).replace('.', '');
+    compilerCeId(i) {
+        if (this.state.options[i].compiler.startsWith('clang'))
+            return 'clang' + this.state.options[i].compiler.substr(6).replace('.', '') + '0';
+        return 'g' + this.state.options[i].compiler.substr(4).replace('.', '');
     }
-    optimCe() {
-        switch (this.state.optim) {
+    optimCe(i) {
+        switch (this.state.options[i].optim) {
             case 'G':
                 return '-Og';
             case 'F':
@@ -236,17 +236,17 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
             case 'S':
                 return '-Os';
             default:
-                return '-O' + this.state.optim;
+                return '-O' + this.state.options[i].optim;
         }
     }
-    versionCe() {
-        switch (this.state.cppVersion) {
+    versionCe(i) {
+        switch (this.state.options[i].cppVersion) {
             case '20':
                 return '2a';
             case '17':
                 return '1z';
             default:
-                return this.state.cppVersion;
+                return this.state.options[i].cppVersion;
         }
     }
     b64UTFEncode(str) {
@@ -265,31 +265,26 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         }
         return false;
     }
-    optionsCe() {
-        const cppVersion = '-std=c++' + this.versionCe();
-        return cppVersion + ' ' + this.optimCe();
-    }
-    exportCode() {
-        return includeStr + this.state.text + mainStr;
-    }
-    importCode(text) {
-        return text.replace(includeStr, '').replace(mainStr, '');
+    optionsCe(i) {
+        const cppVersion = '-std=c++' + this.versionCe(i);
+        return cppVersion + ' ' + this.optimCe(i);
     }
     openCodeInCE() {
-        var clientstate = {
-            "sessions": [{
-                "id": 0,
+        let sessions = this.state.texts.map((t, i) => ({
+                "id": i,
                 "language": "c++",
-                "source": this.exportCode(),
+                "source": t,
                 "compilers": [{
-                    "id": this.compilerCeId(),
-                    "options": this.optionsCe(),
+                    "id": this.compilerCeId(i),
+                    "options": this.optionsCe(i),
                     "libs": [{
                         "name": "benchmark",
                         "ver": "140"
                     }]
                 }]
-            }]
+        }));
+        var clientstate = {
+            "sessions": sessions
         };
         var link = window.location.protocol + '//godbolt.org/clientstate/' + this.b64UTFEncode(JSON.stringify(clientstate));
         window.open(link, '_blank');
