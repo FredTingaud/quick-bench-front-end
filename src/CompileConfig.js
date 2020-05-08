@@ -45,12 +45,6 @@ class CompileConfig extends React.Component {
             wrapped: true
         };
     }
-    componentDidMount() {
-        this.changeCompiler(this.props.options[this.props.index].compiler);
-        this.changeVersion(this.props.options[this.props.index].cppVersion);
-        this.changeOptim(this.props.options[this.props.index].optim);
-        this.changeLib(this.props.options[this.props.index].lib);
-    }
     compilerTitle(key) {
         let compiler = cc38Name;
         if (key === 'clang-3.9') {
@@ -94,7 +88,7 @@ class CompileConfig extends React.Component {
         } else if (key === 'gcc-9.2') {
             compiler = cg92Name;
         }
-        if (key.startsWith('gcc') && this.props.lib !== 'gnu') {
+        if (key.startsWith('gcc') && this.props.options[this.props.index].lib !== 'gnu') {
             this.changeLib('gnu');
         }
         return 'compiler = ' + compiler
@@ -135,7 +129,7 @@ class CompileConfig extends React.Component {
         }
         return 'STL = ' + lName;
     }
-    refreshMaxCppVersion(key) {
+    refreshMaxCppVersion(key, opts) {
         let maxV;
         if (key.startsWith("clang-")) {
             maxV = (parseInt(key.charAt("clang-".length)) >= 6) ? 20 : 17;
@@ -143,13 +137,13 @@ class CompileConfig extends React.Component {
             maxV = (parseInt(key.charAt("gcc-".length)) >= 8) ? 20 : 17;
         }
         this.setState({ maxVersion: maxV });
-        if (this.props.options[this.props.index].cppVersion === "20" && maxV < 20) {
-            this.changeVersion("17");
+        if (opts.cppVersion === "20" && maxV < 20) {
+            opts.cppVersion = "17";
         }
     }
     changeCompiler(key) {
-        this.refreshMaxCppVersion(key);
         let opts = this.props.options;
+        this.refreshMaxCppVersion(key, opts);
         if (this.state.wrapped) {
             opts.map(o => o.compiler = key);
         } else {
