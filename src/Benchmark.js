@@ -43,7 +43,7 @@ class Benchmark extends React.Component {
             texts: [startCode1, startCode2]
             , titles: ['cstdio', 'iostream']
             , graph: []
-            , messages: []
+            , messages: ['', '']
             , sending: false
             , progress: 0
             , index: 0
@@ -332,10 +332,12 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         titles.splice(removedIndex, 1);
         let opts = this.state.options;
         opts.splice(removedIndex, 1);
+        let messages = this.state.messages;
         this.setState({
             texts: texts,
             titles: titles,
-            options: opts
+            options: opts,
+            messages: messages
         });
 
         this.setDirty();
@@ -344,10 +346,12 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
         let texts = this.state.texts.concat(this.state.texts[this.state.index]);
         let titles = this.state.titles.concat(this.state.titles[this.state.index] + '2');
         let opts = this.state.options.concat({ ...this.state.options[this.state.index] });
+        let messages = this.state.messages.concat('');
         this.setState({
             texts: texts,
             titles: titles,
-            options: opts
+            options: opts,
+            messages: messages
         });
 
         this.setDirty();

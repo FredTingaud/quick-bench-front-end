@@ -22,7 +22,7 @@ class BashOutput extends React.Component {
         </Row>);
     }
     render() {
-        if (this.props.texts && this.props.texts.length > 0) {
+        if (this.props.texts && this.props.texts.length > 0 && this.props.texts.some(t => t !== '')) {
             return (<>{this.props.texts.length > 1 ? this.renderTabs() : null}
                 <pre>
                     <div className="bash-output" dangerouslySetInnerHTML={this.updateHTML(this.props.texts.length > 1 ? this.props.texts[this.props.index] : this.props.texts[0])} />
