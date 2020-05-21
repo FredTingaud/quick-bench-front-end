@@ -203,19 +203,24 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                     force: false
                 });
                 clearInterval(interval);
-                if (body.result) {
-                    let g = this.makeGraph(body.result, this.state.titles)
-                    this.setState({
-                        graph: g,
-                        location: body.id
-                    });
-                    this.props.onLocationChange(body.id);
+                if (body) {
+                    if (body.result) {
+                        let g = this.makeGraph(body.result, this.state.titles)
+                        this.setState({
+                            graph: g,
+                            location: body.id
+                        });
+                        this.props.onLocationChange(body.id);
+                    }
+                    if (body.annotation) {
+                        this.setState({ annotation: body.annotation });
+                    }
+                    if (body.messages) {
+                        this.setState({ messages: body.messages });
+                    }
                 }
-                if (body.annotation) {
-                    this.setState({ annotation: body.annotation });
-                }
-                if (body.messages) {
-                    this.setState({ messages: body.messages });
+                else if (err) {
+                    this.setState({ messages: err });
                 }
             });
         }
@@ -269,17 +274,17 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
     }
     openCodeInCE() {
         let sessions = this.state.texts.map((t, i) => ({
-                "id": i,
-                "language": "c++",
-                "source": t,
-                "compilers": [{
-                    "id": this.compilerCeId(i),
-                    "options": this.optionsCe(i),
-                    "libs": [{
-                        "name": "benchmark",
-                        "ver": "140"
-                    }]
+            "id": i,
+            "language": "c++",
+            "source": t,
+            "compilers": [{
+                "id": this.compilerCeId(i),
+                "options": this.optionsCe(i),
+                "libs": [{
+                    "name": "benchmark",
+                    "ver": "140"
                 }]
+            }]
         }));
         var clientstate = {
             "sessions": sessions
