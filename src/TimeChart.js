@@ -109,7 +109,7 @@ class TimeChart extends React.Component {
     }
     light(color, percent) {
         // taken from https://github.com/PimpTrizkit/PJs/wiki/12.-Shade,-Blend-and-Convert-a-Web-Color-(pSBC.js)
-        var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
+        var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = (f >> 8) & 0x00FF, B = f & 0x0000FF;
         return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
     }
     lighten(colors, i) {
@@ -134,19 +134,28 @@ class TimeChart extends React.Component {
         this.chart.options.legend.display = false;
         this.chart.options.scales.xAxes.map(a => a.display = a.id === this.props.dataChoices[this.props.chartIndex].xaxis);
         this.chart.options.scales.yAxes.map(a => a.display = a.id === this.props.dataChoices[this.props.chartIndex].yaxis);
+        this.chart.options.tooltips.callbacks.beforeBody = property.length > 1 ? this.sumCallback(input) : () => '';
         this.chart.options.tooltips.callbacks.afterBody = this.nameCallback(input);
         this.chart.options.title.text = this.props.dataChoices[this.props.chartIndex].title;
-        console.log(JSON.stringify(this.chart.data));
-        console.log(JSON.stringify(this.chart.options));
+
         this.chart.update();
         this.props.onNamesChange(names);
         this.props.onDescriptionChange(this.makeDescription(input));
     }
+    sum(point, properties) {
+        return properties.reduce((p, v) => p + point[v], 0);
+    }
+    sumCallback(input) {
+        return (tooltipItem, data) => {
+            const index = tooltipItem[0].index;
+            return `total: ${this.sum(input[index], this.props.dataChoices[this.props.chartIndex].property)}`;
+        };
+    }
     nameCallback(input) {
         return (tooltipItem, data) => {
             const index = tooltipItem[0].index;
-            const val = input[index][this.props.dataChoices[this.props.chartIndex].property];
-            return [''].concat(input.filter((v, i) => i !== index).map(v => this.describe(val, v[this.props.dataChoices[this.props.chartIndex].property], v.x)));
+            const val = this.sum(input[index], [].concat(this.props.dataChoices[this.props.chartIndex].property));
+            return [''].concat(input.filter((v, i) => i !== index).map(v => this.describe(val, this.sum(v, [].concat(this.props.dataChoices[this.props.chartIndex].property)), v.x)));
         };
     }
 
