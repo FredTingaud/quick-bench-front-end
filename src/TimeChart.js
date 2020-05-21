@@ -47,6 +47,14 @@ class TimeChart extends React.Component {
             },
             scales: {
                 yAxes: [{
+                    id: 'linear',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                },
+                {
+                    id: 'ystacks',
+                    stacked: true,
                     ticks: {
                         beginAtZero: true
                     }
@@ -57,9 +65,20 @@ class TimeChart extends React.Component {
                         autoSkip: false
                     }
                 }, {
+                    id: 'xstacks',
+                    stacked: true,
+                    offset: true,
+                    gridLines: {
+                        offsetGridLines: true
+                    },
+                    ticks: {
+                        autoSkip: false
+                    }
+                }, {
                     id: 'line',
                     type: 'linear'
-                }]
+                }
+                ]
             }
         };
         this.chart = new Chart(ctx, {
@@ -88,24 +107,37 @@ class TimeChart extends React.Component {
             }
         }
     }
+    light(color, percent) {
+        // taken from https://github.com/PimpTrizkit/PJs/wiki/12.-Shade,-Blend-and-Convert-a-Web-Color-(pSBC.js)
+        var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+    }
+    lighten(colors, i) {
+        if (i === 0)
+            return colors
+        return colors.map(c => this.light(c, Math.pow(0.3, i)));
+    }
     drawBarChart(input) {
+        const property = [].concat(this.props.dataChoices[this.props.chartIndex].property);
         const length = this.valueCount();
         const names = input.map(v => v.x);
-        const data = input.map(v => v[this.props.dataChoices[this.props.chartIndex].property]);
         const colors = input.map((v, i) => v.x === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.specialPalette));
-        const chartData = [{
-            data: data,
-            backgroundColor: colors,
-            type: 'bar',
-            xAxisID: 'bar'
-        }];
         this.chart.data.labels = names;
-        this.chart.data.datasets = chartData;
+        this.chart.data.datasets = property.map((p, i) => ({
+            data: input.map(v => v[p]),
+            backgroundColor: this.lighten(colors, i),
+            type: 'bar',
+            label: p,
+            xAxisID: this.props.dataChoices[this.props.chartIndex].xaxis,
+            yAxisID: this.props.dataChoices[this.props.chartIndex].yaxis
+        }));
         this.chart.options.legend.display = false;
-        this.chart.options.scales.xAxes[0].display = true;
-        this.chart.options.scales.xAxes[1].display = false;
+        this.chart.options.scales.xAxes.map(a => a.display = a.id === this.props.dataChoices[this.props.chartIndex].xaxis);
+        this.chart.options.scales.yAxes.map(a => a.display = a.id === this.props.dataChoices[this.props.chartIndex].yaxis);
         this.chart.options.tooltips.callbacks.afterBody = this.nameCallback(input);
         this.chart.options.title.text = this.props.dataChoices[this.props.chartIndex].title;
+        console.log(JSON.stringify(this.chart.data));
+        console.log(JSON.stringify(this.chart.options));
         this.chart.update();
         this.props.onNamesChange(names);
         this.props.onDescriptionChange(this.makeDescription(input));

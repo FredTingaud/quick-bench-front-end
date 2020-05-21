@@ -25,16 +25,28 @@ int main() {
 `;
 const chartData = [{
     title: ["Compilation CPU Time", "Lower is faster"],
-    property: "time",
+    property: ["kernelTime", "userTime"],
     name: "Time",
     more: "slower",
-    less: "faster"
+    less: "faster",
+    xaxis: "xstacks",
+    yaxis: "ystacks"
 }, {
     title: "Maximum resident memory size (kB)",
     property: "memory",
     name: "Memory",
     more: "more",
-    less: "less"
+    less: "less",
+    xaxis: "bar",
+    yaxis: "linear"
+}, {
+    title: "Disk reads",
+    property: "inputs",
+    name: "Reads",
+    more: "more",
+    less: "less",
+    xaxis: "bar",
+    yaxis: "linear"
 }];
 class Benchmark extends React.Component {
     constructor(props) {
@@ -100,13 +112,28 @@ class Benchmark extends React.Component {
             this.getCode(nextProps.id);
         }
     }
+    median(values) {
+        if (values.length === 0) return 0;
+
+        values.sort((a, b) => a - b);
+        var half = Math.floor(values.length / 2);
+
+        if (values.length % 2)
+            return values[half];
+
+        return (values[half - 1] + values[half]) / 2.0;
+    }
     makeGraph(result, titles) {
-        return result.map((r, i) => ({ times: r.times, memories: r.memories, title: titles[i] })).filter(r => typeof r.times !== 'undefined' && typeof r.memories !== 'undefined' && r.times.length && r.memories.length).map((r, i) => {
-            let times = r.times.map(t => parseFloat(t)).reduce((s, t) => (s + t)) / r.times.length;
-            let memories = r.memories.map(t => parseFloat(t)).reduce((s, t) => (s + t)) / r.memories.length;
+        return result.map((r, i) => ({ times: r.times, memories: r.memories, inputs: r.inputs, title: titles[i] })).filter(r => typeof r.times !== 'undefined' && r.times.length).map((r, i) => {
+            let userTime = r.times.map(t => parseFloat(t.user)).reduce((s, t) => (s + t)) / r.times.length;
+            let kernelTime = r.times.map(t => parseFloat(t.kernel)).reduce((s, t) => (s + t)) / r.times.length;
+            let memories = this.median(r.memories.map(n => parseFloat(n)));
+            let inputs = this.median(r.inputs.map(n => parseFloat(n)));
             return {
                 x: r.title,
-                time: times,
+                userTime: userTime,
+                kernelTime: kernelTime,
+                inputs: inputs,
                 memory: memories
             };
         });
@@ -183,6 +210,8 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         "optim": this.state.options[i].optim,
                         "cppVersion": this.state.options[i].cppVersion,
                         "lib": this.state.options[i].lib
+                        , "asm": 'att'
+                        , "withPP": true
                     }
                 }),
                 "protocolVersion": protocolVersion,
