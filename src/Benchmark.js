@@ -5,6 +5,7 @@ import CompileConfig from './CompileConfig.js';
 import TimeChart from './TimeChart.js';
 import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
+import OutputTabs from './OutputTabs.js';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -447,7 +448,9 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                 dataChoices={chartData}
                                 changeDisplay={d => this.setState({ chartIndex: d })}
                             />
-                            <BashOutput texts={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles} />
+                            <OutputTabs contents={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                <BashOutput />
+                            </OutputTabs>
                         </div>
                     </Col>
                 </Row>
