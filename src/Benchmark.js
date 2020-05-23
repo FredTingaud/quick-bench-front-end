@@ -3,7 +3,7 @@ import CodeEditor from './CodeEditor.js';
 import BashOutput from './BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import TimeChart from './TimeChart.js';
-import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar } from 'react-bootstrap';
+import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar, Tabs, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import OutputTabs from './OutputTabs.js';
 
@@ -76,6 +76,9 @@ class Benchmark extends React.Component {
             , chartIndex: 0
             , textsWrapped: false
             , optionsWrapped: true
+            , includes: []
+            , asm: []
+            , pp: []
         };
 
         let stateFromHash = this.getStateFromHash();
@@ -139,6 +142,9 @@ class Benchmark extends React.Component {
             };
         });
     }
+    bufferMap(buffers) {
+        return (buffers || []).map(s => s ? Buffer.from(s).toString() : '');
+    }
     getCode(id) {
         this.setState({
             sending: true,
@@ -171,6 +177,9 @@ class Benchmark extends React.Component {
                             , location: id
                             , textsWrapped: result.tabs.every(v => v.code === result.tabs[0].code)
                             , optionsWrapped: options.every(o => JSON.stringify(o) === JSON.stringify(options[0]))
+                            , includes: result.includes
+                            , asm: result.asm
+                            , pp: result.preprocessed
                         });
                     }
                     if (result.messages) {
@@ -238,7 +247,10 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                         let g = this.makeGraph(body.result, this.state.titles)
                         this.setState({
                             graph: g,
-                            location: body.id
+                            location: body.id,
+                            includes: this.bufferMap(body.includes),
+                            asm: this.bufferMap(body.asm),
+                            pp: this.bufferMap(body.preprocessed)
                         });
                         this.props.onLocationChange(body.id);
                     }
@@ -439,15 +451,34 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                     {this.state.sending ? <ProgressBar animated now={this.state.progress} /> : null}
                                 </Card>
                             </div>
-                            <TimeChart benchmarks={this.state.graph}
-                                id={this.state.location}
-                                chartIndex={this.state.chartIndex}
-                                onNamesChange={n => this.setState({ benchNames: n })}
-                                onDescriptionChange={d => this.props.onDescriptionChange(d)}
-                                specialPalette={this.props.specialPalette}
-                                dataChoices={chartData}
-                                changeDisplay={d => this.setState({ chartIndex: d })}
-                            />
+                            <Tabs defaultActiveKey="charts">
+                                <Tab eventKey="charts" title="Charts">
+                                    <TimeChart benchmarks={this.state.graph}
+                                        id={this.state.location}
+                                        chartIndex={this.state.chartIndex}
+                                        onNamesChange={n => this.setState({ benchNames: n })}
+                                        onDescriptionChange={d => this.props.onDescriptionChange(d)}
+                                        specialPalette={this.props.specialPalette}
+                                        dataChoices={chartData}
+                                        changeDisplay={d => this.setState({ chartIndex: d })}
+                                    />
+                                </Tab>
+                                <Tab eventKey="includes" title="Includes">
+                                    <OutputTabs contents={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                        <BashOutput />
+                                    </OutputTabs>
+                                </Tab>
+                                <Tab eventKey="asm" title="Assembly">
+                                    <OutputTabs contents={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                        <BashOutput />
+                                    </OutputTabs>
+                                </Tab>
+                                <Tab eventKey="pp" title="Preprocessed">
+                                    <OutputTabs contents={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                        <BashOutput />
+                                    </OutputTabs>
+                                </Tab>
+                            </Tabs>
                             <OutputTabs contents={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
                                 <BashOutput />
                             </OutputTabs>
