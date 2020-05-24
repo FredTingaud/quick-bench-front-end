@@ -198,7 +198,7 @@ class Benchmark extends React.Component {
                 graph: [],
                 annotation: '',
                 messages: [`Your code is ${this.state.texts.length} characters long, while the maximum code size is ${this.maxCodeSize}.
-If you think this limitation is stopping you in a legitimate usage of quick-bench, please contact me.`]
+If you think this limitation is stopping you in a legitimate usage of build-bench, please contact me.`]
             });
         } else {
             this.setState({

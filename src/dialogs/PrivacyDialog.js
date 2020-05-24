@@ -9,7 +9,7 @@ class PrivacyDialog extends React.Component {
                     <Modal.Title>Privacy Policy</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Quick-Bench is created and maintained by Fred Tingaud, with the occasional help of external contributors whose work is reviewed by Fred.
+                    The Quick Bench suite (quick-bench.com and Build-bench.com) is created and maintained by Fred Tingaud, with the occasional help of external contributors whose work is reviewed by Fred.
 
                     <h2>Topics:</h2>
                     <ul>
@@ -40,7 +40,7 @@ class PrivacyDialog extends React.Component {
                     <h4>Your code</h4>
                     In order to provide permalinks automatically, and to avoid unnecessary recompilation, every benchmark that succeeds might be kept for an unlimited duration.
                     <br />
-                    Any person with the permalink of a successful benchmark can access both the code and the result of this benchmark. Thus, please do not use Quick Bench to run
+                    Any person with the permalink of a successful benchmark can access both the code and the result of this benchmark. Thus, please do not use the Quick-Bench suite to run
                     code that should remain confidential.
 
                     <h4>Request logs</h4>
@@ -51,9 +51,9 @@ class PrivacyDialog extends React.Component {
                     These logs are kept at most one month.
 
                     <h4>Website Analytics</h4>
-                    To gather information on the usage of Quick-Bench.com, we ask the user they&apos;re approval on the usage of &apos;cookies&apos;.
+                    To gather information on the usage of the Quick Bench suite, we ask the user they&apos;re approval on the usage of &apos;cookies&apos;.
                     A cookie is a small text file that our site may place on your computer as a tool to remember information on your next visits.
-                    If the user give their approval, Quick-bench.com uses Google Analytics, a service which transmits website traffic data to Google servers in the United State. Google Analytics does not identify individual users or associate your IP address with any other data held by Google.
+                    If the user give their approval, the Quick Bench suite uses Google Analytics, a service which transmits website traffic data to Google servers in the United State. Google Analytics does not identify individual users or associate your IP address with any other data held by Google.
                     <br />
                     You can opt out of Google Analytics if you disable or refuse the cookie, disable JavaScript, or use the opt-out service provided by Google.
                     <br />
@@ -97,7 +97,7 @@ class PrivacyDialog extends React.Component {
 
                     You can set your browser not to accept cookies, and the above website tells you how to remove cookies from your browser. However, in a few cases, some of our website features may not function as a result.
                     <h3>Privacy policies of other websites</h3>
-                    Quick-bench.com contains links to other websites. Our privacy policy applies only to our website, so if you click on a link to another website, you should read their privacy policy.
+                    The Quick Bench suite contains links to other websites. Our privacy policy applies only to our website, so if you click on a link to another website, you should read their privacy policy.
 
                     <h3>Changes to our privacy policy</h3>
 
@@ -110,7 +110,7 @@ class PrivacyDialog extends React.Component {
 
                     Email us at:
                     <br />
-                    ftingaud+quick-bench@gmail.com
+                    quick-bench-privacy@tingaud.net
                     <br />
 
                     Or write to us at:

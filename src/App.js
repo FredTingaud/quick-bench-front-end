@@ -55,12 +55,12 @@ class App extends Component {
                     <Helmet>
                         <meta name="twitter:card" content="summary" />
                         <meta name="twitter:site" content="@FredTingaudDev" />
-                        <meta name="twitter:title" content="Quick C++ Benchmarks" />
-                        <meta name="twitter:url" content="http://quick-bench.com/" />
+                        <meta name="twitter:title" content="C++ Build Benchmarks" />
+                        <meta name="twitter:url" content="http://build-bench.com/" />
                         <meta name="twitter:description" content={this.state.description} />
                         <meta property="og:type" content="website" />
-                        <meta property="og:url" content="http://quick-bench.com/" />
-                        <meta property="og:title" content="Quick C++ Benchmarks" />
+                        <meta property="og:url" content="http://build-bench.com/" />
+                        <meta property="og:title" content="C++ Build Benchmarks" />
                         <meta property="og:description" content={this.state.description} />
                         {this.state.stylePath ? <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} /> : null}
                     </Helmet>
