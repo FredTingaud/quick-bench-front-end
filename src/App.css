@@ -13,14 +13,25 @@
     overflow: hidden;
 }
 
+.monaco {
+    height: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+
 .right-block {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.code-editor2 {
-    flex: 1;
+.fixed-block {
+    height: 100%;
+    display: block;
+}
+
+.fill-content {
+    flex: 1 1 auto;
     overflow: hidden;
 }
 

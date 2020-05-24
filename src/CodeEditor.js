@@ -5,6 +5,7 @@ import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
 import WrappableTabs from './WrappableTabs.js';
 import elementResizeEvent from 'element-resize-event';
 import unbind from 'element-resize-event';
+import ReactResizeDetector from 'react-resize-detector';
 
 class CodeEditor extends React.Component {
     constructor(props) {
@@ -26,15 +27,15 @@ class CodeEditor extends React.Component {
         if (this.props.names) {
             this.calculateDecorations(this.props.names);
         }
-        var element = document.getElementById("codeContainer");
-        elementResizeEvent(element, () => this.updateDimensions());
+        //var element = document.getElementById("codeContainer");
+        //elementResizeEvent(element, () => this.updateDimensions());
     }
     editorWillUnmount() {
-        var element = document.getElementById("codeContainer");
-        unbind(element);
+        //var element = document.getElementById("codeContainer");
+        //unbind(element);
     }
     updateDimensions() {
-        this.editor.layout();
+        //this.editor.layout();
     }
     handleChange(value) {
         let texts = this.props.code;
@@ -134,6 +135,9 @@ class CodeEditor extends React.Component {
     unwrap() {
         this.props.changeWrapped(false);
     }
+    handle_rezise(width, height) {
+        this.editor.layout({ height, width });
+    }
     render() {
         const options = {
             selectOnLineNumbers: true
@@ -153,7 +157,13 @@ class CodeEditor extends React.Component {
                     addTab={() => this.props.addTab()}
                     onTitlesChange={(t) => this.props.onTitlesChange(t)}
                 />
-                <div className="full-size" id="codeContainer">
+                <div className="full-size">
+                    <ReactResizeDetector
+                        handleWidth
+                        handleHeight
+                        onResize={(w, h) => this.handle_rezise(w, h)}
+                        refreshMode="debounce"
+                        refreshRate={100} />
                     <MonacoEditor
                         language="cpp"
                         options={options}
@@ -162,7 +172,7 @@ class CodeEditor extends React.Component {
                         value={this.props.code[this.props.index]}
                     />
                 </div>
-            </div>
+            </div >
         );
     }
 }

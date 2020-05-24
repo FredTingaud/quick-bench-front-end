@@ -1,17 +1,21 @@
 import React, { Children, isValidElement, cloneElement } from 'react';
-import { Tab, Tabs, Row, Col } from 'react-bootstrap';
+import { Nav, Tab, Row, Col } from 'react-bootstrap';
 
 class OutputTabs extends React.Component {
     renderTabs() {
         let tabsList = this.props.titles.map(function (name, i) {
-            return <Tab title={name} eventKey={i} key={i} />
+            return <Nav.Item key={i}>
+                <Nav.Link eventKey={i}>{name}</Nav.Link>
+            </Nav.Item>
         });
 
         return (<Row>
             <Col xs={12}>
-                <Tabs onSelect={(key) => this.props.setIndex(parseInt(key))} activeKey={this.props.index.toString()} id="bench-asm-selection" >
-                    {tabsList}
-                </Tabs>
+                <Tab.Container defaultActiveKey={this.props.index.toString()}>
+                    <Nav variant="tabs" onSelect={(key) => this.props.setIndex(parseInt(key))} id="bench-asm-selection" >
+                        {tabsList}
+                    </Nav>
+                </Tab.Container>
             </Col>
         </Row>);
     }

@@ -171,7 +171,7 @@ class AssemblyEditor extends React.Component {
         return (
             <div className="right-block">
                 { this.state.titles.length === 0 ? null : this.renderHeader() }
-                <div className="code-editor2" id="assemblyContainer">
+                <div className="fill-content" id="assemblyContainer">
                     <MonacoEditor
                         language="asm"
                         options={options}
