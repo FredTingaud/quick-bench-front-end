@@ -169,7 +169,7 @@ class AssemblyEditor extends React.Component {
             , lineNumbersMinChars: 10
         };
         return (
-            <div className="right-block">
+            <div className="flex-container">
                 { this.state.titles.length === 0 ? null : this.renderHeader() }
                 <div className="fill-content" id="assemblyContainer">
                     <MonacoEditor

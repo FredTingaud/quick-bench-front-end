@@ -424,7 +424,7 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                             />
                         </div>
                     </Col>
-                    <Col sm={6} className="right-block">
+                    <Col sm={6} className="flex-container">
                         <div className="fill-content">
                             <div className="compilation">
                                 <Card body className="my-2">
@@ -486,12 +486,12 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="asm" className="full-size">
                                         <OutputTabs contents={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
-                                            <Editor language="cpp" />
+                                            <Editor language="asm" />
                                         </OutputTabs>
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="pp" className="full-size">
                                         <OutputTabs contents={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
-                                            <Editor language="none" />
+                                            <Editor language="cpp" />
                                         </OutputTabs>
                                     </Tab.Pane>
                                 </Tab.Content>

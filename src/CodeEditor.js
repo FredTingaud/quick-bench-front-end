@@ -3,8 +3,6 @@ import MonacoEditor from 'react-monaco-editor';
 import Palette from './Palette.js';
 import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
 import WrappableTabs from './WrappableTabs.js';
-import elementResizeEvent from 'element-resize-event';
-import unbind from 'element-resize-event';
 import ReactResizeDetector from 'react-resize-detector';
 
 class CodeEditor extends React.Component {
@@ -27,15 +25,6 @@ class CodeEditor extends React.Component {
         if (this.props.names) {
             this.calculateDecorations(this.props.names);
         }
-        //var element = document.getElementById("codeContainer");
-        //elementResizeEvent(element, () => this.updateDimensions());
-    }
-    editorWillUnmount() {
-        //var element = document.getElementById("codeContainer");
-        //unbind(element);
-    }
-    updateDimensions() {
-        //this.editor.layout();
     }
     handleChange(value) {
         let texts = this.props.code;

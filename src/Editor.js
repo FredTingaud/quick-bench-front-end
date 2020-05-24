@@ -14,7 +14,7 @@ class Editor extends React.Component {
             readOnly: true
         };
         return (
-            <div className="fixed-block">
+            <div className="flex-container">
                 <ReactResizeDetector
                     handleWidth
                     handleHeight
