@@ -3,16 +3,14 @@ import MonacoEditor from 'react-monaco-editor';
 import ReactResizeDetector from 'react-resize-detector';
 
 class Editor extends React.Component {
-    editorDidMount(editor, monaco) {
+    editorDidMount(editor, monaco, callback) {
         this.editor = editor;
-        editor.layout(300, 140);
+        if (callback)
+            callback(editor, monaco);
     }
 
     render() {
-        const options = {
-            selectOnLineNumbers: true,
-            readOnly: true
-        };
+        const { editorDidMount, options, ...other } = this.props;
         return (
             <div className="flex-container">
                 <ReactResizeDetector
@@ -22,10 +20,9 @@ class Editor extends React.Component {
                     refreshMode="debounce"
                     refreshRate={100} />
                 <MonacoEditor
-                    language={this.props.language}
+                    {...other}
                     options={options}
-                    value={this.props.content}
-                    editorDidMount={(e, m) => this.editorDidMount(e, m)} />
+                    editorDidMount={(e, m) => this.editorDidMount(e, m, editorDidMount)} />
             </div>
         );
     }

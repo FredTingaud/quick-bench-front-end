@@ -11,7 +11,7 @@ class OutputTabs extends React.Component {
 
         return (<Row>
             <Col xs={12}>
-                <Tab.Container defaultActiveKey={this.props.index.toString()}>
+                <Tab.Container activeKey={this.props.index.toString()}>
                     <Nav variant="tabs" onSelect={(key) => this.props.setIndex(parseInt(key))} id="bench-asm-selection" >
                         {tabsList}
                     </Nav>
@@ -23,12 +23,12 @@ class OutputTabs extends React.Component {
     render() {
         const childrenWithProps = Children.map(this.props.children, child => {
             if (isValidElement(child)) {
-                return cloneElement(child, { content: this.props.contents[this.props.index] })
+                return cloneElement(child, { value: this.props.values[this.props.index] })
             }
             return child;
         });
-        if (this.props.contents && this.props.contents.length > 0 && this.props.contents.some(t => t)) {
-            return (<>{this.props.contents.length > 1 ? this.renderTabs() : null}
+        if (this.props.values && this.props.values.length > 0 && this.props.values.some(t => t)) {
+            return (<>{this.props.values.length > 1 ? this.renderTabs() : null}
                 {childrenWithProps}
             </>
             );

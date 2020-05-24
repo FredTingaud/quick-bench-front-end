@@ -6,7 +6,7 @@ import TimeChart from './TimeChart.js';
 import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import OutputTabs from './OutputTabs.js';
-import Editor from './Editor.js';
+import DisplayEditor from './DisplayEditor.js';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -480,23 +480,23 @@ If you think this limitation is stopping you in a legitimate usage of quick-benc
                                         />
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="includes" className="full-size" >
-                                        <OutputTabs contents={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
-                                            <Editor language="none" />
+                                        <OutputTabs values={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                            <DisplayEditor language="none" />
                                         </OutputTabs>
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="asm" className="full-size">
-                                        <OutputTabs contents={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
-                                            <Editor language="asm" />
+                                        <OutputTabs values={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                            <DisplayEditor language="asm" />
                                         </OutputTabs>
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="pp" className="full-size">
-                                        <OutputTabs contents={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
-                                            <Editor language="cpp" />
+                                        <OutputTabs values={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                            <DisplayEditor language="cpp" />
                                         </OutputTabs>
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Tab.Container>
-                            <OutputTabs contents={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                            <OutputTabs values={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
                                 <BashOutput />
                             </OutputTabs>
                         </div>

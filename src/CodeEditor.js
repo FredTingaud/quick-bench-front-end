@@ -1,9 +1,8 @@
 import React from 'react';
-import MonacoEditor from 'react-monaco-editor';
+import Editor from './Editor.js';
 import Palette from './Palette.js';
 import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
 import WrappableTabs from './WrappableTabs.js';
-import ReactResizeDetector from 'react-resize-detector';
 
 class CodeEditor extends React.Component {
     constructor(props) {
@@ -146,21 +145,13 @@ class CodeEditor extends React.Component {
                     addTab={() => this.props.addTab()}
                     onTitlesChange={(t) => this.props.onTitlesChange(t)}
                 />
-                <div className="full-size">
-                    <ReactResizeDetector
-                        handleWidth
-                        handleHeight
-                        onResize={(w, h) => this.handle_rezise(w, h)}
-                        refreshMode="debounce"
-                        refreshRate={100} />
-                    <MonacoEditor
-                        language="cpp"
-                        options={options}
-                        onChange={(newValue) => this.handleChange(newValue)}
-                        editorDidMount={(e, m) => this.editorDidMount(e, m)}
-                        value={this.props.code[this.props.index]}
-                    />
-                </div>
+                <Editor
+                    language="cpp"
+                    onChange={(newValue) => this.handleChange(newValue)}
+                    editorDidMount={(e, m) => this.editorDidMount(e, m)}
+                    value={this.props.code[this.props.index]}
+                    options={options}
+                />
             </div >
         );
     }

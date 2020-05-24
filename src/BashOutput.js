@@ -11,7 +11,7 @@ class BashOutput extends React.Component {
 
     render() {
         return (<pre>
-            <div className="bash-output" dangerouslySetInnerHTML={this.updateHTML(this.props.content)} />
+            <div className="bash-output" dangerouslySetInnerHTML={this.updateHTML(this.props.value)} />
         </pre>);
     }
 }
