@@ -6,6 +6,7 @@ import TimeChart from './TimeChart.js';
 import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import OutputTabs from './OutputTabs.js';
+import WrappableTabs from './WrappableTabs.js';
 import DisplayEditor from './DisplayEditor.js';
 
 var request = require('request');
@@ -410,35 +411,44 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 <Row className="full-size">
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
-                            <CodeEditor onChange={c => this.codeChanged(c)}
-                                code={this.state.texts}
+                            <WrappableTabs
                                 titles={this.state.titles}
-                                names={this.state.benchNames}
                                 index={this.state.index}
                                 setIndex={i => this.setState({ index: i })}
+                                wrapped={this.state.textsWrapped}
+                                changeWrapped={(w, c) => this.setState({ textsWrapped: w }, c)}
                                 closeTab={(i) => this.closeTab(i)}
                                 addTab={() => this.addTab()}
                                 onTitlesChange={t => this.onTitlesChange(t)}
-                                wrapped={this.state.textsWrapped}
-                                changeWrapped={(w, c) => this.setState({ textsWrapped: w }, c)}
-                            />
+                                values={this.state.texts}
+                                onChange={c => this.codeChanged(c)}
+                                confirm
+                                packed
+                            >
+                                <CodeEditor
+                                    names={this.state.benchNames}
+                                />
+                            </WrappableTabs>
                         </div>
                     </Col>
                     <Col sm={6} className="flex-container">
                         <div className="fill-content">
                             <div className="compilation">
                                 <Card body className="my-2">
-                                    <CompileConfig options={this.state.options}
-                                        onOptionsChange={o => this.onOptionsChange(o)}
-                                        onTitlesChange={t => this.onTitlesChange(t)}
+                                    <WrappableTabs
                                         titles={this.state.titles}
                                         index={this.state.index}
                                         setIndex={i => this.setState({ index: i })}
-                                        closeTab={(i) => this.closeTab(i)}
-                                        addTab={() => this.addTab()}
                                         wrapped={this.state.optionsWrapped}
                                         changeWrapped={(w, c) => this.setState({ optionsWrapped: w }, c)}
-                                    />
+                                        closeTab={(i) => this.closeTab(i)}
+                                        addTab={() => this.addTab()}
+                                        onTitlesChange={t => this.onTitlesChange(t)}
+                                        values={this.state.options}
+                                        onChange={c => this.onOptionsChange(c)}
+                                    >
+                                        <CompileConfig />
+                                    </WrappableTabs>
                                     <hr className="config-separator" />
                                     <ButtonToolbar className="justify-content-between">
                                         <Form inline>

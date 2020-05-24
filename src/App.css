@@ -72,6 +72,10 @@
     background: none;
 }
 
+.packed-card {
+    padding: 0 0 0 0;
+}
+
 .linked-code-decoration-inline-0 {
     background: #e3a600 !important;
 }

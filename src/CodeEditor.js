@@ -1,16 +1,10 @@
 import React from 'react';
 import Editor from './Editor.js';
 import Palette from './Palette.js';
-import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
-import WrappableTabs from './WrappableTabs.js';
 
 class CodeEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            fullScreen: false
-            , showConfirm: false
-        }
         this.decorations = [];
         this.prevDecorations = [];
         this.dirty = false;
@@ -26,15 +20,8 @@ class CodeEditor extends React.Component {
         }
     }
     handleChange(value) {
-        let texts = this.props.code;
-        if (this.props.wrapped) {
-            texts.fill(value);
-        }
-        else {
-            texts[this.props.index] = value;
-        }
         this.dirty = true;
-        this.props.onChange(texts);
+        this.props.onChange(value);
     }
     updateDecorations() {
         this.prevDecorations = this.editor.deltaDecorations(
@@ -105,54 +92,18 @@ class CodeEditor extends React.Component {
             this.calculateDecorations(nextProps.names);
         }
     }
-    hideConfirm() {
-        this.setState({ showConfirm: false });
-    }
-    confirmWrap() {
-        // Wrap and overwrite with the text of the current tab
-        this.props.changeWrapped(true, () => this.handleChange(this.props.code[this.props.index]));
-    }
-    wrap() {
-        if (this.props.code.some((v, i, a) => v !== a[0])) {
-            this.setState({ showConfirm: true });
-        }
-        else {
-            this.confirmWrap();
-        }
-    }
-    unwrap() {
-        this.props.changeWrapped(false);
-    }
-    handle_rezise(width, height) {
-        this.editor.layout({ height, width });
-    }
     render() {
         const options = {
             selectOnLineNumbers: true
         };
         return (
-            <div className="full-size">
-                <ConfirmOverwrite confirm={() => this.confirmWrap()} show={this.state.showConfirm} hide={() => this.hideConfirm()} />
-
-                <WrappableTabs
-                    titles={this.props.titles}
-                    index={this.props.index}
-                    setIndex={(i) => this.props.setIndex(i)}
-                    wrap={() => this.wrap()}
-                    unwrap={() => this.unwrap()}
-                    wrapped={this.props.wrapped}
-                    closeTab={(i) => this.props.closeTab(i)}
-                    addTab={() => this.props.addTab()}
-                    onTitlesChange={(t) => this.props.onTitlesChange(t)}
-                />
                 <Editor
                     language="cpp"
                     onChange={(newValue) => this.handleChange(newValue)}
                     editorDidMount={(e, m) => this.editorDidMount(e, m)}
-                    value={this.props.code[this.props.index]}
+                    value={this.props.value}
                     options={options}
                 />
-            </div >
         );
     }
 }

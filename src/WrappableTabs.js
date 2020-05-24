@@ -1,23 +1,36 @@
-import React from 'react';
-import { Tab, Tabs, Row, Col, Button } from 'react-bootstrap';
+import React, { Children, isValidElement, cloneElement } from 'react';
+import { Tab, Tabs, Row, Col, Button, Card } from 'react-bootstrap';
 import { MdClose, MdEdit } from "react-icons/md";
 import { AiOutlineMergeCells, AiOutlineSplitCells } from "react-icons/ai";
+import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
 import RenameTab from './dialogs/RenameTab.js';
 
 class WrappableTabs extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { showTabRename: false };
+        this.state = {
+            showTabRename: false
+            , showConfirm: false
+        };
         this.freezeTab = -1;
     }
-
+    onChange(value) {
+        let values = this.props.values;
+        if (this.props.wrapped) {
+            values.fill(value);
+        }
+        else {
+            values[this.props.index] = value;
+        }
+        this.props.onChange(values);
+    }
     handleSelect(key) {
         if (this.freezeTab > -1) {
             this.freezeTab = -1;
             return;
         }
         if (key === "Merge") {
-            this.props.wrap();
+            this.wrap();
             return;
         }
         const index = parseInt(key);
@@ -39,12 +52,30 @@ class WrappableTabs extends React.Component {
         this.setState({ showTabRename: false });
     }
     renderUnwrapButton() {
-        return <Button onClick={() => this.props.unwrap()}> <AiOutlineSplitCells /></Button >;
+        return <Button onClick={() => this.unwrap()}> <AiOutlineSplitCells /></Button >;
     }
     rename(t) {
         let titles = this.props.titles;
         titles[this.props.index] = t
         this.props.onTitlesChange(titles);
+    }
+    hideConfirm() {
+        this.setState({ showConfirm: false });
+    }
+    confirmWrap() {
+        // Wrap and overwrite with the text of the current tab
+        this.props.changeWrapped(true, () => this.onChange(this.props.values[this.props.index]));
+    }
+    wrap() {
+        if (this.props.confirm && this.props.values.some((v, i, a) => v !== a[0])) {
+            this.setState({ showConfirm: true });
+        }
+        else {
+            this.confirmWrap();
+        }
+    }
+    unwrap() {
+        this.props.changeWrapped(false);
     }
     renderTabs() {
         let closable = this.props.titles.length < 2;
@@ -70,14 +101,32 @@ class WrappableTabs extends React.Component {
         </Tabs>);
     }
     render() {
+        const childrenWithProps = Children.map(this.props.children, child => {
+            if (isValidElement(child)) {
+                return cloneElement(child, {
+                    value: this.props.values[this.props.index],
+                    onChange: c => this.onChange(c)
+                });
+            }
+            return child;
+        });
         return (
-            <Row>
-                <RenameTab name={this.props.titles[this.props.index]} rename={e => this.rename(e)} show={this.state.showTabRename} hide={() => this.hideTabRename()} />
+            <Card className="flex-container">
+                <Card.Header>
+                    <Row>
+                        <ConfirmOverwrite confirm={() => this.confirmWrap()} show={this.state.showConfirm} hide={() => this.hideConfirm()} />
 
-                <Col xs={12}>
-                    {this.props.wrapped ? this.renderUnwrapButton() : this.renderTabs()}
-                </Col>
-            </Row>
+                        <RenameTab name={this.props.titles[this.props.index]} rename={e => this.rename(e)} show={this.state.showTabRename} hide={() => this.hideTabRename()} />
+
+                        <Col xs={12}>
+                            {this.props.wrapped ? this.renderUnwrapButton() : this.renderTabs()}
+                        </Col>
+                    </Row>
+                </Card.Header>
+                <Card.Body className={this.props.packed ? "packed-card" : ""}>
+                    {childrenWithProps}
+                </Card.Body>
+            </Card>
         );
     }
 }
