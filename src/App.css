@@ -26,8 +26,18 @@
 }
 
 .fill-content {
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto;
+}
+
+.fill-content .tab-content > .active{
+    display: flex;
     overflow: hidden;
+}
+
+.fixed-content {
+    flex: 0 1 auto;
 }
 
 .full-size {

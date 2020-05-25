@@ -433,7 +433,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                     </Col>
                     <Col sm={6} className="flex-container">
                         <div className="fill-content">
-                            <div className="compilation">
+                            <div className="fixed-content">
                                 <Card body className="my-2">
                                     <WrappableTabs
                                         titles={this.state.titles}
@@ -477,8 +477,8 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         <Nav.Link eventKey="pp">Preprocessed</ Nav.Link>
                                     </Nav.Item>
                                 </Nav>
-                                <Tab.Content className="full-size">
-                                    <Tab.Pane eventKey="charts" >
+                                <Tab.Content className="fill-content">
+                                    <Tab.Pane eventKey="charts" className="fill-content">
                                         <TimeChart benchmarks={this.state.graph}
                                             id={this.state.location}
                                             chartIndex={this.state.chartIndex}
@@ -489,26 +489,28 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />
                                     </Tab.Pane>
-                                    <Tab.Pane eventKey="includes" className="full-size" >
+                                    <Tab.Pane eventKey="includes" className="fill-content" >
                                         <OutputTabs values={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
                                             <DisplayEditor language="none" />
                                         </OutputTabs>
                                     </Tab.Pane>
-                                    <Tab.Pane eventKey="asm" className="full-size">
+                                    <Tab.Pane eventKey="asm" className="fill-content">
                                         <OutputTabs values={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
                                             <DisplayEditor language="asm" />
                                         </OutputTabs>
                                     </Tab.Pane>
-                                    <Tab.Pane eventKey="pp" className="full-size">
+                                    <Tab.Pane eventKey="pp" className="fill-content">
                                         <OutputTabs values={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
                                             <DisplayEditor language="cpp" />
                                         </OutputTabs>
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Tab.Container>
-                            <OutputTabs values={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
-                                <BashOutput />
-                            </OutputTabs>
+                            <div className="fixed-content">
+                                <OutputTabs values={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles} >
+                                    <BashOutput />
+                                </OutputTabs>
+                            </div>
                         </div>
                     </Col>
                 </Row>
