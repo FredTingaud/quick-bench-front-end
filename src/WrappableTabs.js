@@ -52,7 +52,7 @@ class WrappableTabs extends React.Component {
         this.setState({ showTabRename: false });
     }
     renderUnwrapButton() {
-        return <Button onClick={() => this.unwrap()}> <AiOutlineSplitCells /></Button >;
+        return <Button onClick={() => this.unwrap()}> <AiOutlineSplitCells /> {this.props.unwrapText}</Button >;
     }
     rename(t) {
         let titles = this.props.titles;

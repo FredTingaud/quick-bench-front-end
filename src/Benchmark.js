@@ -446,6 +446,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         onTitlesChange={t => this.onTitlesChange(t)}
                                         values={this.state.options}
                                         onChange={c => this.onOptionsChange(c)}
+                                        unwrapText="Configure Separately"
                                     >
                                         <CompileConfig />
                                     </WrappableTabs>
