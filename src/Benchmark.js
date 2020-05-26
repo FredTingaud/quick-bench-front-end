@@ -35,7 +35,7 @@ const chartData = [{
     xaxis: "xstacks",
     yaxis: "ystacks"
 }, {
-    title: "Maximum resident memory size (kB)",
+    title: "Maximum Resident Set Size (kB)",
     property: "memory",
     name: "Memory",
     more: "more",
@@ -43,9 +43,9 @@ const chartData = [{
     xaxis: "bar",
     yaxis: "linear"
 }, {
-    title: "Disk reads",
+    title: "Number of Filesystem Inputs",
     property: "inputs",
-    name: "Reads",
+    name: "I/O Reads",
     more: "more",
     less: "less",
     xaxis: "bar",
