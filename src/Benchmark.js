@@ -8,6 +8,7 @@ import { MdTimer } from "react-icons/md";
 import OutputTabs from './OutputTabs.js';
 import WrappableTabs from './WrappableTabs.js';
 import DisplayEditor from './DisplayEditor.js';
+import IncludesDisplay from './IncludesDisplay.js';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -147,6 +148,17 @@ class Benchmark extends React.Component {
     bufferMap(buffers) {
         return (buffers || []).map(s => s ? Buffer.from(s).toString() : '');
     }
+    formatIncludes(includes) {
+        return includes.map(s => s.split('\n').map(s => {
+            let end = false;
+            return [...s].map(c => {
+                if (c === '.' && !end)
+                    return '\t'
+                end = true;
+                return c;
+            }).join('').replace('\t ', '');
+        }).join('\n'));
+    }
     getCode(id) {
         this.setState({
             sending: true,
@@ -179,7 +191,7 @@ class Benchmark extends React.Component {
                             , location: id
                             , textsWrapped: result.tabs.every(v => v.code === result.tabs[0].code)
                             , optionsWrapped: options.every(o => JSON.stringify(o) === JSON.stringify(options[0]))
-                            , includes: result.includes
+                            , includes: this.formatIncludes(result.includes)
                             , asm: result.asm
                             , pp: result.preprocessed
                         });
@@ -250,7 +262,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                         this.setState({
                             graph: g,
                             location: body.id,
-                            includes: this.bufferMap(body.includes),
+                            includes: this.formatIncludes(this.bufferMap(body.includes)),
                             asm: this.bufferMap(body.asm),
                             pp: this.bufferMap(body.preprocessed)
                         });
@@ -494,7 +506,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="includes" className="fill-content" >
                                         <OutputTabs values={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
-                                            <DisplayEditor language="none" />
+                                            <IncludesDisplay />
                                         </OutputTabs>
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="asm" className="fill-content">
