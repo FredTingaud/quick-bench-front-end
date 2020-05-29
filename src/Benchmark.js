@@ -464,20 +464,22 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                 </Card>
                             </div>
                             <Tab.Container defaultActiveKey="charts">
-                                <Nav variant="tabs">
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="charts">Charts</ Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="includes">Includes</ Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="asm">Assembly</ Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="pp">Preprocessed</ Nav.Link>
-                                    </Nav.Item>
-                                </Nav>
+                                {this.state.graph.length > 0 ? (
+                                    <Nav variant="tabs">
+                                        <Nav.Item>
+                                            <Nav.Link eventKey="charts">Charts</ Nav.Link>
+                                        </Nav.Item>
+                                        <Nav.Item>
+                                            <Nav.Link eventKey="includes">Includes</ Nav.Link>
+                                        </Nav.Item>
+                                        <Nav.Item>
+                                            <Nav.Link eventKey="asm">Assembly</ Nav.Link>
+                                        </Nav.Item>
+                                        <Nav.Item>
+                                            <Nav.Link eventKey="pp">Preprocessed</ Nav.Link>
+                                        </Nav.Item>
+                                    </Nav>
+                                ) : null}
                                 <Tab.Content className="fill-content">
                                     <Tab.Pane eventKey="charts" className="fill-content">
                                         <TimeChart benchmarks={this.state.graph}
