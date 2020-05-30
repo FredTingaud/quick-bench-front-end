@@ -1,6 +1,6 @@
 import React from 'react';
 import CodeEditor from './CodeEditor.js';
-import BashOutput from './BashOutput.js';
+import BashOutput from 'components/BashOutput.js';
 import CompileConfig from './CompileConfig.js';
 import TimeChart from './TimeChart.js';
 import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';

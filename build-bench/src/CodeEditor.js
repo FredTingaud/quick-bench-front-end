@@ -1,6 +1,6 @@
 import React from 'react';
 import Editor from './Editor.js';
-import Palette from './Palette.js';
+import Palette from 'components/Palette.js';
 
 class CodeEditor extends React.Component {
     constructor(props) {

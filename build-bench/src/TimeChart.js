@@ -1,6 +1,6 @@
 import React from 'react';
 import Chart from 'chart.js';
-import Palette from './Palette.js';
+import Palette from 'components/Palette.js';
 import { Button, Card, OverlayTrigger, Tooltip, Form, FormControl } from 'react-bootstrap';
 import fileDownload from 'js-file-download';
 import { GoDesktopDownload } from "react-icons/go";

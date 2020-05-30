@@ -1,6 +1,6 @@
 import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import Palette from './Palette.js';
+import Palette from 'components/Palette.js';
 import { Tab, Tabs, Row, Col, Button } from 'react-bootstrap';
 import elementResizeEvent from 'element-resize-event';
 import unbind from 'element-resize-event';
