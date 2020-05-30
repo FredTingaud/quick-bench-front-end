@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import Editor from './Editor.js';
+import Editor from 'components/Editor.js';
 
 class DisplayEditor extends React.Component {
 

@@ -16,7 +16,7 @@ class Header extends React.Component {
             showThanks: false,
             showPrivacy: false,
             showEasterEgg: this.shouldShowEasterEgg(),
-            showingEasterEgg: false,
+            showingEasterEgg: false
         };
     }
     shouldShowEasterEgg() {

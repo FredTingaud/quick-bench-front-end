@@ -1,18 +1,14 @@
 {
-  "name": "quick-bench-front-end",
+  "name": "build-bench-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "chart.js": "^2.7.2",
     "element-resize-event": "^3.0.3",
-    "js-file-download": "^0.4.1",
-    "react": "16.12.0",
-    "react-bootstrap": "^1.0.0-beta.9",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
     "react-dom": "16.12.0",
     "react-helmet": "^5.2.0",
-    "react-icons": "3.10",
-    "react-monaco-editor": "^0.36.0",
-    "react-resize-detector": "^4.2.3",
+    "react-icons": "^3.10.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "request": "^2.87.0"

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Benchmark from './Benchmark.js';
-import Header from './Header.js';
+import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
 import './App.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
