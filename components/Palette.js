@@ -27,12 +27,12 @@ const CHRISTMAS_PALETTE = [
     '#DDDDC2',
     '#BFD4B7',
     '#CA7560',
-    '#D6D68B',
+    '#D6D68B'
 ];
 
 function index(i, length) {
     if (length < 4) {
-        return Math.round(i * PALETTE.length / length)
+        return Math.round(i * PALETTE.length / length);
     }
     const count = Math.min(length, PALETTE.length);
     const offset = count / 3;
