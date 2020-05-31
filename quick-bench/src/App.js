@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Benchmark from './Benchmark.js';
+import Benchmark from './QuickBenchmark.js';
 import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
 import './App.css';
@@ -37,7 +37,7 @@ class App extends Component {
     redirect() {
         if (this.state.location !== this.state.prevlocation) {
             return (
-                <Redirect push to={'/b/' + this.state.location} />
+                <Redirect push to={'/q/' + this.state.location} />
             );
         }
         return null;
@@ -55,18 +55,18 @@ class App extends Component {
                     <Helmet>
                         <meta name="twitter:card" content="summary" />
                         <meta name="twitter:site" content="@FredTingaudDev" />
-                        <meta name="twitter:title" content="C++ Build Benchmarks" />
-                        <meta name="twitter:url" content="http://build-bench.com/" />
+                        <meta name="twitter:title" content="Quick C++ Benchmarks" />
+                        <meta name="twitter:url" content="http://quick-bench.com/" />
                         <meta name="twitter:description" content={this.state.description} />
                         <meta property="og:type" content="website" />
-                        <meta property="og:url" content="http://build-bench.com/" />
-                        <meta property="og:title" content="C++ Build Benchmarks" />
+                        <meta property="og:url" content="http://quick-bench.com/" />
+                        <meta property="og:title" content="Quick C++ Benchmarks" />
                         <meta property="og:description" content={this.state.description} />
                         {this.state.stylePath ? <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} /> : null}
                     </Helmet>
-                    <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Benchmark C++ Builds"/></div>
+                    <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Quick C++ Benchmark" /></div>
                     <Route exact path="/" component={this.Home} />
-                    <Route exact path="/b/:id" component={this.Home} />
+                    <Route exact path="/q/:id" component={this.Home} />
                     {this.redirect()}
                 </div>
             </BrowserRouter>

@@ -73,9 +73,6 @@ class Benchmark extends React.Component {
             , force: false
             , benchNames: []
             , location: props.id
-            , annotation: ''
-            , isAnnotated: true
-            , assemblyFull: false
             , chartIndex: 0
             , textsWrapped: false
             , optionsWrapped: true
@@ -92,10 +89,6 @@ class Benchmark extends React.Component {
             if (stateFromHash.optim) this.state.optim = stateFromHash.optim;
             if (stateFromHash.lib) this.state.lib = stateFromHash.lib;
         }
-
-        this.graph = [];
-        this.url = this.props.url;
-        this.maxCodeSize = this.props.maxCodeSize;
     }
     getStateFromHash() {
         if (window.location.hash) {
@@ -163,10 +156,9 @@ class Benchmark extends React.Component {
         this.setState({
             sending: true,
             graph: [],
-            annotation: '',
             messages: []
         });
-        request.get(this.url + '/build/' + id, (err, res, body) => {
+        request.get(this.props.url + '/build/' + id, (err, res, body) => {
             this.setState({
                 sending: false,
                 clean: true,
@@ -206,18 +198,23 @@ class Benchmark extends React.Component {
         });
     }
     sendCode() {
-        if (this.state.texts.some(t => t.length > this.maxCodeSize)) {
+        const bigger = this.state.texts.findIndex(t => t.length > this.props.maxCodeSize);
+        if (bigger > -1) {
             this.setState({
                 graph: [],
-                annotation: '',
-                messages: [`Your code is ${this.state.texts.length} characters long, while the maximum code size is ${this.maxCodeSize}.
+                includes: [],
+                asm: [],
+                pp: [],
+                messages: [`Your code in ${this.state.titles[bigger]} is ${this.state.texts[bigger].length} characters long, while the maximum code size is ${this.props.maxCodeSize}.
 If you think this limitation is stopping you in a legitimate usage of build-bench, please contact me.`]
             });
         } else {
             this.setState({
                 sending: true,
                 graph: [],
-                annotation: '',
+                includes: [],
+                asm: [],
+                pp: [],
                 messages: []
             });
             this.setState({ progress: 0 });
@@ -242,7 +239,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 "force": this.state.clean && this.state.force,
             };
             request({
-                url: this.url + '/build/'
+                url: this.props.url + '/build/'
                 , method: "POST"
                 , json: true
                 , headers: {
@@ -267,9 +264,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                             pp: this.bufferMap(body.preprocessed)
                         });
                         this.props.onLocationChange(body.id);
-                    }
-                    if (body.annotation) {
-                        this.setState({ annotation: body.annotation });
                     }
                     if (body.messages) {
                         this.setState({ messages: body.messages });
@@ -372,9 +366,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
     onTitlesChange(titles) {
         this.setState({ titles: titles });
         this.setDirty();
-    }
-    toggleAnnotated(e) {
-        this.setState({ isAnnotated: e.target.checked });
     }
     buttonHeight() {
         const run = document.getElementById('Run');

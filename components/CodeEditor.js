@@ -10,6 +10,11 @@ class CodeEditor extends React.Component {
         this.dirty = false;
         this.freezeTab = false;
     }
+    componentWillReceiveProps(nextProps) {
+        if (this.monaco && (this.dirty || this.props.names !== nextProps.names)) {
+            this.calculateDecorations(nextProps.names);
+        }
+    }
     editorDidMount(editor, monaco) {
         editor.focus();
         this.editor = editor;
@@ -28,7 +33,7 @@ class CodeEditor extends React.Component {
             this.prevDecorations, this.decorations);
     }
     addDecoration(name, i, max) {
-        const re1 = new RegExp(`\\s${name}\\s*\\(\\s*benchmark\\s*\\:\\:\\s*State\\s*\\&`);
+        const re1 = new RegExp(`\\s${name}\\s*\\(\\s*benchmark\\s*::\\s*State\\s*&`);
         const re2 = new RegExp(`BENCHMARK\\s*\\(\\s*${name}\\s*\\)\\s*`);
         const match1 = this.editor.getModel().findNextMatch(re1, {
             column: 1,
@@ -87,23 +92,18 @@ class CodeEditor extends React.Component {
         this.updateDecorations();
         this.dirty = false;
     }
-    componentWillReceiveProps(nextProps) {
-        if (this.monaco && (this.dirty || this.props.names !== nextProps.names)) {
-            this.calculateDecorations(nextProps.names);
-        }
-    }
     render() {
         const options = {
             selectOnLineNumbers: true
         };
         return (
-                <Editor
-                    language="cpp"
-                    onChange={(newValue) => this.handleChange(newValue)}
-                    editorDidMount={(e, m) => this.editorDidMount(e, m)}
-                    value={this.props.value}
-                    options={options}
-                />
+            <Editor
+                language="cpp"
+                onChange={(newValue) => this.handleChange(newValue)}
+                editorDidMount={(e, m) => this.editorDidMount(e, m)}
+                value={this.props.value}
+                options={options}
+            />
         );
     }
 }

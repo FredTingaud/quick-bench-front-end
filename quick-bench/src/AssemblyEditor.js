@@ -1,10 +1,8 @@
 import React from 'react';
-import MonacoEditor from 'react-monaco-editor';
 import Palette from 'components/Palette.js';
 import { Tab, Tabs, Row, Col, Button } from 'react-bootstrap';
-import elementResizeEvent from 'element-resize-event';
-import unbind from 'element-resize-event';
 import { GoScreenFull, GoScreenNormal } from "react-icons/go";
+import Editor from 'components/Editor';
 
 const RE_CODE = /\s*([0-9\\.]+) +:\s+([0-9a-f]+):\s+(.*)/;
 const RE_TITLE = /-{11} ([^\s]*)\s*/;
@@ -27,20 +25,10 @@ class AssemblyEditor extends React.Component {
         return this.state.lines[this.state.index][line - 1] || '';
     }
     editorDidMount(editor, monaco) {
-        editor.focus();
         this.editor = editor;
         this.monaco = monaco;
 
-        var element = document.getElementById("assemblyContainer");
-        elementResizeEvent(element, () => this.updateDimensions());
         this.makeCode(this.props.code);
-    }
-    editorWillUnmount() {
-        var element = document.getElementById("assemblyContainer");
-        unbind(element);
-    }
-    updateDimensions() {
-        window.requestAnimationFrame(() => { this.editor.layout() });
     }
     componentWillReceiveProps(nextProps) {
         if (this.editor && nextProps.code !== this.props.code) {
@@ -157,7 +145,7 @@ class AssemblyEditor extends React.Component {
                 </Col>
                 <Col className="pull-right" xs={1}>
                     <Button size="sm" variant="default" onClick={() => this.switchFullScreen()} >{this.state.fullScreen ? <GoScreenNormal /> : <GoScreenFull />}</Button>
-                    </Col>
+                </Col>
             </Row>
         );
     }
@@ -169,16 +157,14 @@ class AssemblyEditor extends React.Component {
             , lineNumbersMinChars: 10
         };
         return (
-            <div className="flex-container">
-                { this.state.titles.length === 0 ? null : this.renderHeader() }
-                <div className="fill-content" id="assemblyContainer">
-                    <MonacoEditor
-                        language="asm"
-                        options={options}
-                        editorDidMount={(e, m) => this.editorDidMount(e, m)}
-                    />
-                </div>
-            </div>
+            <>
+                {this.renderHeader()}
+                < Editor
+                    language="asm"
+                    options={options}
+                    editorDidMount={(e, m) => this.editorDidMount(e, m)}
+                />
+            </>
         );
     }
 }
