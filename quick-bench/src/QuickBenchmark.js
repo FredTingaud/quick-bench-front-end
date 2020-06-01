@@ -128,7 +128,7 @@ class Benchmark extends React.Component {
                             , lib: result.tab.lib
                         };
                         this.setState({
-                            text: result.code
+                            text: result.tab.code
                             , graph: result.result.benchmarks
                             , options: options
                         });
