@@ -7,6 +7,7 @@ import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, Prog
 import { MdTimer } from "react-icons/md";
 import AssemblyEditor from './AssemblyEditor.js';
 import InteropHelper from 'components/InteropHelper.js';
+import Palette from 'components/Palette.js';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -43,6 +44,21 @@ const chartData = [{
     xaxis: "bar",
     yaxis: "linear"
 }];
+
+const PALETTE = [
+    "#5ed9cd",
+    "#61d6eb",
+    "#a1caf4",
+    "#c7c0f4",
+    "#eab3f4",
+    "#f5b3d9",
+    "#f5b5c0",
+    "#f6b8a0",
+    "#edc058",
+    "#c4ce58",
+    "#7ddc58",
+    "#5bdca8"
+];
 class Benchmark extends React.Component {
     constructor(props) {
         super(props);
@@ -311,7 +327,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             chartIndex={this.state.chartIndex}
                                             onNamesChange={n => this.setState({ benchNames: n })}
                                             onDescriptionChange={d => this.props.onDescriptionChange(d)}
-                                            specialPalette={this.props.specialPalette}
+                                            palette={this.props.specialPalette ? Palette.CHRISTMAS_PALETTE : PALETTE}
                                             dataChoices={chartData}
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />

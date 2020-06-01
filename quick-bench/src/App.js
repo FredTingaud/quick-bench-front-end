@@ -3,6 +3,7 @@ import Benchmark from './QuickBenchmark.js';
 import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
 import './App.css';
+import 'components/Shared.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;

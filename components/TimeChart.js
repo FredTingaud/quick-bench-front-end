@@ -20,7 +20,7 @@ class TimeChart extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        if (!this.arrayEquals(this.props.benchmarks, prevProps.benchmarks) || (this.props.benchmarks.length > 0 && this.props.specialPalette !== prevProps.specialPalette) || this.props.chartIndex !== prevProps.chartIndex) {
+        if (!this.arrayEquals(this.props.benchmarks, prevProps.benchmarks) || (this.props.benchmarks.length > 0 && this.props.palette !== prevProps.palette) || this.props.chartIndex !== prevProps.chartIndex) {
             if (prevProps.benchmarks.length === 0) {
                 this.createChart();
             }
@@ -116,7 +116,7 @@ class TimeChart extends React.Component {
         const property = [].concat(this.props.dataChoices[this.props.chartIndex].property);
         const length = this.valueCount();
         const names = input.map(v => v.x);
-        const colors = input.map((v, i) => v.x === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.specialPalette));
+        const colors = input.map((v, i) => v.x === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.palette));
         this.chart.data.labels = names;
         this.chart.data.datasets = property.map((p, i) => ({
             data: input.map(v => v[p]),
@@ -167,7 +167,7 @@ class TimeChart extends React.Component {
         for (let i = 0; i < names.length; ++i) {
             let n = names[i];
             const times = input.filter(v => v.x.indexOf('/') > -1 && v.x.startsWith(n + '/')).map(v => ({ x: parseInt(v.x.substring(v.x.lastIndexOf('/') + 1), 10), y: v[this.props.dataChoices[this.props.chartIndex].property] }));
-            const color = n === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(n.split('/')[0]), functionNames.length + horizontals.length, this.props.specialPalette);
+            const color = n === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(n.split('/')[0]), functionNames.length + horizontals.length, this.props.palette);
             chartData.push({
                 data: times,
                 backgroundColor: color,
@@ -186,7 +186,7 @@ class TimeChart extends React.Component {
         for (let i = 0; i < horizontals.length; ++i) {
             let v = horizontals[i];
             const times2 = [{ x: min, y: v[this.props.dataChoices[this.props.chartIndex].property] }, { x: max, y: v[this.props.dataChoices[this.props.chartIndex].property] }];
-            const colors2 = v.x === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(v.x), functionNames.length, this.props.specialPalette);
+            const colors2 = v.x === 'Noop' ? '#000' : Palette.pickColor(functionNames.indexOf(v.x), functionNames.length, this.props.palette);
             chartData.push({
                 data: times2,
                 backgroundColor: colors2,

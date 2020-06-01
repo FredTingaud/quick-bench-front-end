@@ -9,6 +9,7 @@ import OutputTabs from './OutputTabs.js';
 import WrappableTabs from './WrappableTabs.js';
 import DisplayEditor from './DisplayEditor.js';
 import IncludesDisplay from './IncludesDisplay.js';
+import Palette from 'components/Palette.js';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -27,6 +28,20 @@ int main() {
     return 0;
 }
 `;
+const PALETTE = [
+    "#e3a600",
+    "#b8b600",
+    "#75c500",
+    "#00ca81",
+    "#00c6b2",
+    "#00c3d2",
+    "#13bdff",
+    "#a6a9ff",
+    "#e390ff",
+    "#ff86dc",
+    "#ff8eaf",
+    "#ff9470"
+];
 const chartData = [{
     title: ["Compilation CPU Time", "Lower is faster"],
     property: ["kernelTime", "userTime"],
@@ -490,7 +505,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             chartIndex={this.state.chartIndex}
                                             onNamesChange={n => this.setState({ benchNames: n })}
                                             onDescriptionChange={d => this.props.onDescriptionChange(d)}
-                                            specialPalette={this.props.specialPalette}
+                                            palette={this.props.specialPalette ? Palette.CHRISTMAS_PALETTE : PALETTE}
                                             dataChoices={chartData}
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />

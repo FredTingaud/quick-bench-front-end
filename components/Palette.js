@@ -1,19 +1,4 @@
 
-const PALETTE = [
-    "#e3a600",
-    "#b8b600",
-    "#75c500",
-    "#00ca81",
-    "#00c6b2",
-    "#00c3d2",
-    "#13bdff",
-    "#a6a9ff",
-    "#e390ff",
-    "#ff86dc",
-    "#ff8eaf",
-    "#ff9470"
-];
-
 const CHRISTMAS_PALETTE = [
     '#A22C27',
     '#4F2621',
@@ -30,14 +15,14 @@ const CHRISTMAS_PALETTE = [
     '#D6D68B'
 ];
 
-function index(i, length) {
-    if (length < 4) {
-        return Math.round(i * PALETTE.length / length);
+function index(i, nbColors, max) {
+    if (nbColors < 4) {
+        return Math.round(i * max / nbColors);
     }
-    const count = Math.min(length, PALETTE.length);
+    const count = Math.min(nbColors, max);
     const offset = count / 3;
     const pos = (i * offset) % count + i * offset / count;
-    return Math.round(pos * PALETTE.length / count) % PALETTE.length;
+    return Math.round(pos * max / count) % max;
 }
 
 function lighten(color, percent) {
@@ -47,11 +32,12 @@ function lighten(color, percent) {
 }
 
 export default {
-    pickColor(i, length, special) {
-        return special ? CHRISTMAS_PALETTE[index(i, length)] : PALETTE[index(i, length)];
+    pickColor(i, nbColors, palette) {
+        return palette[index(i, nbColors, palette.length)];
     },
-    pickCSS(i, length) {
-        return 'linked-code-decoration-inline-' + index(i, length);
+    pickCSS(i, nbColors) {
+        return 'linked-code-decoration-inline-' + index(i, nbColors, 12);
     },
-    lighten: lighten
+    lighten: lighten,
+    CHRISTMAS_PALETTE: CHRISTMAS_PALETTE
 };

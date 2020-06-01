@@ -15,6 +15,7 @@ class QuickChart extends React.Component {
                 specialPalette={this.props.specialPalette}
                 dataChoices={this.props.dataChoices}
                 changeDisplay={d => this.props.changeDisplay(d)}
+                palette={this.props.palette}
             />
         );
     }
