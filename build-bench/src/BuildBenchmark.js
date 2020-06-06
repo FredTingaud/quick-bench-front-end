@@ -2,7 +2,7 @@ import React from 'react';
 import CodeEditor from 'components/CodeEditor.js';
 import BashOutput from 'components/BashOutput.js';
 import CompileConfig from 'components/CompileConfig.js';
-import TimeChart from 'components/TimeChart.js';
+import BuildChart from './BuildChart.js';
 import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import OutputTabs from './OutputTabs.js';
@@ -42,31 +42,7 @@ const PALETTE = [
     "#ff8eaf",
     "#ff9470"
 ];
-const chartData = [{
-    title: ["Compilation CPU Time", "Lower is faster"],
-    property: ["kernelTime", "userTime"],
-    name: "Time",
-    more: "slower",
-    less: "faster",
-    xaxis: "xstacks",
-    yaxis: "ystacks"
-}, {
-    title: "Maximum Resident Set Size (kB)",
-    property: "memory",
-    name: "Memory",
-    more: "more",
-    less: "less",
-    xaxis: "bar",
-    yaxis: "linear"
-}, {
-    title: "Number of Filesystem Inputs",
-    property: "inputs",
-    name: "I/O Reads",
-    more: "more",
-    less: "less",
-    xaxis: "bar",
-    yaxis: "linear"
-}];
+
 class Benchmark extends React.Component {
     constructor(props) {
         super(props);
@@ -127,32 +103,6 @@ class Benchmark extends React.Component {
             this.getCode(nextProps.id);
         }
     }
-    median(values) {
-        if (values.length === 0) return 0;
-
-        values.sort((a, b) => a - b);
-        var half = Math.floor(values.length / 2);
-
-        if (values.length % 2)
-            return values[half];
-
-        return (values[half - 1] + values[half]) / 2.0;
-    }
-    makeGraph(result, titles) {
-        return result.map((r, i) => ({ times: r.times, memories: r.memories, inputs: r.inputs, title: titles[i] })).filter(r => typeof r.times !== 'undefined' && r.times.length).map((r, i) => {
-            let userTime = r.times.map(t => parseFloat(t.user)).reduce((s, t) => (s + t)) / r.times.length;
-            let kernelTime = r.times.map(t => parseFloat(t.kernel)).reduce((s, t) => (s + t)) / r.times.length;
-            let memories = this.median(r.memories.map(n => parseFloat(n)));
-            let inputs = this.median(r.inputs.map(n => parseFloat(n)));
-            return {
-                x: r.title,
-                userTime: userTime,
-                kernelTime: kernelTime,
-                inputs: inputs,
-                memory: memories
-            };
-        });
-    }
     bufferMap(buffers) {
         return (buffers || []).map(s => s ? Buffer.from(s).toString() : '');
     }
@@ -193,7 +143,7 @@ class Benchmark extends React.Component {
                         this.setState({
                             texts: result.tabs.map(t => t.code)
                             , titles: titles
-                            , graph: this.makeGraph(result.result, titles)
+                            , graph: result.result
                             , options: options
                             , location: id
                             , textsWrapped: result.tabs.every(v => v.code === result.tabs[0].code)
@@ -270,9 +220,8 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 clearInterval(interval);
                 if (body) {
                     if (body.result) {
-                        let g = this.makeGraph(body.result, this.state.titles)
                         this.setState({
-                            graph: g,
+                            graph: body.result,
                             location: body.id,
                             includes: this.formatIncludes(this.bufferMap(body.includes)),
                             asm: this.bufferMap(body.asm),
@@ -500,13 +449,13 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                 ) : null}
                                 <Tab.Content className="fill-content">
                                     <Tab.Pane eventKey="charts" className="fill-content">
-                                        <TimeChart benchmarks={this.state.graph}
-                                            id={this.state.location}
-                                            chartIndex={this.state.chartIndex}
+                                        <BuildChart benchmarks={this.state.graph}
+                                            id={this.state.location}    
+                                            titles={this.state.titles}
+                                            index={this.state.chartIndex}
                                             onNamesChange={n => this.setState({ benchNames: n })}
                                             onDescriptionChange={d => this.props.onDescriptionChange(d)}
                                             palette={this.props.specialPalette ? Palette.CHRISTMAS_PALETTE : PALETTE}
-                                            dataChoices={chartData}
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />
                                     </Tab.Pane>

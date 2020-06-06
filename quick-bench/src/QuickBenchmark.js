@@ -35,16 +35,6 @@ BENCHMARK(StringCopy);
 const includeStr = '#include <benchmark/benchmark.h>\n';
 const mainStr = '\nBENCHMARK_MAIN();';
 
-const chartData = [{
-    title: ['ratio (CPU time / Noop time)', 'Lower is faster'],
-    property: "cpu_time",
-    name: "Time",
-    more: "slower",
-    less: "faster",
-    xaxis: "bar",
-    yaxis: "linear"
-}];
-
 const PALETTE = [
     "#5ed9cd",
     "#61d6eb",
@@ -323,12 +313,12 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                 <Tab.Content className="fill-content">
                                     <Tab.Pane eventKey="charts" className="fill-content">
                                         <QuickChart benchmarks={this.state.graph}
+                                            names={this.state.benchNames}
                                             id={this.state.location}
-                                            chartIndex={this.state.chartIndex}
+                                            index={this.state.chartIndex}
                                             onNamesChange={n => this.setState({ benchNames: n })}
                                             onDescriptionChange={d => this.props.onDescriptionChange(d)}
                                             palette={this.props.specialPalette ? Palette.CHRISTMAS_PALETTE : PALETTE}
-                                            dataChoices={chartData}
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />
                                     </Tab.Pane>
