@@ -22,13 +22,17 @@ class AssemblyEditor extends React.Component {
         this.prevDecorations = [];
     }
     lineNumbersFunc(line) {
+        if (this.state.lines.length === 0)
+            return '';
         return this.state.lines[this.state.index][line - 1] || '';
     }
     editorDidMount(editor, monaco) {
         this.editor = editor;
         this.monaco = monaco;
 
-        this.makeCode(this.props.code);
+        if (this.props.code) {
+            this.makeCode(this.props.code);
+        }
     }
     componentWillReceiveProps(nextProps) {
         if (this.editor && nextProps.code !== this.props.code) {
