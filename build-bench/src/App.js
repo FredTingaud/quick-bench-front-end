@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Benchmark from './Benchmark.js';
+import Benchmark from './BuildBenchmark.js';
 import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
 import 'components/Shared.css';
