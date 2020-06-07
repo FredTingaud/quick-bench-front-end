@@ -10,6 +10,9 @@ class QuickChart extends React.Component {
             showNoop: false,
             index: 1
         };
+        this.data = [];
+        this.labels = [];
+        this.colors = [];
     }
     isLine(input) {
         return this.state.index === 1 && input.some(v => v.name.indexOf('/') > -1);
@@ -35,6 +38,7 @@ class QuickChart extends React.Component {
             const times2 = [{ x: min, y: v.cpu_time }, { x: max, y: v.cpu_time }];
             chartData.push(times2);
         }
+        this.props.onNamesChange(functionNames);
         return [names, chartData];
     }
     makeData(bench) {
@@ -46,8 +50,7 @@ class QuickChart extends React.Component {
             return this.drawLineChart(input);
         } else {
             const names = input.map(v => v.x);
-            if (JSON.stringify(this.props.names) !== JSON.stringify(names))
-                this.props.onNamesChange(names);
+            this.props.onNamesChange(names);
             return [names, [input.map(v => v.cpu_time)]];
         }
     }
@@ -70,19 +73,23 @@ class QuickChart extends React.Component {
         }
         return null;
     }
+    componentDidUpdate(prevProps) {
+        if (prevProps.benchmarks !== this.props.benchmarks || prevProps.titles !== this.props.titles || prevProps.index !== this.props.index) {
+            [this.labels, this.data] = this.makeData(this.props.benchmarks, this.props.titles, this.props.index);
+            const length = this.state.showNoop ? this.labels.length - 1 : this.labels.length;
+            this.colors = this.labels.map((l, i) => l === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.palette));
+        }
+    }
     render() {
         const isLine = this.isLine(this.props.benchmarks);
-        const [labels, data] = this.makeData(this.props.benchmarks, this.props.titles, this.props.index);
-        const length = this.state.showNoop ? labels.length - 1 : labels.length;
-        const colors = labels.map((l, i) => l === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.palette));
         return (
             <TimeChart
                 id={this.props.id}
                 onDescriptionChange={d => this.props.onDescriptionChange(d)}
-                data={data}
-                labels={labels}
-                dataLabels={isLine ? labels : ['cpu_time']}
-                colors={isLine ? colors : [colors]}
+                data={this.data}
+                labels={this.labels}
+                dataLabels={isLine ? this.labels : ['cpu_time']}
+                colors={isLine ? this.colors : [this.colors]}
                 title={['ratio (CPU time / Noop time)', 'Lower is faster']}
                 more={'slower'}
                 less={'faster'}

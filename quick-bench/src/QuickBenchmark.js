@@ -100,22 +100,34 @@ class Benchmark extends React.Component {
     }
     componentDidMount() {
         if (this.props.id) {
+            this.setState({
+                sending: true,
+                graph: [],
+                annotation: '',
+                message: ''
+            });
             this.getCode(this.props.id);
         }
         this.props.onDisplay();
     }
-    componentDidUpdate(prevProps) {
-        if (this.props.id !== prevProps.id && this.state.location !== prevProps.id) {
+    componentDidUpdate() {
+        if (this.props.id !== this.state.location) {
+            this.setState({ location: this.props.id });
             this.getCode(this.props.id);
         }
     }
+    static getDerivedStateFromProps(props, state) {
+        if (props.id !== state.location) {
+            return {
+                sending: true,
+                graph: [],
+                annotation: '',
+                message: ''
+            };
+        }
+        return null;
+    }
     getCode(id) {
-        this.setState({
-            sending: true,
-            graph: [],
-            annotation: '',
-            message: ''
-        });
         request.get(this.props.url + '/quick/' + id, (err, res, body) => {
             this.setState({
                 sending: false,
@@ -313,7 +325,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                 <Tab.Content className="fill-content">
                                     <Tab.Pane eventKey="charts" className="fill-content">
                                         <QuickChart benchmarks={this.state.graph}
-                                            names={this.state.benchNames}
                                             id={this.state.location}
                                             index={this.state.chartIndex}
                                             onNamesChange={n => this.setState({ benchNames: n })}
