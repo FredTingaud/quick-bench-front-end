@@ -104,9 +104,9 @@ class Benchmark extends React.Component {
         }
         this.props.onDisplay();
     }
-    componentWillReceiveProps(nextProps) {
-        if (this.props.id !== nextProps.id && this.state.location !== nextProps.id) {
-            this.getCode(nextProps.id);
+    componentDidUpdate(prevProps) {
+        if (this.props.id !== prevProps.id && this.state.location !== prevProps.id) {
+            this.getCode(this.props.id);
         }
     }
     getCode(id) {
@@ -293,7 +293,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             {this.state.clean ? <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" /> : null}
                                         </Form>
                                         <Form inline>
-                                            <Button variant="outline-dark" onClick={() => InteropHelper.openCodeInCE(this.state.text, this.state.options)} className="float-right"><img src="/ico/Compiler-Explorer.svg" style={{ height: this.buttonHeight() }} alt="Open in Compiler Explorer" /></Button>
+                                            <Button variant="outline-dark" onClick={() => InteropHelper.openCodeInCE(this.state.text, this.state.options)} className="float-right"><img src="/ico/Compiler-Explorer.svg" style={{ height: "1.5rem" }} alt="Open in Compiler Explorer" /></Button>
                                         </Form>
                                     </ButtonToolbar>
                                     {this.state.sending ? <ProgressBar animated now={this.state.progress} /> : null}

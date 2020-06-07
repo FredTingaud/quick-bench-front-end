@@ -6,17 +6,15 @@ import { GoDesktopDownload } from "react-icons/go";
 import Palette from 'components/Palette.js';
 
 class TimeChart extends React.Component {
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.data.length === 0 && this.chart) {
-            this.destroyChart();
-        }
-    }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (!this.arrayEquals(this.props.data, prevProps.data) || (this.props.data.length > 0 && this.props.palette !== prevProps.palette) || this.props.chartIndex !== prevProps.chartIndex) {
             if (prevProps.data.length === 0) {
                 this.createChart();
             }
             this.showChart();
+        }
+        if (this.props.data.length === 0 && this.chart) {
+            this.destroyChart();
         }
     }
     arrayEquals(a1, a2) {

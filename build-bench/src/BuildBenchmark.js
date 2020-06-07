@@ -98,9 +98,9 @@ class Benchmark extends React.Component {
         }
         this.props.onDisplay();
     }
-    componentWillReceiveProps(nextProps) {
-        if (this.props.id !== nextProps.id && this.state.location !== nextProps.id) {
-            this.getCode(nextProps.id);
+    componentDidUpdate(prevProps) {
+        if (this.props.id !== prevProps.id && this.state.location !== prevProps.id) {
+            this.getCode(this.props.id);
         }
     }
     bufferMap(buffers) {

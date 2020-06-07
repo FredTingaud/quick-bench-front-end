@@ -10,9 +10,9 @@ class CodeEditor extends React.Component {
         this.dirty = false;
         this.freezeTab = false;
     }
-    componentWillReceiveProps(nextProps) {
-        if (this.monaco && (this.dirty || this.props.names !== nextProps.names)) {
-            this.calculateDecorations(nextProps.names);
+    componentDidUpdate(prevProps) {
+        if (this.monaco && (this.dirty || this.props.names !== prevProps.names)) {
+            this.calculateDecorations(this.props.names);
         }
     }
     editorDidMount(editor, monaco) {

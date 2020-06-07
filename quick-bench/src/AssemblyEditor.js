@@ -34,9 +34,9 @@ class AssemblyEditor extends React.Component {
             this.makeCode(this.props.code);
         }
     }
-    componentWillReceiveProps(nextProps) {
-        if (this.editor && nextProps.code !== this.props.code) {
-            this.makeCode(nextProps.code);
+    componentDidUpdate(prevProps) {
+        if (this.editor && prevProps.code !== this.props.code) {
+            this.makeCode(this.props.code);
         }
     }
     switchFullScreen() {
