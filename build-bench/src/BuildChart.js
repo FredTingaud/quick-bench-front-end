@@ -57,7 +57,6 @@ class BuildChart extends React.Component {
             return [[], []];
         const property = index === 0 ? "times" : chartData[index].property;
         const names = this.cleanData(result, property).map((_, i) => titles[i])
-        //this.props.onNamesChange(names);
         return [names,
             [].concat(chartData[index].property).map(p => this.cleanData(result, property).map(r => this.computeData(r, p, index)))];
 
