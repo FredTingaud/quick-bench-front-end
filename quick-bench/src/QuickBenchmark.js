@@ -214,9 +214,11 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
 
                     if (body.result) {
                         this.setState({
-                            graph: body.result.benchmarks,
-                            location: body.id
+                            graph: body.result.benchmarks || []
                         });
+                    }
+                    if (body.id) {
+                        this.setState({ location: body.id });
                         this.props.onLocationChange(body.id);
                     }
                     if (body.annotation) {
