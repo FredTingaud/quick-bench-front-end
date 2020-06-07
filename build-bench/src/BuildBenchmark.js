@@ -63,6 +63,7 @@ class Benchmark extends React.Component {
             , clean: false
             , force: false
             , location: props.id
+            , prevLocation: props.id
             , chartIndex: 0
             , textsWrapped: false
             , optionsWrapped: true
@@ -102,14 +103,21 @@ class Benchmark extends React.Component {
         }
         this.props.onDisplay();
     }
-    componentDidUpdate() {
-        if (this.props.id !== this.state.location) {
-            this.setState({ location: this.props.id });
-            this.getCode(this.props.id);
+    componentDidUpdate(prevProps) {
+        if (prevProps.id !== this.props.id) {
+            this.setState({
+                prevLocation: this.props.id
+            });
+            if (this.props.id !== this.state.location) {
+                this.setState({
+                    location: this.props.id
+                });
+                this.getCode(this.props.id);
+            }
         }
     }
     static getDerivedStateFromProps(props, state) {
-        if (props.id !== state.location) {
+        if (props.id !== state.prevLocation && props.id !== state.location) {
             return {
                 sending: true,
                 graph: [],
@@ -117,6 +125,9 @@ class Benchmark extends React.Component {
             };
         }
         return null;
+    }
+    bufferMap(buffers) {
+        return (buffers || []).map(s => s ? Buffer.from(s).toString() : '');
     }
     formatIncludes(includes) {
         return includes.map(s => s.split('\n').map(s => {
@@ -195,18 +206,16 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
             }, 1000);
 
             var obj = {
-                "tabs": this.state.texts.map((c, i) => {
-                    return {
-                        "code": c,
-                        "title": this.state.titles[i],
-                        "compiler": this.state.options[i].compiler,
-                        "optim": this.state.options[i].optim,
-                        "cppVersion": this.state.options[i].cppVersion,
-                        "lib": this.state.options[i].lib
-                        , "asm": 'att'
-                        , "withPP": true
-                    }
-                }),
+                "tabs": this.state.texts.map((c, i) => ({
+                    "code": c,
+                    "title": this.state.titles[i],
+                    "compiler": this.state.options[i].compiler,
+                    "optim": this.state.options[i].optim,
+                    "cppVersion": this.state.options[i].cppVersion,
+                    "lib": this.state.options[i].lib
+                    , "asm": 'att'
+                    , "withPP": true
+                })),
                 "protocolVersion": protocolVersion,
                 "force": this.state.clean && this.state.force,
             };
