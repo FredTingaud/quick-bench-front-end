@@ -22,7 +22,7 @@ class App extends Component {
             stylePath: ''
         };
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         if (this.state.location !== this.state.prevlocation) {
             this.setState({
                 prevlocation: this.state.location
@@ -36,7 +36,7 @@ class App extends Component {
         }
     }
     redirect() {
-        if (this.state.location !== this.state.prevlocation) {
+        if (this.state.location !== this.state.prevlocation && this.state.location) {
             return (
                 <Redirect push to={'/b/' + this.state.location} />
             );
@@ -66,8 +66,7 @@ class App extends Component {
                         {this.state.stylePath ? <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} /> : null}
                     </Helmet>
                     <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Benchmark C++ Builds"/></div>
-                    <Route exact path="/" component={this.Home} />
-                    <Route exact path="/b/:id" component={this.Home} />
+                    <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
                 </div>
             </BrowserRouter>

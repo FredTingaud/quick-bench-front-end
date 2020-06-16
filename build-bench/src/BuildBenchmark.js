@@ -44,33 +44,34 @@ const PALETTE = [
 ];
 
 class Benchmark extends React.Component {
+    static initialState = {
+        texts: [startCode1, startCode2]
+        , titles: ['cstdio', 'iostream']
+        , graph: []
+        , messages: ['', '']
+        , sending: false
+        , progress: 0
+        , index: 0
+        , options: Array(2).fill().map(a => ({
+            compiler: "clang-9.0"
+            , cppVersion: "20"
+            , optim: "3"
+            , lib: "gnu"
+        }))
+        , clean: false
+        , force: false
+        , chartIndex: 0
+        , textsWrapped: false
+        , optionsWrapped: true
+        , includes: []
+        , asm: []
+        , pp: []
+    }
     constructor(props) {
         super(props);
-        this.state = {
-            texts: [startCode1, startCode2]
-            , titles: ['cstdio', 'iostream']
-            , graph: []
-            , messages: ['', '']
-            , sending: false
-            , progress: 0
-            , index: 0
-            , options: Array(2).fill().map(a => ({
-                compiler: "clang-9.0"
-                , cppVersion: "20"
-                , optim: "3"
-                , lib: "gnu"
-            }))
-            , clean: false
-            , force: false
-            , location: props.id
-            , prevLocation: props.id
-            , chartIndex: 0
-            , textsWrapped: false
-            , optionsWrapped: true
-            , includes: []
-            , asm: []
-            , pp: []
-        };
+        this.state = Benchmark.initialState;
+        this.state.location = props.id;
+        this.state.prevLocation = props.id;
 
         let stateFromHash = this.getStateFromHash();
         if (stateFromHash) {
@@ -80,6 +81,9 @@ class Benchmark extends React.Component {
             if (stateFromHash.optim) this.state.optim = stateFromHash.optim;
             if (stateFromHash.lib) this.state.lib = stateFromHash.lib;
         }
+    }
+    initializeCode() {
+        this.setState(Benchmark.initialState);
     }
     getStateFromHash() {
         if (window.location.hash) {
@@ -112,12 +116,17 @@ class Benchmark extends React.Component {
                 this.setState({
                     location: this.props.id
                 });
-                this.getCode(this.props.id);
+                if (this.props.id) {
+                    this.getCode(this.props.id);
+                } else {
+                    this.initializeCode();
+                    this.props.onLocationChange(undefined);
+                }
             }
         }
     }
     static getDerivedStateFromProps(props, state) {
-        if (props.id !== state.prevLocation && props.id !== state.location) {
+        if (props.id !== state.prevLocation && props.id !== state.location && props.id) {
             return {
                 sending: true,
                 graph: [],

@@ -50,29 +50,31 @@ const PALETTE = [
     "#5bdca8"
 ];
 class Benchmark extends React.Component {
+    static initialState = {
+        text: startCode
+        , graph: []
+        , message: ''
+        , sending: false
+        , progress: 0
+        , options: {
+            compiler: "clang-9.0"
+            , cppVersion: "20"
+            , optim: "3"
+            , lib: "gnu"
+        }
+        , clean: false
+        , force: false
+        , benchNames: []
+        , annotation: ''
+        , isAnnotated: true
+        , assemblyFull: false
+        , chartIndex: 0
+    };
     constructor(props) {
         super(props);
-        this.state = {
-            text: startCode
-            , graph: []
-            , message: ''
-            , sending: false
-            , progress: 0
-            , options: {
-                compiler: "clang-9.0"
-                , cppVersion: "20"
-                , optim: "3"
-                , lib: "gnu"
-            }
-            , clean: false
-            , force: false
-            , benchNames: []
-            , location: props.id
-            , annotation: ''
-            , isAnnotated: true
-            , assemblyFull: false
-            , chartIndex: 0
-        };
+        this.state = Benchmark.initialState;
+        this.state.location = props.id;
+        this.state.prevLocation = props.id;
 
         let stateFromHash = this.getStateFromHash();
         if (stateFromHash) {
@@ -86,6 +88,9 @@ class Benchmark extends React.Component {
                 }
             });
         }
+    }
+    initializeCode() {
+        this.setState(Benchmark.initialState);
     }
     getStateFromHash() {
         if (window.location.hash) {
@@ -110,14 +115,28 @@ class Benchmark extends React.Component {
         }
         this.props.onDisplay();
     }
-    componentDidUpdate() {
-        if (this.props.id !== this.state.location) {
-            this.setState({ location: this.props.id });
-            this.getCode(this.props.id);
+    componentDidUpdate(prevProps) {
+        console.log(prevProps.id + " -> " + this.props.id);
+        if (prevProps.id !== this.props.id) {
+            console.log("new loc " + this.props.id);
+            this.setState({
+                prevLocation: this.props.id
+            });
+            if (this.props.id !== this.state.location) {
+                this.setState({
+                    location: this.props.id
+                });
+                if (this.props.id) {
+                    this.getCode(this.props.id);
+                } else {
+                    this.initializeCode();
+                    this.props.onLocationChange(undefined);
+                }
+            }
         }
     }
     static getDerivedStateFromProps(props, state) {
-        if (props.id !== state.location) {
+        if (props.id !== state.prevLocation && props.id !== state.location && props.id) {
             return {
                 sending: true,
                 graph: [],
@@ -149,6 +168,7 @@ class Benchmark extends React.Component {
                             text: result.tab.code
                             , graph: result.result.benchmarks
                             , options: options
+                            , location: id
                         });
                     }
                     if (result.message) {
@@ -218,8 +238,8 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                         });
                     }
                     if (body.id) {
-                        this.setState({ location: body.id });
-                        this.props.onLocationChange(body.id);
+                        console.log("onLocationChange " + body.id);
+                        this.setState({ location: body.id }, () => this.props.onLocationChange(body.id));
                     }
                     if (body.annotation) {
                         this.setState({ annotation: body.annotation });

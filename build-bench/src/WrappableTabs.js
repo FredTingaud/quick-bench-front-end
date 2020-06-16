@@ -15,7 +15,7 @@ class WrappableTabs extends React.Component {
         this.freezeTab = -1;
     }
     onChange(value) {
-        let values = this.props.values;
+        let values = Array.from(this.props.values);
         if (this.props.wrapped) {
             values.fill(value);
         }
@@ -55,7 +55,7 @@ class WrappableTabs extends React.Component {
         return <Button variant="outline-primary" onClick={() => this.unwrap()}> <AiOutlineSplitCells /> {this.props.unwrapText}</Button >;
     }
     rename(t) {
-        let titles = this.props.titles;
+        let titles = Array.from(this.props.titles);
         titles[this.props.index] = t
         this.props.onTitlesChange(titles);
     }
