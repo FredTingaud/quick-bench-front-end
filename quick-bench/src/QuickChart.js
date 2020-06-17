@@ -8,11 +8,11 @@ class QuickChart extends React.Component {
         super(props);
         this.state = {
             showNoop: false,
-            index: 1
+            index: 1,
+            data: [],
+            labels: [],
+            colors: []
         };
-        this.data = [];
-        this.labels = [];
-        this.colors = [];
     }
     isLine(input) {
         return this.state.index === 1 && input.some(v => v.name.indexOf('/') > -1);
@@ -75,9 +75,10 @@ class QuickChart extends React.Component {
     }
     componentDidUpdate(prevProps) {
         if (prevProps.benchmarks !== this.props.benchmarks || prevProps.titles !== this.props.titles || prevProps.index !== this.props.index) {
-            [this.labels, this.data] = this.makeData(this.props.benchmarks, this.props.titles, this.props.index);
-            const length = this.state.showNoop ? this.labels.length - 1 : this.labels.length;
-            this.colors = this.labels.map((l, i) => l === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.palette));
+            const [labels, data] = this.makeData(this.props.benchmarks, this.props.titles, this.props.index);
+            const length = this.state.showNoop ? labels.length - 1 : labels.length;
+            const colors = labels.map((l, i) => l === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.palette));
+            this.setState({ labels: labels, data: data, colors: colors });
         }
     }
     render() {
@@ -86,10 +87,10 @@ class QuickChart extends React.Component {
             <TimeChart
                 id={this.props.id}
                 onDescriptionChange={d => this.props.onDescriptionChange(d)}
-                data={this.data}
-                labels={this.labels}
+                data={this.state.data}
+                labels={this.state.labels}
                 dataLabels={isLine ? this.labels : ['cpu_time']}
-                colors={isLine ? this.colors : [this.colors]}
+                colors={isLine ? this.state.colors : [this.state.colors]}
                 title={['ratio (CPU time / Noop time)', 'Lower is faster']}
                 more={'slower'}
                 less={'faster'}
