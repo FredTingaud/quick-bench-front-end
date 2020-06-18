@@ -362,9 +362,11 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Tab.Container>
-                            <div className="fixed-content">
-                                <BashOutput value={this.state.message} />
-                            </div>
+                            <Display when={this.state.message.length > 0}>
+                                <div className="fixed-content">
+                                    <BashOutput value={this.state.message} />
+                                </div>
+                            </Display>
                         </div>
                     </Col>
                 </Row>
