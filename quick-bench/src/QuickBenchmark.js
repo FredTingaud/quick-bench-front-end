@@ -70,6 +70,7 @@ class Benchmark extends React.Component {
         , isAnnotated: true
         , assemblyFull: false
         , chartIndex: 0
+        , displayTab: 'charts'
     };
     constructor(props) {
         super(props);
@@ -335,8 +336,8 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                     </Display>
                                 </Card>
                             </div>
-                            <Tab.Container defaultActiveKey="charts">
-                                <Display when={this.state.graph.length > 0}>
+                            <Tab.Container activeKey={this.state.annotation ? this.state.displayTab : "charts"} onSelect={(k) => this.setState({ displayTab: k })}>
+                                <Display when={this.state.graph.length > 0 && this.state.annotation}>
                                     <Nav variant="tabs">
                                         <Nav.Item>
                                             <Nav.Link eventKey="charts">Charts</ Nav.Link>
