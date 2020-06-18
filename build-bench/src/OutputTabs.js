@@ -1,5 +1,6 @@
 import React, { Children, isValidElement, cloneElement } from 'react';
 import { Nav, Tab, Row, Col } from 'react-bootstrap';
+import Display from 'components/Display.js';
 
 class OutputTabs extends React.Component {
     renderTabs() {
@@ -28,9 +29,13 @@ class OutputTabs extends React.Component {
             return child;
         });
         if (this.props.values && this.props.values.length > 0 && this.props.values.some(t => t)) {
-            return (<>{this.props.values.length > 1 ? this.renderTabs() : null}
-                {childrenWithProps}
-            </>
+            return (
+                <>
+                    <Display when={this.props.values.length > 1}>
+                        {this.renderTabs()}
+                    </Display>
+                    {childrenWithProps}
+                </>
             );
         } else {
             return (< div />);

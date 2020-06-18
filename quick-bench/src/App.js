@@ -4,6 +4,7 @@ import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
 import './App.css';
 import 'components/Shared.css';
+import Display from 'components/Display.js';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
@@ -63,7 +64,9 @@ class App extends Component {
                         <meta property="og:url" content="http://quick-bench.com/" />
                         <meta property="og:title" content="Quick C++ Benchmarks" />
                         <meta property="og:description" content={this.state.description} />
-                        {this.state.stylePath ? <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} /> : null}
+                        <Display when={this.state.stylePath}>
+                            <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} />
+                        </Display>
                     </Helmet>
                     <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Quick C++ Benchmark" /></div>
                     <Route exact path={["/", "/q/:id"]} component={this.Home} />

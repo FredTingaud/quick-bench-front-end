@@ -7,6 +7,7 @@ import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, Prog
 import { MdTimer } from "react-icons/md";
 import AssemblyEditor from './AssemblyEditor.js';
 import InteropHelper from 'components/InteropHelper.js';
+import Display from 'components/Display.js';
 import Palette from 'components/Palette.js';
 
 var request = require('request');
@@ -321,17 +322,21 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         <Form inline>
                                             <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="mr-2" id="Run"> <MdTimer /> Run Benchmark</Button>
                                             <FormCheck ref="force" checked={this.state.isAnnotated} custom type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="mr-2" />
-                                            {this.state.clean ? <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" /> : null}
+                                            <Display when={this.state.clean}>
+                                                <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
+                                            </Display>
                                         </Form>
                                         <Form inline>
                                             <Button variant="outline-dark" onClick={() => InteropHelper.openCodeInCE(this.state.text, this.state.options)} className="float-right"><img src="/ico/Compiler-Explorer.svg" style={{ height: "1.5rem" }} alt="Open in Compiler Explorer" /></Button>
                                         </Form>
                                     </ButtonToolbar>
-                                    {this.state.sending ? <ProgressBar animated now={this.state.progress} /> : null}
+                                    <Display when={this.state.sending}>
+                                        <ProgressBar animated now={this.state.progress} />
+                                    </Display>
                                 </Card>
                             </div>
                             <Tab.Container defaultActiveKey="charts">
-                                {this.state.graph.length > 0 ? (
+                                <Display when={this.state.graph.length > 0}>
                                     <Nav variant="tabs">
                                         <Nav.Item>
                                             <Nav.Link eventKey="charts">Charts</ Nav.Link>
@@ -340,7 +345,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             <Nav.Link eventKey="asm">Assembly</ Nav.Link>
                                         </Nav.Item>
                                     </Nav>
-                                ) : null}
+                                </Display>
                                 <Tab.Content className="fill-content">
                                     <Tab.Pane eventKey="charts" className="fill-content">
                                         <QuickChart benchmarks={this.state.graph}
