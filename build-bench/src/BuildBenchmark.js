@@ -98,9 +98,9 @@ class Benchmark extends React.Component {
     }
     componentDidMount() {
         if (this.props.id) {
+            this.clearResults();
             this.setState({
                 sending: true,
-                graph: [],
                 messages: []
             });
             this.getCode(this.props.id);
@@ -149,7 +149,17 @@ class Benchmark extends React.Component {
             }).join('').replace('\t ', '');
         }).join('\n'));
     }
+    clearResults() {
+        this.setState({
+            graph: [],
+            includes: [],
+            asm: [],
+            pp: [],
+            index: 0
+        });
+    }
     getCode(id) {
+        this.clearResults();
         request.get(this.props.url + '/build/' + id, (err, res, body) => {
             this.setState({
                 sending: false,
@@ -191,22 +201,15 @@ class Benchmark extends React.Component {
     }
     sendCode() {
         const bigger = this.state.texts.findIndex(t => t.length > this.props.maxCodeSize);
+        this.clearResults();
         if (bigger > -1) {
             this.setState({
-                graph: [],
-                includes: [],
-                asm: [],
-                pp: [],
                 messages: [`Your code in ${this.state.titles[bigger]} is ${this.state.texts[bigger].length} characters long, while the maximum code size is ${this.props.maxCodeSize}.
 If you think this limitation is stopping you in a legitimate usage of build-bench, please contact me.`]
             });
         } else {
             this.setState({
                 sending: true,
-                graph: [],
-                includes: [],
-                asm: [],
-                pp: [],
                 messages: []
             });
             this.setState({ progress: 0 });
