@@ -23,7 +23,6 @@ class App extends Component {
         };
     }
     componentDidUpdate() {
-        console.log("App " + this.state.prevlocation + "=>" + this.state.location);
         if (this.state.location !== this.state.prevlocation) {
             this.setState({
                 prevlocation: this.state.location

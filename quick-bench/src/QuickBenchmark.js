@@ -116,9 +116,7 @@ class Benchmark extends React.Component {
         this.props.onDisplay();
     }
     componentDidUpdate(prevProps) {
-        console.log(prevProps.id + " -> " + this.props.id);
         if (prevProps.id !== this.props.id) {
-            console.log("new loc " + this.props.id);
             this.setState({
                 prevLocation: this.props.id
             });
@@ -238,7 +236,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                         });
                     }
                     if (body.id) {
-                        console.log("onLocationChange " + body.id);
                         this.setState({ location: body.id }, () => this.props.onLocationChange(body.id));
                     }
                     if (body.annotation) {
