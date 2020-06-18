@@ -10,7 +10,7 @@ import InteropHelper from 'components/InteropHelper.js';
 import Palette from 'components/Palette.js';
 
 var request = require('request');
-const protocolVersion = 3;
+const protocolVersion = 4;
 
 const startCode = `static void StringCreation(benchmark::State& state) {
   // Code inside this loop is measured repeatedly
@@ -157,12 +157,12 @@ class Benchmark extends React.Component {
                 let result = JSON.parse(body);
                 if (result) {
                     if (result.result) {
-                        let compiler = result.tab.compiler === 'clang++-3.8' ? 'clang-3.8' : result.tab.compiler;
+                        let compiler = result.tab.compiler === 'clang++-3.8' ? 'clang-3.8' : result.tab.options.compiler;
                         let options = {
                             compiler: compiler
-                            , cppVersion: result.tab.cppVersion
-                            , optim: result.tab.optim
-                            , lib: result.tab.lib
+                            , cppVersion: result.tab.options.cppVersion
+                            , optim: result.tab.options.optim
+                            , lib: result.tab.options.lib
                         };
                         this.setState({
                             text: result.tab.code
