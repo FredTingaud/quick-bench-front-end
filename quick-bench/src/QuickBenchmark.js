@@ -72,7 +72,7 @@ class Benchmark extends React.Component {
     };
     constructor(props) {
         super(props);
-        this.state = Benchmark.initialState;
+        this.state = JSON.parse(JSON.stringify(Benchmark.initialState));
         this.state.location = props.id;
         this.state.prevLocation = props.id;
 
