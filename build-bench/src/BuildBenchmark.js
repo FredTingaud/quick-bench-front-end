@@ -12,6 +12,7 @@ import IncludesDisplay from './IncludesDisplay.js';
 import Palette from 'components/Palette.js';
 import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
+import InteropHelper from 'components/InteropHelper';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -262,62 +263,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
             });
         }
     }
-    compilerCeId(i) {
-        if (this.state.options[i].compiler.startsWith('clang'))
-            return 'clang' + this.state.options[i].compiler.substr(6).replace('.', '') + '0';
-        return 'g' + this.state.options[i].compiler.substr(4).replace('.', '');
-    }
-    optimCe(i) {
-        switch (this.state.options[i].optim) {
-            case 'G':
-                return '-Og';
-            case 'F':
-                return '-Ofast';
-            case 'S':
-                return '-Os';
-            default:
-                return '-O' + this.state.options[i].optim;
-        }
-    }
-    versionCe(i) {
-        switch (this.state.options[i].cppVersion) {
-            case '20':
-                return '2a';
-            case '17':
-                return '1z';
-            default:
-                return this.state.options[i].cppVersion;
-        }
-    }
-    b64UTFEncode(str) {
-        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, v) {
-            return String.fromCharCode(parseInt(v, 16));
-        }));
-    }
-    optionsCe(i) {
-        const cppVersion = '-std=c++' + this.versionCe(i);
-        return cppVersion + ' ' + this.optimCe(i);
-    }
-    openCodeInCE() {
-        let sessions = this.state.texts.map((t, i) => ({
-            "id": i,
-            "language": "c++",
-            "source": t,
-            "compilers": [{
-                "id": this.compilerCeId(i),
-                "options": this.optionsCe(i),
-                "libs": [{
-                    "name": "benchmark",
-                    "ver": "140"
-                }]
-            }]
-        }));
-        var clientstate = {
-            "sessions": sessions
-        };
-        var link = window.location.protocol + '//godbolt.org/clientstate/' + this.b64UTFEncode(JSON.stringify(clientstate));
-        window.open(link, '_blank');
-    }
     setDirty() {
         this.setState({
             clean: false,
@@ -438,7 +383,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             </Display>
                                         </Form>
                                         <Form inline>
-                                            <Button variant="outline-dark" onClick={() => this.openCodeInCE()} className="float-right"><img src="/ico/Compiler-Explorer.svg" style={{ height: "1em" }} alt="Open in Compiler Explorer" /></Button>
+                                            <Button variant="outline-dark" onClick={() => InteropHelper.openCodeInCE(this.state.texts, this.state.options)} className="float-right"><img src="/ico/Compiler-Explorer.svg" style={{ height: "1em" }} alt="Open in Compiler Explorer" /></Button>
                                         </Form>
                                     </ButtonToolbar>
                                     <Display when={this.state.sending}>
