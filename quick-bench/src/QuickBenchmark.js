@@ -35,6 +35,10 @@ BENCHMARK(StringCopy);
 `;
 const includeStr = '#include <benchmark/benchmark.h>\n';
 const mainStr = '\nBENCHMARK_MAIN();';
+const compilers = ['clang-3.8', 'clang-3.9', 'clang-4.0', 'clang-5.0',
+    'clang-6.0', 'clang-7.0', 'clang-7.1', 'clang-8.0', 'clang-9.0',
+    'gcc-5.5', 'gcc-6.4', 'gcc-6.5', 'gcc-7.2', 'gcc-7.3', 'gcc-7.4',
+    'gcc-7.5', 'gcc-8.1', 'gcc-8.2', 'gcc-8.3', 'gcc-9.1', 'gcc-9.2'];
 
 const PALETTE = [
     "#5ed9cd",
@@ -80,19 +84,32 @@ class Benchmark extends React.Component {
 
         let stateFromHash = this.getStateFromHash();
         if (stateFromHash) {
-            this.setState({
-                text: this.importCode(stateFromHash.text),
-                options: {
-                    compiler: stateFromHash.compiler || this.state.options.compiler
-                    , cppVersion: stateFromHash.cppVersion || this.state.options.cppVersion
-                    , optim: stateFromHash.optim || this.state.options.optim
-                    , lib: stateFromHash.lib || this.state.options.lib
-                }
-            });
+            this.state.text = this.importCode(stateFromHash.text);
+            this.state.options = {
+                compiler: this.checkedCompiler(stateFromHash.compiler)
+                , cppVersion: stateFromHash.cppVersion || this.state.options.cppVersion
+                , optim: stateFromHash.optim || this.state.options.optim
+                , lib: stateFromHash.lib || this.state.options.lib
+            }
         }
     }
     initializeCode() {
         this.setState(Benchmark.initialState);
+    }
+    commonPrefixLength(s1, s2) {
+        const L = s2.length;
+        let i = 0;
+        while (i < L && s1.charAt(i) === s2.charAt(i)) i++;
+        return i;
+    }
+    checkedCompiler(comp) {
+        if (!comp)
+            return this.state.options.compiler;
+        if (compilers.indexOf(comp) > -1)
+            return comp;
+        // If we receive an unknown compiler version
+        // We search the one that has the longest common prefix
+        return compilers[compilers.reduce((best, x, i, arr) => this.commonPrefixLength(x, comp) >= this.commonPrefixLength(arr[best], comp) ? i : best, 0)];
     }
     getStateFromHash() {
         if (window.location.hash) {
@@ -317,7 +334,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                         <div className="fill-content">
                             <div className="fixed-content">
                                 <Card body className="my-2">
-                                    <CompileConfig value={this.state.options} onChange={c => this.onOptionsChange(c)} />
+                                    <CompileConfig compilers={compilers} value={this.state.options} onChange={c => this.onOptionsChange(c)} />
                                     <hr className="config-separator" />
                                     <ButtonToolbar className="justify-content-between">
                                         <Form inline>

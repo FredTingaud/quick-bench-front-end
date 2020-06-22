@@ -12,10 +12,6 @@ const v11Name = 'c++11';
 const v14Name = 'c++14';
 const v17Name = 'c++17';
 const v20Name = 'c++20';
-const compilers = ['clang-3.8', 'clang-3.9', 'clang-4.0', 'clang-5.0',
-    'clang-6.0', 'clang-7.0', 'clang-7.1', 'clang-8.0', 'clang-9.0',
-    'gcc-5.5', 'gcc-6.4', 'gcc-6.5', 'gcc-7.2', 'gcc-7.3', 'gcc-7.4',
-    'gcc-7.5', 'gcc-8.1', 'gcc-8.2', 'gcc-8.3', 'gcc-9.1', 'gcc-9.2'];
 const lGName = 'libstdc++(GNU)';
 const lCName = 'libc++(LLVM)';
 
@@ -119,7 +115,7 @@ class CompileConfig extends React.Component {
         return (
             <ButtonToolbar>
                 <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
-                    {compilers.map((name) => <Dropdown.Item eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
+                    {this.props.compilers.map((name) => <Dropdown.Item eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
                 </DropdownButton>
                 <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
                     <Dropdown.Item eventKey="11">{v11Name}</Dropdown.Item>
