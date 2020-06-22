@@ -115,7 +115,7 @@ class CompileConfig extends React.Component {
         return (
             <ButtonToolbar>
                 <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
-                    {this.props.compilers.map((name) => <Dropdown.Item eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
+                    {this.props.compilers.map((name) => <Dropdown.Item key={name} eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
                 </DropdownButton>
                 <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
                     <Dropdown.Item eventKey="11">{v11Name}</Dropdown.Item>

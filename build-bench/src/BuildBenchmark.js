@@ -11,6 +11,7 @@ import DisplayEditor from './DisplayEditor.js';
 import IncludesDisplay from './IncludesDisplay.js';
 import Palette from 'components/Palette.js';
 import Display from 'components/Display.js';
+import HashParser from 'components/HashParser.js';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -78,28 +79,17 @@ class Benchmark extends React.Component {
         this.state.location = props.id;
         this.state.prevLocation = props.id;
 
-        let stateFromHash = this.getStateFromHash();
-        if (stateFromHash) {
-            this.state.text = stateFromHash.text;
-            if (stateFromHash.compiler) this.state.compiler = stateFromHash.compiler;
-            if (stateFromHash.cppVersion) this.state.cppVersion = stateFromHash.cppVersion;
-            if (stateFromHash.optim) this.state.optim = stateFromHash.optim;
-            if (stateFromHash.lib) this.state.lib = stateFromHash.lib;
+        let stateFromHash = HashParser.getState(compilers, this.state.options[0]);
+        if (stateFromHash.length > 0) {
+            this.state.titles = stateFromHash.map(s => s.title);
+            this.state.texts = stateFromHash.map(s => s.text);
+            this.state.options = stateFromHash.map(s => s.options);
+            this.state.textsWrapped = this.state.texts.every(t => t === this.state.texts[0])
+            this.state.optionsWrapped = this.state.options.every(o => JSON.stringify(o) === JSON.stringify(this.state.options[0]))
         }
     }
     initializeCode() {
         this.setState(Benchmark.initialState);
-    }
-    getStateFromHash() {
-        if (window.location.hash) {
-            let state = this.decodeHash(window.location.hash);
-            window.location.hash = "";
-            if (state.text) {
-                return state;
-            }
-        }
-
-        return false;
     }
     componentDidMount() {
         if (this.props.id) {
@@ -303,17 +293,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
         return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, v) {
             return String.fromCharCode(parseInt(v, 16));
         }));
-    }
-    decodeHash(str) {
-        try {
-            let base64ascii = str.substr(1);
-            if (base64ascii) {
-                return JSON.parse(atob(base64ascii));
-            }
-        } catch (err) {
-            console.error(err);
-        }
-        return false;
     }
     optionsCe(i) {
         const cppVersion = '-std=c++' + this.versionCe(i);

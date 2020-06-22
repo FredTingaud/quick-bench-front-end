@@ -9,6 +9,7 @@ import AssemblyEditor from './AssemblyEditor.js';
 import InteropHelper from 'components/InteropHelper.js';
 import Display from 'components/Display.js';
 import Palette from 'components/Palette.js';
+import HashParser from 'components/HashParser.js';
 
 var request = require('request');
 const protocolVersion = 4;
@@ -82,45 +83,15 @@ class Benchmark extends React.Component {
         this.state.location = props.id;
         this.state.prevLocation = props.id;
 
-        let stateFromHash = this.getStateFromHash();
-        if (stateFromHash) {
-            this.state.text = this.importCode(stateFromHash.text);
-            this.state.options = {
-                compiler: this.checkedCompiler(stateFromHash.compiler)
-                , cppVersion: stateFromHash.cppVersion || this.state.options.cppVersion
-                , optim: stateFromHash.optim || this.state.options.optim
-                , lib: stateFromHash.lib || this.state.options.lib
-            }
+        let stateFromHash = HashParser.getState(compilers, this.state.options);
+        if (stateFromHash.length > 0) {
+            this.state.text = this.importCode(stateFromHash[0].text);
+            this.state.options = stateFromHash[0].options;
+
         }
     }
     initializeCode() {
         this.setState(Benchmark.initialState);
-    }
-    commonPrefixLength(s1, s2) {
-        const L = s2.length;
-        let i = 0;
-        while (i < L && s1.charAt(i) === s2.charAt(i)) i++;
-        return i;
-    }
-    checkedCompiler(comp) {
-        if (!comp)
-            return this.state.options.compiler;
-        if (compilers.indexOf(comp) > -1)
-            return comp;
-        // If we receive an unknown compiler version
-        // We search the one that has the longest common prefix
-        return compilers[compilers.reduce((best, x, i, arr) => this.commonPrefixLength(x, comp) >= this.commonPrefixLength(arr[best], comp) ? i : best, 0)];
-    }
-    getStateFromHash() {
-        if (window.location.hash) {
-            let state = this.decodeHash(window.location.hash);
-            window.location.hash = "";
-            if (state.text) {
-                return state;
-            }
-        }
-
-        return false;
     }
     componentDidMount() {
         if (this.props.id) {
@@ -269,17 +240,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 }
             });
         }
-    }
-    decodeHash(str) {
-        try {
-            let base64ascii = str.substr(1);
-            if (base64ascii) {
-                return JSON.parse(atob(base64ascii));
-            }
-        } catch (err) {
-            console.error(err);
-        }
-        return false;
     }
     importCode(text) {
         return text.replace(includeStr, '').replace(mainStr, '');
