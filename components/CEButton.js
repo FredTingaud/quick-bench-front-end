@@ -41,8 +41,6 @@ class CEButton extends React.Component {
     }
 
     openCodeInCE(texts, options) {
-        console.log("texts: " + texts);
-        console.log("options: " + options);
         let sessions = [].concat(texts).map((t, i) => ({
             "id": i,
             "language": "c++",
