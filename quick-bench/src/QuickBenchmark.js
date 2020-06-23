@@ -6,7 +6,7 @@ import QuickChart from './QuickChart.js';
 import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import AssemblyEditor from './AssemblyEditor.js';
-import InteropHelper from 'components/InteropHelper.js';
+import CEButton from 'components/CEButton.js';
 import Display from 'components/Display.js';
 import Palette from 'components/Palette.js';
 import HashParser from 'components/HashParser.js';
@@ -268,16 +268,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
     toggleAnnotated(e) {
         this.setState({ isAnnotated: e.target.checked });
     }
-    buttonHeight() {
-        const run = document.getElementById('Run');
-        if (run == null)
-            return '5px';
-        const compStyle = window.getComputedStyle(run, null);
-        // We remove 4px more because for some reason otherwise it is possible that the CE button ends-up slightly bigger than the run button
-        // Which because the whole toolbar is the same size, would start an infinit loop of 
-        // "run" growing -> CE grows to react -> is bigger than run -> grows the toolbar
-        return `calc(${compStyle.height} - ${compStyle.paddingTop} - ${compStyle.paddingBottom} - 4px)`;
-    }
     render() {
         return (
             <Container fluid>
@@ -305,7 +295,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             </Display>
                                         </Form>
                                         <Form inline>
-                                            <Button variant="outline-dark" onClick={() => InteropHelper.openCodeInCE(this.state.text, this.state.options)} className="float-right"><img src="/ico/Compiler-Explorer.svg" style={{ height: "1.5rem" }} alt="Open in Compiler Explorer" /></Button>
+                                            <CEButton className="float-right" texts={includeStr + this.state.text + mainStr} options={this.state.options} />
                                         </Form>
                                     </ButtonToolbar>
                                     <Display when={this.state.sending}>

@@ -18,7 +18,8 @@ class Editor extends React.Component {
                     handleHeight
                     onResize={(w, h) => this.editor.layout({ width: w, height: h })}
                     refreshMode="debounce"
-                    refreshRate={100} />
+                    refreshRate={100}
+                />
                 <MonacoEditor
                     {...other}
                     options={options}
