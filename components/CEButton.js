@@ -62,7 +62,7 @@ class CEButton extends React.Component {
     }
 
     render() {
-        return <Button variant="outline-dark" onClick={() => this.openCodeInCE(this.props.texts, this.props.options)} >
+        return <Button variant="outline-dark" onClick={() => this.openCodeInCE(this.props.texts, this.props.options)} className="mr-2">
             <img src={svg} style={{ height: "1.2em" }} alt="Open in Compiler Explorer" />
         </Button>;
     }

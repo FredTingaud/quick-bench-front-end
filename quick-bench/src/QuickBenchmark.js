@@ -7,6 +7,7 @@ import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, Prog
 import { MdTimer } from "react-icons/md";
 import AssemblyEditor from './AssemblyEditor.js';
 import CEButton from 'components/CEButton.js';
+import CPPInsightsButton from 'components/CPPInsightsButton.js';
 import Display from 'components/Display.js';
 import Palette from 'components/Palette.js';
 import HashParser from 'components/HashParser.js';
@@ -296,6 +297,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         </Form>
                                         <Form inline>
                                             <CEButton className="float-right" texts={includeStr + this.state.text + mainStr} options={this.state.options} />
+                                            <CPPInsightsButton className="float-right" text={includeStr + this.state.text + mainStr} options={this.state.options} />
                                         </Form>
                                     </ButtonToolbar>
                                     <Display when={this.state.sending}>

@@ -13,6 +13,7 @@ import Palette from 'components/Palette.js';
 import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
 import CEButton from 'components/CEButton.js';
+import CPPInsightsButton from 'components/CPPInsightsButton.js';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -374,6 +375,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         </Form>
                                         <Form inline>
                                             <CEButton className="float-right" texts={this.state.texts} options={this.state.options} />
+                                            <CPPInsightsButton className="float-right" text={this.state.texts[this.state.index]} options={this.state.options[this.state.index]} />
                                         </Form>
                                     </ButtonToolbar>
                                     <Display when={this.state.sending}>
