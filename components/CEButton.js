@@ -1,7 +1,7 @@
 import React from 'react';
 
 import InteropHelper from 'components/InteropHelper';
-import { Button } from 'react-bootstrap';
+import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import svg from 'components/resources/ico/Compiler-Explorer.svg';
 
 class CEButton extends React.Component {
@@ -61,10 +61,26 @@ class CEButton extends React.Component {
         window.open(link, '_blank');
     }
 
+    renderTooltip(props) {
+        return (
+            <Tooltip id="button-tooltip" {...props}>
+                Open in Compiler Explorer
+    </Tooltip>
+        );
+    }
+
     render() {
-        return <Button variant="outline-dark" onClick={() => this.openCodeInCE(this.props.texts, this.props.options)} className="mr-2">
-            <img src={svg} style={{ height: "1.2em" }} alt="Open in Compiler Explorer" />
-        </Button>;
+        return (
+
+            <OverlayTrigger
+                placement="bottom"
+                delay={{ show: 250, hide: 400 }}
+                overlay={(p) => this.renderTooltip(p)}
+            >
+                <Button variant="outline-dark" onClick={() => this.openCodeInCE(this.props.texts, this.props.options)} className="mr-2">
+                    <img src={svg} style={{ height: "1.2em" }} alt="Open in Compiler Explorer" />
+                </Button>
+            </OverlayTrigger>);
     }
 }
 

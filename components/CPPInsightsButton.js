@@ -1,7 +1,7 @@
 import React from 'react';
 
 import InteropHelper from 'components/InteropHelper';
-import { Button } from 'react-bootstrap';
+import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import svg from 'components/resources/ico/cppinsights.svg';
 
 class CPPInsightsButton extends React.Component {
@@ -26,10 +26,25 @@ class CPPInsightsButton extends React.Component {
         window.open(link, '_blank');
     }
 
+    renderTooltip(props) {
+        return (
+            <Tooltip id="button-tooltip" {...props}>
+                Open in CPP Insights
+    </Tooltip>
+        );
+    }
     render() {
-        return <Button variant="outline-dark" onClick={() => this.openCodeInCPPInsights(this.props.text, this.props.options)} className="mr-2">
-            <img src={svg} style={{ height: "1.3em" }} alt="Open in CPP Insights" />
-        </Button>;
+        return (
+            <OverlayTrigger
+                placement="bottom"
+                delay={{ show: 250, hide: 400 }}
+                overlay={(p) => this.renderTooltip(p)}
+            >
+                <Button variant="outline-dark" onClick={() => this.openCodeInCPPInsights(this.props.text, this.props.options)} className="mr-2">
+                    <img src={svg} style={{ height: "1.3em" }} alt="Open in CPP Insights" />
+                </Button>
+            </OverlayTrigger>
+        );
     }
 }
 
