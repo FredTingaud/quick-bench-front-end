@@ -5,6 +5,7 @@ import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import AuthorDialog from './dialogs/AuthorDialog.js';
 import ThanksDialog from './dialogs/ThanksDialog.js';
 import PrivacyDialog from './dialogs/PrivacyDialog.js';
+import patreon from 'components/resources/ico/Patreon.svg';
 
 class Header extends React.Component {
     constructor(props) {
@@ -90,7 +91,7 @@ class Header extends React.Component {
                     <Navbar.Collapse className="mr-sm-2">
                         <Nav>
                             <NavDropdown title="Support Quick Bench Suite" id="basic-nav-dropdown" alignRight>
-                                <DropdownItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src="/ico/Patreon.svg" className="line-img" alt="Patreon icon" /> Support on Patreon</DropdownItem>
+                                <DropdownItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src={patreon} className="line-img" alt="Patreon icon" /> Support on Patreon</DropdownItem>
                             </NavDropdown>
                             <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)} alignRight>
                                 <DropdownItem eventKey="about">About Quick-bench</DropdownItem>
