@@ -41,7 +41,7 @@ class CPPInsightsButton extends React.Component {
                 overlay={(p) => this.renderTooltip(p)}
             >
                 <Button variant="outline-dark" onClick={() => this.openCodeInCPPInsights(this.props.text, this.props.options)} className="mr-2">
-                    <img src={svg} style={{ height: "1.3em" }} alt="Open in CPP Insights" />
+                    <img src={svg} className="line-img" alt="Open in CPP Insights" />
                 </Button>
             </OverlayTrigger>
         );
