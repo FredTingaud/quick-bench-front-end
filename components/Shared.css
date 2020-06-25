@@ -76,6 +76,10 @@
     max-width: 90%;
 }
 
+.modal-60w {
+    max-width: 60%;
+}
+
 .close-button {
     padding: 0 0 0 5px;
     border: none;

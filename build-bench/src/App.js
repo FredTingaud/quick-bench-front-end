@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DropdownItem } from 'react-bootstrap';
 import Benchmark from './BuildBenchmark.js';
 import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
@@ -6,6 +7,7 @@ import 'components/Shared.css';
 import './App.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import Display from 'components/Display.js';
+import AboutDialog from './dialogs/AboutDialog.js';
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
 
@@ -20,7 +22,8 @@ class App extends Component {
             location: null,
             prevlocation: null,
             description: DEFAULT_DESCRIPTION,
-            stylePath: ''
+            stylePath: '',
+            showAbout: false
         };
     }
     componentDidUpdate() {
@@ -48,6 +51,13 @@ class App extends Component {
         this.setState({ stylePath: css });
     }
 
+    openAbout() {
+        this.setState({ showAbout: true });
+    }
+    closeAbout() {
+        this.setState({ showAbout: false });
+    }
+
     Home = ({ match }) => <Benchmark onDisplay={() => this.changeMargin()} id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} onDescriptionChange={(d) => this.setState({ description: d ? d : DEFAULT_DESCRIPTION })} specialPalette={this.state.stylePath !== ''} />;
 
     render() {
@@ -68,10 +78,11 @@ class App extends Component {
                             <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} />
                         </Display>
                     </Helmet>
-                    <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Benchmark C++ Builds" /></div>
+                    <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Benchmark C++ Builds" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
                     <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
                 </div>
+                <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
             </BrowserRouter>
         );
     }

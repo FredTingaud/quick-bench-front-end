@@ -1,7 +1,5 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown, DropdownItem, Dropdown, Form } from 'react-bootstrap';
-import AboutDialog from './dialogs/AboutDialog.js';
-import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import AuthorDialog from './dialogs/AuthorDialog.js';
 import ThanksDialog from './dialogs/ThanksDialog.js';
 import PrivacyDialog from './dialogs/PrivacyDialog.js';
@@ -11,8 +9,6 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showAbout: false,
-            showBenchmark: false,
             showAuthor: false,
             showThanks: false,
             showPrivacy: false,
@@ -26,11 +22,7 @@ class Header extends React.Component {
     }
     openInfo(key) {
         if (key) {
-            if (key === 'about') {
-                this.openAbout();
-            } else if (key === 'benchmark') {
-                this.openBenchmark();
-            } else if (key === 'author') {
+            if (key === 'author') {
                 this.openAuthor();
             } else if (key === 'favicon') {
                 this.openFavicon();
@@ -44,12 +36,6 @@ class Header extends React.Component {
     }
     closeAbout() {
         this.setState({ showAbout: false });
-    }
-    openBenchmark() {
-        this.setState({ showBenchmark: true });
-    }
-    closeBenchmark() {
-        this.setState({ showBenchmark: false });
     }
     openAuthor() {
         this.setState({ showAuthor: true });
@@ -94,8 +80,7 @@ class Header extends React.Component {
                                 <DropdownItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src={patreon} className="line-img" alt="Patreon icon" /> Support on Patreon</DropdownItem>
                             </NavDropdown>
                             <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)} alignRight>
-                                <DropdownItem eventKey="about">About Quick-bench</DropdownItem>
-                                <DropdownItem eventKey="benchmark">How to write my benchmarks</DropdownItem>
+                                {this.props.entries()}
                                 <Dropdown.Divider />
                                 <DropdownItem href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</DropdownItem>
                                 <DropdownItem href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</DropdownItem>
@@ -107,8 +92,6 @@ class Header extends React.Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Form>
-                <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
-                <BenchmarkDialog show={this.state.showBenchmark} onHide={() => this.closeBenchmark()} />
                 <AuthorDialog show={this.state.showAuthor} onHide={() => this.closeAuthor()} />
                 <PrivacyDialog show={this.state.showPrivacy} onHide={() => this.closePrivacy()} />
                 <ThanksDialog show={this.state.showThanks} onHide={() => this.closeFavicon()} />

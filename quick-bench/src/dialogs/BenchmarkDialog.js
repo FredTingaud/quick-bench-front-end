@@ -10,7 +10,7 @@ class FaviconDialog extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <h4>Google Benchmark</h4>
-                    <p>Quick-bench uses Google Benchmark. Thus, you can go on the project page for more information about how to write good benchmarks:<br />
+                    <p>Quick Bench uses Google Benchmark. Thus, you can go on the project page for more information about how to write good benchmarks:<br />
                         <a href="https://github.com/google/benchmark" target="_blank" rel="noopener noreferrer">https://github.com/google/benchmark</a>
                     </p>
                 </Modal.Body>
