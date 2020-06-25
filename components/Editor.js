@@ -19,11 +19,12 @@ class Editor extends React.Component {
                     onResize={(w, h) => this.editor.layout({ width: w, height: h })}
                     refreshMode="debounce"
                     refreshRate={100}
-                />
-                <MonacoEditor
-                    {...other}
-                    options={options}
-                    editorDidMount={(e, m) => this.editorDidMount(e, m, editorDidMount)} />
+                >
+                    <MonacoEditor
+                        {...other}
+                        options={options}
+                        editorDidMount={(e, m) => this.editorDidMount(e, m, editorDidMount)} />
+                </ReactResizeDetector>
             </div>
         );
     }

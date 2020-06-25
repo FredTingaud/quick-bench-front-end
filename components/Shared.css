@@ -23,18 +23,30 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    min-height: 0;
 }
 
 .fill-content {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
 }
 
     .fill-content .tab-content > .active {
         display: flex;
         overflow: hidden;
     }
+
+.fill-row {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    margin-left: 0px;
+    margin-right: 0px;
+}
 
 .fixed-content {
     flex: 0 1 auto;
@@ -50,6 +62,10 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
 }
 
 .ratio-line {
@@ -88,6 +104,8 @@
 
 .packed-card {
     padding: 0 0 0 0;
+    min-width: 0;
+    min-height: 0;
 }
 
 .rainbow-decoration {

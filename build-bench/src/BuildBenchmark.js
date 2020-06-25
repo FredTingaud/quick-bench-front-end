@@ -102,7 +102,6 @@ class Benchmark extends React.Component {
             });
             this.getCode(this.props.id);
         }
-        this.props.onDisplay();
     }
     componentDidUpdate(prevProps) {
         if (prevProps.id !== this.props.id) {
@@ -322,8 +321,8 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
     }
     render() {
         return (
-            <Container fluid>
-                <Row className="full-size">
+            <div className="fill-content">
+                <Row className="fill-row">
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
                             <WrappableTabs
@@ -436,7 +435,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                         </div>
                     </Col>
                 </Row>
-            </Container>
+            </div>
         );
     }
 }

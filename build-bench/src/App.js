@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DropdownItem } from 'react-bootstrap';
+import { DropdownItem, Container } from 'react-bootstrap';
 import Benchmark from './BuildBenchmark.js';
 import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
@@ -33,12 +33,6 @@ class App extends Component {
             });
         }
     }
-    changeMargin() {
-        var all = document.getElementsByClassName('container-fluid');
-        for (var i = 0; i < all.length; i++) {
-            all[i].style.marginTop = this.header.clientHeight + 'px';
-        }
-    }
     redirect() {
         if (this.state.location !== this.state.prevlocation && this.state.location) {
             return (
@@ -58,12 +52,12 @@ class App extends Component {
         this.setState({ showAbout: false });
     }
 
-    Home = ({ match }) => <Benchmark onDisplay={() => this.changeMargin()} id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} onDescriptionChange={(d) => this.setState({ description: d ? d : DEFAULT_DESCRIPTION })} specialPalette={this.state.stylePath !== ''} />;
+    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} onDescriptionChange={(d) => this.setState({ description: d ? d : DEFAULT_DESCRIPTION })} specialPalette={this.state.stylePath !== ''} />;
 
     render() {
         return (
             <BrowserRouter history={this.state.location}>
-                <div className="App full-size">
+                <Container fluid>
                     <Helmet>
                         <meta name="twitter:card" content="summary" />
                         <meta name="twitter:site" content="@FredTingaudDev" />
@@ -81,7 +75,7 @@ class App extends Component {
                     <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Benchmark C++ Builds" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
                     <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
-                </div>
+                </Container>
                 <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
             </BrowserRouter>
         );
