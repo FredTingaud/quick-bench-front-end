@@ -57,8 +57,8 @@ class App extends Component {
     render() {
         return (
             <BrowserRouter history={this.state.location}>
-                <Container fluid>
-                    <Helmet>
+                <div className="one-page">
+                     <Helmet>
                         <meta name="twitter:card" content="summary" />
                         <meta name="twitter:site" content="@FredTingaudDev" />
                         <meta name="twitter:title" content="C++ Build Benchmarks" />
@@ -75,7 +75,7 @@ class App extends Component {
                     <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Benchmark C++ Builds" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
                     <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
-                </Container>
+                </div>
                 <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
             </BrowserRouter>
         );

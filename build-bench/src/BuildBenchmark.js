@@ -3,7 +3,7 @@ import CodeEditor from 'components/CodeEditor.js';
 import BashOutput from 'components/BashOutput.js';
 import CompileConfig from 'components/CompileConfig.js';
 import BuildChart from './BuildChart.js';
-import { Button, ButtonToolbar, Row, Col, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
+import { Button, ButtonToolbar, Container, Row, Col, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import OutputTabs from './OutputTabs.js';
 import WrappableTabs from './WrappableTabs.js';
@@ -321,7 +321,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
     }
     render() {
         return (
-            <div className="fill-content">
+            <Container fluid className="fill-content">
                 <Row className="fill-row">
                     <Col sm={6} className="full-size">
                         <div className="code-editor">
@@ -435,7 +435,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                         </div>
                     </Col>
                 </Row>
-            </div>
+            </Container>
         );
     }
 }

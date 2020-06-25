@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DropdownItem, Container } from 'react-bootstrap';
+import { DropdownItem } from 'react-bootstrap';
 import Benchmark from './QuickBenchmark.js';
 import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
@@ -66,27 +66,27 @@ class App extends Component {
     render() {
         return (
             <BrowserRouter history={this.state.location}>
-                <Container fluid>
-                    <Helmet>
-                        <meta name="twitter:card" content="summary" />
-                        <meta name="twitter:site" content="@FredTingaudDev" />
-                        <meta name="twitter:title" content="Quick C++ Benchmarks" />
-                        <meta name="twitter:url" content="http://quick-bench.com/" />
-                        <meta name="twitter:description" content={this.state.description} />
-                        <meta property="og:type" content="website" />
-                        <meta property="og:url" content="http://quick-bench.com/" />
-                        <meta property="og:title" content="Quick C++ Benchmarks" />
-                        <meta property="og:description" content={this.state.description} />
-                        <Display when={this.state.stylePath}>
-                            <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} />
-                        </Display>
-                    </Helmet>
-                    <div className="fixed-content" ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Quick C++ Benchmark" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Quick Bench</DropdownItem>
-                        <DropdownItem onClick={() => this.openBenchmark()}>How to write my benchmarks</DropdownItem>
-                    </>)} /></div>
-                    <Route exact path={["/", "/q/:id"]} component={this.Home} />
-                    {this.redirect()}
-                </Container>
+                <div className="one-page">
+                            <Helmet>
+                                <meta name="twitter:card" content="summary" />
+                                <meta name="twitter:site" content="@FredTingaudDev" />
+                                <meta name="twitter:title" content="Quick C++ Benchmarks" />
+                                <meta name="twitter:url" content="http://quick-bench.com/" />
+                                <meta name="twitter:description" content={this.state.description} />
+                                <meta property="og:type" content="website" />
+                                <meta property="og:url" content="http://quick-bench.com/" />
+                                <meta property="og:title" content="Quick C++ Benchmarks" />
+                                <meta property="og:description" content={this.state.description} />
+                                <Display when={this.state.stylePath}>
+                                    <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} />
+                                </Display>
+                            </Helmet>
+                            <div className="fixed-content" ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Quick C++ Benchmark" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Quick Bench</DropdownItem>
+                                <DropdownItem onClick={() => this.openBenchmark()}>How to write my benchmarks</DropdownItem>
+                            </>)} /></div>
+                            <Route exact path={["/", "/q/:id"]} component={this.Home} />
+                            {this.redirect()}
+                </div>
                 <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
                 <BenchmarkDialog show={this.state.showBenchmark} onHide={() => this.closeBenchmark()} />
 
