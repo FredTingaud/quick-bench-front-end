@@ -3,7 +3,7 @@ import CodeEditor from 'components/CodeEditor.js';
 import BashOutput from 'components/BashOutput.js';
 import CompileConfig from 'components/CompileConfig.js';
 import BuildChart from './BuildChart.js';
-import { Button, ButtonToolbar, Row, Col, Container, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
+import { Button, ButtonToolbar, Row, Col, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import OutputTabs from './OutputTabs.js';
 import WrappableTabs from './WrappableTabs.js';
