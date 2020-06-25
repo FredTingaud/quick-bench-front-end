@@ -3,7 +3,6 @@ import { DropdownItem } from 'react-bootstrap';
 import Benchmark from './QuickBenchmark.js';
 import Header from 'components/Header.js';
 import { Helmet } from "react-helmet";
-import './App.css';
 import 'components/Shared.css';
 import Display from 'components/Display.js';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
