@@ -133,7 +133,7 @@ class AssemblyEditor extends React.Component {
     }
     fillTabs() {
         let tabsList = this.state.titles.map(function (name, i) {
-            return <Tab title={name} eventKey={i} key={name} />
+            return <Tab title={name} eventKey={i} key={name} tabClassName="small-tabs"/>
         });
 
         return (<Tabs onSelect={(key) => this.handleSelect(key)} defaultActiveKey={this.state.index} id="bench-asm-selection">

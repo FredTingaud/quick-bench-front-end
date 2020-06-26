@@ -40,6 +40,10 @@
         overflow: hidden;
     }
 
+.nav-link.small-tabs {
+    padding: 0.25rem 0.5rem;
+}
+
 .fill-row {
     flex: 1 1 auto;
     min-width: 0;

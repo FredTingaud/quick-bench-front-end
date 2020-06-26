@@ -5,8 +5,8 @@ import Display from 'components/Display.js';
 class OutputTabs extends React.Component {
     renderTabs() {
         let tabsList = this.props.titles.map(function (name, i) {
-            return <Nav.Item key={i}>
-                <Nav.Link eventKey={i}>{name}</Nav.Link>
+            return <Nav.Item key={i} >
+                <Nav.Link eventKey={i} className="small-tabs">{name}</Nav.Link>
             </Nav.Item>
         });
 
