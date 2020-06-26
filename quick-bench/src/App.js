@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { DropdownItem } from 'react-bootstrap';
 import Benchmark from './QuickBenchmark.js';
 import Header from 'components/Header.js';
-import { Helmet } from "react-helmet";
 import 'components/Shared.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AboutDialog from './dialogs/AboutDialog.js';
@@ -61,22 +60,11 @@ class App extends Component {
         return (
             <BrowserRouter history={this.state.location}>
                 <div className="one-page">
-                            <Helmet>
-                                <meta name="twitter:card" content="summary" />
-                                <meta name="twitter:site" content="@FredTingaudDev" />
-                                <meta name="twitter:title" content="Quick C++ Benchmarks" />
-                                <meta name="twitter:url" content="http://quick-bench.com/" />
-                                <meta name="twitter:description" content={this.state.description} />
-                                <meta property="og:type" content="website" />
-                                <meta property="og:url" content="http://quick-bench.com/" />
-                                <meta property="og:title" content="Quick C++ Benchmarks" />
-                                <meta property="og:description" content={this.state.description} />
-                            </Helmet>
-                            <div className="fixed-content" ref={div => { this.header = div; }}><Header brand="Quick C++ Benchmark" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Quick Bench</DropdownItem>
-                                <DropdownItem onClick={() => this.openBenchmark()}>How to write my benchmarks</DropdownItem>
-                            </>)} /></div>
-                            <Route exact path={["/", "/q/:id"]} component={this.Home} />
-                            {this.redirect()}
+                    <div className="fixed-content" ref={div => { this.header = div; }}><Header brand="Quick C++ Benchmark" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Quick Bench</DropdownItem>
+                        <DropdownItem onClick={() => this.openBenchmark()}>How to write my benchmarks</DropdownItem>
+                    </>)} /></div>
+                    <Route exact path={["/", "/q/:id"]} component={this.Home} />
+                    {this.redirect()}
                 </div>
                 <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
                 <BenchmarkDialog show={this.state.showBenchmark} onHide={() => this.closeBenchmark()} />

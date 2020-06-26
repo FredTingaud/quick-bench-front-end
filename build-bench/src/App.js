@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { DropdownItem } from 'react-bootstrap';
 import Benchmark from './BuildBenchmark.js';
 import Header from 'components/Header.js';
-import { Helmet } from "react-helmet";
 import 'components/Shared.css';
 import './App.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
@@ -53,17 +52,6 @@ class App extends Component {
         return (
             <BrowserRouter history={this.state.location}>
                 <div className="one-page">
-                     <Helmet>
-                        <meta name="twitter:card" content="summary" />
-                        <meta name="twitter:site" content="@FredTingaudDev" />
-                        <meta name="twitter:title" content="C++ Build Benchmarks" />
-                        <meta name="twitter:url" content="http://build-bench.com/" />
-                        <meta name="twitter:description" content={this.state.description} />
-                        <meta property="og:type" content="website" />
-                        <meta property="og:url" content="http://build-bench.com/" />
-                        <meta property="og:title" content="C++ Build Benchmarks" />
-                        <meta property="og:description" content={this.state.description} />
-                    </Helmet>
                     <div ref={div => { this.header = div; }}><Header brand="Benchmark C++ Builds" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
                     <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
