@@ -335,6 +335,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                 onTitlesChange={t => this.onTitlesChange(t)}
                                 values={this.state.texts}
                                 onChange={c => this.codeChanged(c)}
+                                palette={PALETTE}
                                 confirm
                                 packed
                             >
@@ -360,6 +361,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         values={this.state.options}
                                         onChange={c => this.onOptionsChange(c)}
                                         unwrapText="Configure Separately"
+                                        palette={PALETTE}
                                     >
                                         <CompileConfig compilers={compilers} />
                                     </WrappableTabs>
@@ -409,24 +411,24 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         />
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="includes" className="fill-content" >
-                                        <OutputTabs values={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                        <OutputTabs values={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
                                             <IncludesDisplay />
                                         </OutputTabs>
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="asm" className="fill-content">
-                                        <OutputTabs values={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                        <OutputTabs values={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
                                             <DisplayEditor language="asm" />
                                         </OutputTabs>
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="pp" className="fill-content">
-                                        <OutputTabs values={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles}>
+                                        <OutputTabs values={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
                                             <DisplayEditor language="cpp" />
                                         </OutputTabs>
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Tab.Container>
                             <div className="fixed-content">
-                                <OutputTabs values={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} titles={this.state.titles} >
+                                <OutputTabs values={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles} >
                                     <BashOutput />
                                 </OutputTabs>
                             </div>

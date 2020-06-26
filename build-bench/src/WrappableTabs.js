@@ -4,6 +4,7 @@ import { MdClose, MdEdit } from "react-icons/md";
 import { AiOutlineMergeCells, AiOutlineSplitCells } from "react-icons/ai";
 import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
 import RenameTab from './dialogs/RenameTab.js';
+import Palette from 'components/Palette.js';
 
 class WrappableTabs extends React.Component {
     constructor(props) {
@@ -84,6 +85,7 @@ class WrappableTabs extends React.Component {
         // Binding here because at the call site, "this" is referring to the enclosing tab
         let closeTab = this.closeTab.bind(this);
         let renameTab = this.renameTab.bind(this);
+        let colors = this.props.titles.map((_, i) => Palette.pickCSS(i, this.props.titles.length, this.props.palette));
 
         let tabsList = this.props.titles.map(function (name, i) {
             return <Tab title={
@@ -91,7 +93,7 @@ class WrappableTabs extends React.Component {
                     {name}
                     {selection === i ? (<button className="close-button" onClick={() => renameTab(i)} ><MdEdit /></button>) : null}
                     <button className="close-button" onClick={() => closeTab(i)} disabled={closable}><MdClose /></button>
-                </>} eventKey={i} key={i} />
+                </>} eventKey={i} key={i} tabClassName={`out-tab ${colors[i]}`} />
         });
 
         return (<Tabs onSelect={(key) => this.handleSelect(key)} activeKey={this.props.index.toString()} id="bench-asm-selection" >

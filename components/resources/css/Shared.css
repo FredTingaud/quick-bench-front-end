@@ -68,6 +68,14 @@
     flex-direction: column;
 }
 
+.nav-tabs .nav-link.active.out-tab {
+    border-top-width: 4px;
+    padding-bottom: 0px;
+}
+.nav-tabs .nav-link.out-tab {
+    padding-bottom: 3px;
+}
+
 .ratio-line {
     color: forestgreen !important;
     font-style: oblique;
