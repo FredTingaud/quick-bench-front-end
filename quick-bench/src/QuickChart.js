@@ -86,7 +86,6 @@ class QuickChart extends React.Component {
         return (
             <TimeChart
                 id={this.props.id}
-                onDescriptionChange={d => this.props.onDescriptionChange(d)}
                 data={this.state.data}
                 labels={this.state.labels}
                 dataLabels={isLine ? this.labels : ['cpu_time']}

@@ -320,7 +320,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             id={this.state.location}
                                             index={this.state.chartIndex}
                                             onNamesChange={n => this.setState({ benchNames: n })}
-                                            onDescriptionChange={d => this.props.onDescriptionChange(d)}
                                             palette={PALETTE}
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />

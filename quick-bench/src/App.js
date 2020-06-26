@@ -11,15 +11,12 @@ const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : w
 
 const maxCodeSize = 20000;
 
-const DEFAULT_DESCRIPTION = 'Quick-Bench is an online tool to easily create and run C++ micro-benchmarks using Google Benchmark API.';
-
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             location: null,
             prevlocation: null,
-            description: DEFAULT_DESCRIPTION,
             showAbout: false,
             showBenchmark: false
         };
@@ -54,7 +51,7 @@ class App extends Component {
         this.setState({ showBenchmark: false });
     }
 
-    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} onDescriptionChange={(d) => this.setState({ description: d ? d : DEFAULT_DESCRIPTION })} />;
+    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />;
 
     render() {
         return (

@@ -404,7 +404,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             id={this.state.location}
                                             titles={this.state.titles}
                                             index={this.state.chartIndex}
-                                            onDescriptionChange={d => this.props.onDescriptionChange(d)}
                                             palette={PALETTE}
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />

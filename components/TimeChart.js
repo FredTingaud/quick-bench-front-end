@@ -106,7 +106,6 @@ class TimeChart extends React.Component {
         this.chart.options.title.text = this.props.title;
 
         this.chart.update();
-        this.props.onDescriptionChange(this.makeDescription());
     }
     sum(data, index) {
         return data.reduce((p, v) => p + v[index], 0);
@@ -168,12 +167,6 @@ class TimeChart extends React.Component {
         if (v1 > v2)
             return `${(v1 / v2).toLocaleString(undefined, { maximumSignificantDigits: 2 })} times ${this.props.more} than ${name}`;
         return `${(v2 / v1).toLocaleString(undefined, { maximumSignificantDigits: 2 })} times ${this.props.less} than ${name}`;
-    }
-    makeDescription() {
-        let start = `${this.props.labels[0]} is `;
-        let val = this.sum(this.props.data, 0);
-        let res = this.props.labels.slice(1).map((n, i) => this.describe(val, this.sum(this.props.data, i + 1), n));
-        return start + res.slice(0, -1).join(', ') + (res.length > 1 ? ' and ' : '') + res[res.length - 1];
     }
     renderIfVisible() {
         const tooltip = <Tooltip id="tooltip-save">Download chart</Tooltip>;

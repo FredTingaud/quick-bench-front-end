@@ -81,7 +81,6 @@ class BuildChart extends React.Component {
                 dataLabels={[].concat(chartData[this.props.index].property)}
                 colors={[].concat(chartData[this.props.index].property).map((p, i) => this.lighten(colors, i))}
                 id={this.props.id}
-                onDescriptionChange={d => this.props.onDescriptionChange(d)}
                 title={chartData[this.props.index].title}
                 more={chartData[this.props.index].more}
                 less={chartData[this.props.index].less}
