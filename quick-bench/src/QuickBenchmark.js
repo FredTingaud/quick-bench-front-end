@@ -73,7 +73,6 @@ class Benchmark extends React.Component {
         , benchNames: []
         , annotation: ''
         , isAnnotated: true
-        , assemblyFull: false
         , chartIndex: 0
         , displayTab: 'charts'
     };
@@ -325,7 +324,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         />
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="asm" className="fill-content">
-                                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} setFullScreen={fs => this.setState({ assemblyFull: fs })} />
+                                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} />
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Tab.Container>

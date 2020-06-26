@@ -1,7 +1,6 @@
 import React from 'react';
 import Palette from 'components/Palette.js';
-import { Tab, Tabs, Row, Col, Button } from 'react-bootstrap';
-import { GoScreenFull, GoScreenNormal } from "react-icons/go";
+import { Tab, Tabs } from 'react-bootstrap';
 import Editor from 'components/Editor';
 
 const RE_CODE = /\s*([0-9\\.]+) +:\s+([0-9a-f]+):\s+(.*)/;
@@ -141,18 +140,6 @@ class AssemblyEditor extends React.Component {
             {tabsList}
         </Tabs>);
     }
-    renderHeader() {
-        return (
-            <Row>
-                <Col xs={11}>
-                    {this.fillTabs()}
-                </Col>
-                <Col className="pull-right" xs={1}>
-                    <Button size="sm" variant="default" onClick={() => this.switchFullScreen()} >{this.state.fullScreen ? <GoScreenNormal /> : <GoScreenFull />}</Button>
-                </Col>
-            </Row>
-        );
-    }
     render() {
         const options = {
             selectOnLineNumbers: true
@@ -162,7 +149,7 @@ class AssemblyEditor extends React.Component {
         };
         return (
             <>
-                {this.renderHeader()}
+                {this.fillTabs()}
                 < Editor
                     language="asm"
                     options={options}
