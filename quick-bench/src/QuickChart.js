@@ -88,7 +88,7 @@ class QuickChart extends React.Component {
                 id={this.props.id}
                 data={this.state.data}
                 labels={this.state.labels}
-                dataLabels={isLine ? this.labels : ['cpu_time']}
+                dataLabels={isLine ? this.state.labels : ['cpu_time']}
                 colors={isLine ? this.state.colors : [this.state.colors]}
                 title={['ratio (CPU time / Noop time)', 'Lower is faster']}
                 more={'slower'}
