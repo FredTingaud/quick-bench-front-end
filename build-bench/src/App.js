@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DropdownItem } from 'react-bootstrap';
 import Benchmark from './BuildBenchmark.js';
 import Header from 'components/Header.js';
-import 'components/Shared.css';
+import 'components/resources/css/Shared.css';
 import './App.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AboutDialog from './dialogs/AboutDialog.js';
