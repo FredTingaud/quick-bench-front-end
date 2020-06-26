@@ -17,7 +17,6 @@ class PrivacyDialog extends React.Component {
                         <ul>
                             <li>Your Code</li>
                             <li>Request logs</li>
-                            <li> Website Analytics</li>
                         </ul>
                         <li>Third-Party Disclosure</li>
                         <li>Your Rights</li>
@@ -49,19 +48,6 @@ class PrivacyDialog extends React.Component {
                     These logs contain the request header, which can contain IP address and the user browser settings.
                     <br />
                     These logs are kept at most one month.
-
-                    <h4>Website Analytics</h4>
-                    To gather information on the usage of the Quick Bench suite, we ask the user they&apos;re approval on the usage of &apos;cookies&apos;.
-                    A cookie is a small text file that our site may place on your computer as a tool to remember information on your next visits.
-                    If the user give their approval, the Quick Bench suite uses Google Analytics, a service which transmits website traffic data to Google servers in the United State. Google Analytics does not identify individual users or associate your IP address with any other data held by Google.
-                    <br />
-                    You can opt out of Google Analytics if you disable or refuse the cookie, disable JavaScript, or use the opt-out service provided by Google.
-                    <br />
-                    For website analytics, we collect: - The pages you visited, when (date and time) you visited them and how long you visited them for - The website address from which you accessed this site - The website address from which you exited this site - Queries via the site&apos;s search engine - Internet browser and devices used - Information on how you use the site, through cookies.
-                    <br />
-                    Our Google Analytics data retention is set for 14 months.
-                    <br />
-                    We honor Do Not Track signals and do not track or plant cookies when a Do Not Track (DNT) browser mechanism is in place.
 
                     <h3>Third-Party Disclosure</h3>
                     We do not sell, trade, or otherwise transfer to outside parties your Personally Identifiable Information. We may release information when its release is appropriate to comply with and forced by the law.
