@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet";
 import 'components/Shared.css';
 import './App.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import Display from 'components/Display.js';
 import AboutDialog from './dialogs/AboutDialog.js';
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
@@ -22,7 +21,6 @@ class App extends Component {
             location: null,
             prevlocation: null,
             description: DEFAULT_DESCRIPTION,
-            stylePath: '',
             showAbout: false
         };
     }
@@ -41,9 +39,6 @@ class App extends Component {
         }
         return null;
     }
-    setStyle(css) {
-        this.setState({ stylePath: css });
-    }
 
     openAbout() {
         this.setState({ showAbout: true });
@@ -52,7 +47,7 @@ class App extends Component {
         this.setState({ showAbout: false });
     }
 
-    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} onDescriptionChange={(d) => this.setState({ description: d ? d : DEFAULT_DESCRIPTION })} specialPalette={this.state.stylePath !== ''} />;
+    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} onDescriptionChange={(d) => this.setState({ description: d ? d : DEFAULT_DESCRIPTION })} />;
 
     render() {
         return (
@@ -68,11 +63,8 @@ class App extends Component {
                         <meta property="og:url" content="http://build-bench.com/" />
                         <meta property="og:title" content="C++ Build Benchmarks" />
                         <meta property="og:description" content={this.state.description} />
-                        <Display when={this.state.stylePath}>
-                            <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/css/' + this.state.stylePath} />
-                        </Display>
                     </Helmet>
-                    <div ref={div => { this.header = div; }}><Header setStyle={css => this.setStyle(css)} brand="Benchmark C++ Builds" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
+                    <div ref={div => { this.header = div; }}><Header brand="Benchmark C++ Builds" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
                     <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
                 </div>

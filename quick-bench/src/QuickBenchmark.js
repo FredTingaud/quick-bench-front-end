@@ -9,7 +9,6 @@ import AssemblyEditor from './AssemblyEditor.js';
 import CEButton from 'components/CEButton.js';
 import CPPInsightsButton from 'components/CPPInsightsButton.js';
 import Display from 'components/Display.js';
-import Palette from 'components/Palette.js';
 import HashParser from 'components/HashParser.js';
 
 var request = require('request');
@@ -322,7 +321,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             index={this.state.chartIndex}
                                             onNamesChange={n => this.setState({ benchNames: n })}
                                             onDescriptionChange={d => this.props.onDescriptionChange(d)}
-                                            palette={this.props.specialPalette ? Palette.CHRISTMAS_PALETTE : PALETTE}
+                                            palette={PALETTE}
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />
                                     </Tab.Pane>

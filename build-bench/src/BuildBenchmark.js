@@ -9,7 +9,6 @@ import OutputTabs from './OutputTabs.js';
 import WrappableTabs from './WrappableTabs.js';
 import DisplayEditor from './DisplayEditor.js';
 import IncludesDisplay from './IncludesDisplay.js';
-import Palette from 'components/Palette.js';
 import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
 import CEButton from 'components/CEButton.js';
@@ -406,7 +405,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             titles={this.state.titles}
                                             index={this.state.chartIndex}
                                             onDescriptionChange={d => this.props.onDescriptionChange(d)}
-                                            palette={this.props.specialPalette ? Palette.CHRISTMAS_PALETTE : PALETTE}
+                                            palette={PALETTE}
                                             changeDisplay={d => this.setState({ chartIndex: d })}
                                         />
                                     </Tab.Pane>

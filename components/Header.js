@@ -11,14 +11,8 @@ class Header extends React.Component {
         this.state = {
             showAuthor: false,
             showThanks: false,
-            showPrivacy: false,
-            showEasterEgg: this.shouldShowEasterEgg(),
-            showingEasterEgg: false
+            showPrivacy: false
         };
-    }
-    shouldShowEasterEgg() {
-        let currentTime = new Date();
-        return currentTime.getMonth() === 11 && currentTime.getDate() < 27;
     }
     openInfo(key) {
         if (key) {
@@ -55,20 +49,10 @@ class Header extends React.Component {
     closePrivacy() {
         this.setState({ showPrivacy: false });
     }
-    easterEgg() {
-        if (this.state.showingEasterEgg)
-            this.props.setStyle('');
-        else
-            this.props.setStyle('Christmas.css');
-        this.setState({ showingEasterEgg: !this.state.showingEasterEgg });
-    }
     render() {
         return (
             <Navbar bg="dark" variant="dark" collapseOnSelect>
                 <Nav className="mr-auto">
-                    <Nav hidden={!this.state.showEasterEgg} onSelect={() => this.easterEgg()}>
-                        <Nav.Link eventKey><img src="/ico/christmas-tree.svg" className="line-img" alt="A surprise?" /></Nav.Link>
-                    </Nav>
                     <Navbar.Brand>
                         {this.props.brand}
                 </Navbar.Brand>
