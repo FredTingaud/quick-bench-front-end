@@ -332,7 +332,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                 </Tab.Content>
                             </Tab.Container>
                             <Display when={this.state.graph.length === 0 && this.state.message.length === 0}>
-                                <Logo className="watermark" style={{ fill: "#26595460" }} title="Run with Quick Bench!" />
+                                <Logo className="watermark" style={{ fill: "#26595430" }} title="Run with Quick Bench!" />
                             </Display>
                             <Display when={this.state.message.length > 0}>
                                 <div className="fixed-content">
