@@ -45,11 +45,15 @@ class App extends Component {
 
     Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />;
 
+    renderEntries() {
+        return <><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>;
+    }
+
     render() {
         return (
             <BrowserRouter history={this.state.location}>
                 <div className="one-page">
-                    <div ref={div => { this.header = div; }}><Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Compare C++ Builds</>} entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
+                    <div ref={div => { this.header = div; }}><Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Compare C++ Builds</>} entries={() => this.renderEntries()} /></div>
                     <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
                 </div>

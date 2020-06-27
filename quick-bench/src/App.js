@@ -54,13 +54,18 @@ class App extends Component {
 
     Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />;
 
+    renderEntries() {
+        return <><DropdownItem onClick={() => this.openAbout()}>About Quick Bench</DropdownItem>
+            <DropdownItem onClick={() => this.openBenchmark()}>How to write my benchmarks</DropdownItem>
+        </>;
+    }
     render() {
         return (
             <BrowserRouter history={this.state.location}>
                 <div className="one-page">
-                    <div className="fixed-content" ref={div => { this.header = div; }}><Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Quick C++ Benchmark</>} entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Quick Bench</DropdownItem>
-                        <DropdownItem onClick={() => this.openBenchmark()}>How to write my benchmarks</DropdownItem>
-                    </>)} /></div>
+                    <div className="fixed-content" ref={div => { this.header = div; }}>
+                        <Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Quick C++ Benchmark</>} entries={() => this.renderEntries()} motd={{ url: "https://build-bench.com", text: "Discover Build Bench!" }} />
+                    </div >
                     <Route exact path={["/", "/q/:id"]} component={this.Home} />
                     {this.redirect()}
                 </div>

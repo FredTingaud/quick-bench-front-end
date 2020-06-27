@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, DropdownItem, Dropdown, Form } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, DropdownItem, Dropdown, Form, Button } from 'react-bootstrap';
 import AuthorDialog from './dialogs/AuthorDialog.js';
 import ThanksDialog from './dialogs/ThanksDialog.js';
 import PrivacyDialog from './dialogs/PrivacyDialog.js';
@@ -60,6 +60,7 @@ class Header extends React.Component {
                 <Form inline>
                     <Navbar.Collapse className="mr-sm-2">
                         <Nav>
+                            {this.props.motd ? <Button href={this.props.motd.url} variant="secondary" className="mx-5" target="_blank">{this.props.motd.text}</Button> : null}
                             <NavDropdown title="Support Quick Bench Suite" id="basic-nav-dropdown" alignRight>
                                 <DropdownItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src={patreon} className="line-img" alt="Patreon icon" /> Support on Patreon</DropdownItem>
                             </NavDropdown>
