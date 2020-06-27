@@ -76,9 +76,9 @@ class CompileConfig extends React.Component {
     refreshMaxCppVersion(key, opts) {
         let maxV;
         if (key.startsWith("clang-")) {
-            maxV = (parseInt(key.charAt("clang-".length)) >= 6) ? 20 : 17;
+            maxV = parseInt(key.substring("clang-".length)) >= 6 ? 20 : 17;
         } else if (key.startsWith("gcc-")) {
-            maxV = (parseInt(key.charAt("gcc-".length)) >= 8) ? 20 : 17;
+            maxV = parseInt(key.substring("gcc-".length)) >= 8 ? 20 : 17;
         }
         this.setState({ maxVersion: maxV });
         if (opts.cppVersion === "20" && maxV < 20) {
