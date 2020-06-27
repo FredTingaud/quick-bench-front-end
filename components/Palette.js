@@ -35,6 +35,9 @@ export default {
     pickColor(i, nbColors, palette) {
         return palette[index(i, nbColors, palette.length)];
     },
+    pickBorderCSS(i, nbColors) {
+        return 'tab-decoration-' + index(i, nbColors, 12);
+    },
     pickCSS(i, nbColors) {
         return 'linked-code-decoration-inline-' + index(i, nbColors, 12);
     },

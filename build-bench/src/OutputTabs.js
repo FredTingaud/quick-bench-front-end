@@ -5,7 +5,7 @@ import Palette from 'components/Palette.js';
 
 class OutputTabs extends React.Component {
     renderTabs() {
-        let colors = this.props.titles.map((_, i) => Palette.pickCSS(i, this.props.titles.length, this.props.palette));
+        let colors = this.props.titles.map((_, i) => Palette.pickBorderCSS(i, this.props.titles.length, this.props.palette));
         let tabsList = this.props.titles.map(function (name, i) {
             return <Nav.Item key={i} >
                 <Nav.Link eventKey={i} className={`small-tabs out-tab ${colors[i]}`} >{name}</Nav.Link>

@@ -324,7 +324,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         />
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="asm" className="fill-content">
-                                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} />
+                                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} palette={PALETTE}/>
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Tab.Container>

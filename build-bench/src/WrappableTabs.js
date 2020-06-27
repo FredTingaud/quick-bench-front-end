@@ -85,7 +85,7 @@ class WrappableTabs extends React.Component {
         // Binding here because at the call site, "this" is referring to the enclosing tab
         let closeTab = this.closeTab.bind(this);
         let renameTab = this.renameTab.bind(this);
-        let colors = this.props.titles.map((_, i) => Palette.pickCSS(i, this.props.titles.length, this.props.palette));
+        let colors = this.props.titles.map((_, i) => Palette.pickBorderCSS(i, this.props.titles.length, this.props.palette));
 
         let tabsList = this.props.titles.map(function (name, i) {
             return <Tab title={

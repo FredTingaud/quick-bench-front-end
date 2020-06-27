@@ -132,8 +132,9 @@ class AssemblyEditor extends React.Component {
         this.editor.restoreViewState(this.state.states[key]);
     }
     fillTabs() {
+        let colors = this.props.names.map((_, i) => Palette.pickBorderCSS(i, this.props.names.length));
         let tabsList = this.state.titles.map(function (name, i) {
-            return <Tab title={name} eventKey={i} key={name} tabClassName="small-tabs"/>
+            return <Tab title={name} eventKey={i} key={name} tabClassName={`small-tabs out-tab ${colors[i]}`}/>
         });
 
         return (<Tabs onSelect={(key) => this.handleSelect(key)} defaultActiveKey={this.state.index} id="bench-asm-selection">
