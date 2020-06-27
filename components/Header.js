@@ -55,7 +55,7 @@ class Header extends React.Component {
                 <Nav className="mr-auto">
                     <Navbar.Brand>
                         {this.props.brand}
-                </Navbar.Brand>
+                    </Navbar.Brand>
                 </Nav>
                 <Form inline>
                     <Navbar.Collapse className="mr-sm-2">

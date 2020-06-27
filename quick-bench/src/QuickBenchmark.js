@@ -10,6 +10,7 @@ import CEButton from 'components/CEButton.js';
 import CPPInsightsButton from 'components/CPPInsightsButton.js';
 import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
+import { ReactComponent as Logo } from './logo.svg';
 
 var request = require('request');
 const protocolVersion = 4;
@@ -326,10 +327,13 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         />
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="asm" className="fill-content">
-                                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} palette={PALETTE}/>
+                                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} palette={PALETTE} />
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Tab.Container>
+                            <Display when={this.state.graph.length === 0 && this.state.message.length === 0}>
+                                <Logo className="watermark" style={{ fill: "#26595460" }} title="Run with Quick Bench!" />
+                            </Display>
                             <Display when={this.state.message.length > 0}>
                                 <div className="fixed-content">
                                     <BashOutput value={this.state.message} />

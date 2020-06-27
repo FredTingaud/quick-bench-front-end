@@ -58,6 +58,14 @@
     height: 100%;
 }
 
+.watermark {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: auto;
+    width: auto;
+}
+
 .one-page {
     position: absolute;
     top: 0px;
