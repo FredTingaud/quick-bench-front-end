@@ -9,7 +9,8 @@
 /coverage
 
 # production
-/build
+/quick-bench/build
+/build-bench/build
 
 # misc
 .DS_Store
