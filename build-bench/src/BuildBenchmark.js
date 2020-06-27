@@ -259,7 +259,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                     }
                 }
                 else if (err) {
-                    this.setState({ messages: err });
+                    this.setState({ messages: [err] });
                 }
             });
         }
