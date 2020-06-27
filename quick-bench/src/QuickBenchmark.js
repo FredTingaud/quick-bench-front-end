@@ -194,7 +194,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
             });
             this.setState({ progress: 0 });
             let interval = setInterval(() => {
-                this.setState({ progress: this.state.progress + 100 / 120 });
+                this.setState({ progress: this.state.progress + 100 / 60 });
             }, 1000);
 
             var obj = {
