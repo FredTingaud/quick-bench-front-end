@@ -5,6 +5,7 @@ import Header from 'components/Header.js';
 import 'components/resources/css/Shared.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AboutDialog from './dialogs/AboutDialog.js';
+import { ReactComponent as Logo } from './logo.svg';
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
 
@@ -48,7 +49,7 @@ class App extends Component {
         return (
             <BrowserRouter history={this.state.location}>
                 <div className="one-page">
-                    <div ref={div => { this.header = div; }}><Header brand="Benchmark C++ Builds" entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
+                    <div ref={div => { this.header = div; }}><Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Compare C++ Builds</>} entries={() => (<><DropdownItem onClick={() => this.openAbout()}>About Build Bench</DropdownItem></>)} /></div>
                     <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
                 </div>

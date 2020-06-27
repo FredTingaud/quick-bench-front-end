@@ -13,6 +13,7 @@ import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
 import CEButton from 'components/CEButton.js';
 import CPPInsightsButton from 'components/CPPInsightsButton.js';
+import { ReactComponent as Logo } from './logo.svg';
 
 var request = require('request');
 const protocolVersion = 3;
@@ -428,6 +429,9 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Tab.Container>
+                            <Display when={this.state.graph.length === 0 && (this.state.messages.length === 0 || !this.state.messages.some(t => t))}>
+                                <Logo className="watermark" style={{ fill: "#3A0F9630" }} title="Build Bench" />
+                            </Display>
                             <div className="fixed-content">
                                 <OutputTabs values={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles} >
                                     <BashOutput />
