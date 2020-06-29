@@ -18,7 +18,7 @@ class WrappableTabs extends React.Component {
     onChange(value) {
         let values = Array.from(this.props.values);
         if (this.props.wrapped) {
-            values.fill(value);
+            values = values.map(() => JSON.parse(JSON.stringify(value)));
         }
         else {
             values[this.props.index] = value;
