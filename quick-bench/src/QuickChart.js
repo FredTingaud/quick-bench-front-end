@@ -73,13 +73,21 @@ class QuickChart extends React.Component {
         }
         return null;
     }
+    refreshState() {
+        const [labels, data] = this.makeData(this.props.benchmarks, this.props.titles, this.props.index);
+        const length = this.state.showNoop ? labels.length - 1 : labels.length;
+        const colors = labels.map((l, i) => l === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.palette));
+        this.setState({ labels: labels, data: data, colors: colors });
+    }
+    componentDidMount() {
+        if (this.props.benchmarks.length > 0) {
+            this.refreshState();
+        }
+    }
     componentDidUpdate(prevProps) {
         if (prevProps.benchmarks !== this.props.benchmarks || prevProps.titles !== this.props.titles || prevProps.index !== this.props.index) {
-            const [labels, data] = this.makeData(this.props.benchmarks, this.props.titles, this.props.index);
-            const length = this.state.showNoop ? labels.length - 1 : labels.length;
-            const colors = labels.map((l, i) => l === 'Noop' ? '#000' : Palette.pickColor(i, length, this.props.palette));
-            this.setState({ labels: labels, data: data, colors: colors });
-        }
+            this.refreshState();
+      }
     }
     render() {
         const isLine = this.isLine(this.props.benchmarks);

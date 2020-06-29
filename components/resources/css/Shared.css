@@ -11,20 +11,16 @@
     height: 100%;
     width: 100%;
     overflow: hidden;
-}
-
-.monaco {
-    height: 100%;
-    overflow: hidden;
-    max-height: 100%;
+    display: flex;
 }
 
 .flex-container {
-    height: 100%;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     min-width: 0;
     min-height: 0;
+    max-height: 100%;
 }
 
 .fill-content {
@@ -62,8 +58,15 @@
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
-    height: auto;
+    min-height: 0;
+    min-width: 0;
+}
+
+.watermark2 {
+    height: 100%;
     width: auto;
+    min-height: 0;
+    min-width: 0;
 }
 
 .one-page {
@@ -118,10 +121,11 @@
     background: none;
 }
 
-.packed-card {
+.card-body.packed-card {
     padding: 0 0 0 0;
     min-width: 0;
     min-height: 0;
+    display: flex;
 }
 
 .rainbow-decoration {

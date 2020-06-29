@@ -30,6 +30,14 @@ const chartData = [{
 }];
 
 class BuildChart extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [],
+            labels: [],
+            colors: []
+        };
+    }
     averageTime(times, property) {
         return times.map(t => parseFloat(t[property])).reduce((s, t) => (s + t)) / times.length;
     }
@@ -71,15 +79,28 @@ class BuildChart extends React.Component {
             {chartData.map((d, i) => <option value={i} key={d.name}>{d.name}</option>)}
         </FormControl>;
     }
-    render() {
+    refreshState() {
         const [labels, data] = this.makeData(this.props.benchmarks, this.props.titles, this.props.index);
         const colors = labels.map((_, i) => Palette.pickColor(i, labels.length, this.props.palette));
+        this.setState({ labels: labels, data: data, colors: colors });
+    }
+    componentDidMount() {
+        if (this.props.benchmarks.length > 0) {
+            this.refreshState();
+        }
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.benchmarks !== this.props.benchmarks || prevProps.titles !== this.props.titles) {
+            this.refreshState();
+        }
+    }
+    render() {
         return (
             <TimeChart
-                data={data}
-                labels={labels}
+                data={this.state.data}
+                labels={this.state.labels}
                 dataLabels={[].concat(chartData[this.props.index].property)}
-                colors={[].concat(chartData[this.props.index].property).map((p, i) => this.lighten(colors, i))}
+                colors={[].concat(chartData[this.props.index].property).map((_, i) => this.lighten(this.state.colors, i))}
                 id={this.props.id}
                 title={chartData[this.props.index].title}
                 more={chartData[this.props.index].more}

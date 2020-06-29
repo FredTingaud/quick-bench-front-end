@@ -401,36 +401,38 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             <Nav.Link eventKey="pp">Preprocessed</ Nav.Link>
                                         </Nav.Item>
                                     </Nav>
+                                    <Tab.Content className="fill-content">
+                                        <Tab.Pane eventKey="charts" className="fill-content">
+                                            <BuildChart benchmarks={this.state.graph}
+                                                id={this.state.location}
+                                                titles={this.state.titles}
+                                                index={this.state.chartIndex}
+                                                palette={PALETTE}
+                                                changeDisplay={d => this.setState({ chartIndex: d })}
+                                            />
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="includes" className="fill-content" >
+                                            <OutputTabs values={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
+                                                <IncludesDisplay />
+                                            </OutputTabs>
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="asm" className="fill-content">
+                                            <OutputTabs values={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
+                                                <DisplayEditor language="asm" />
+                                            </OutputTabs>
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="pp" className="fill-content">
+                                            <OutputTabs values={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
+                                                <DisplayEditor language="cpp" />
+                                            </OutputTabs>
+                                        </Tab.Pane>
+                                    </Tab.Content>
                                 </Display>
-                                <Tab.Content className="fill-content">
-                                    <Tab.Pane eventKey="charts" className="fill-content">
-                                        <BuildChart benchmarks={this.state.graph}
-                                            id={this.state.location}
-                                            titles={this.state.titles}
-                                            index={this.state.chartIndex}
-                                            palette={PALETTE}
-                                            changeDisplay={d => this.setState({ chartIndex: d })}
-                                        />
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="includes" className="fill-content" >
-                                        <OutputTabs values={this.state.includes} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
-                                            <IncludesDisplay />
-                                        </OutputTabs>
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="asm" className="fill-content">
-                                        <OutputTabs values={this.state.asm} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
-                                            <DisplayEditor language="asm" />
-                                        </OutputTabs>
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="pp" className="fill-content">
-                                        <OutputTabs values={this.state.pp} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles}>
-                                            <DisplayEditor language="cpp" />
-                                        </OutputTabs>
-                                    </Tab.Pane>
-                                </Tab.Content>
                             </Tab.Container>
                             <Display when={this.state.graph.length === 0 && (this.state.messages.length === 0 || !this.state.messages.some(t => t))}>
-                                <Logo className="watermark" style={{ fill: "#3A0F9630" }} title="Build Bench" />
+                                <div className="watermark">
+                                    <Logo className="watermark2" style={{ fill: "#3A0F9630" }} title="Build Bench" />
+                                </div>
                             </Display>
                             <div className="fixed-content">
                                 <OutputTabs values={this.state.messages} index={this.state.index} setIndex={i => this.setState({ index: i })} palette={PALETTE} titles={this.state.titles} >

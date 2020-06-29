@@ -315,24 +315,26 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             <Nav.Link eventKey="asm">Assembly</ Nav.Link>
                                         </Nav.Item>
                                     </Nav>
+                                    <Tab.Content className="fill-content">
+                                        <Tab.Pane eventKey="charts" className="fill-content">
+                                            <QuickChart benchmarks={this.state.graph}
+                                                id={this.state.location}
+                                                index={this.state.chartIndex}
+                                                onNamesChange={n => this.setState({ benchNames: n })}
+                                                palette={PALETTE}
+                                                changeDisplay={d => this.setState({ chartIndex: d })}
+                                            />
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="asm" className="fill-content">
+                                            <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} palette={PALETTE} />
+                                        </Tab.Pane>
+                                    </Tab.Content>
                                 </Display>
-                                <Tab.Content className="fill-content">
-                                    <Tab.Pane eventKey="charts" className="fill-content">
-                                        <QuickChart benchmarks={this.state.graph}
-                                            id={this.state.location}
-                                            index={this.state.chartIndex}
-                                            onNamesChange={n => this.setState({ benchNames: n })}
-                                            palette={PALETTE}
-                                            changeDisplay={d => this.setState({ chartIndex: d })}
-                                        />
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="asm" className="fill-content">
-                                        <AssemblyEditor code={this.state.annotation} names={this.state.benchNames} palette={PALETTE} />
-                                    </Tab.Pane>
-                                </Tab.Content>
                             </Tab.Container>
                             <Display when={this.state.graph.length === 0 && this.state.message.length === 0}>
-                                <Logo className="watermark" style={{ fill: "#26595430" }} title="Run with Quick Bench!" />
+                                <div className="watermark">
+                                    <Logo className="watermark2" style={{ fill: "#26595430" }} title="Run with Quick Bench!" />
+                                </div>
                             </Display>
                             <Display when={this.state.message.length > 0}>
                                 <div className="fixed-content">
