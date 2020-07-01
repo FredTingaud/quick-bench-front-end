@@ -315,6 +315,8 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             <Nav.Link eventKey="asm">Assembly</ Nav.Link>
                                         </Nav.Item>
                                     </Nav>
+                                </Display>
+                                <Display when={this.state.graph.length > 0}>
                                     <Tab.Content className="fill-content">
                                         <Tab.Pane eventKey="charts" className="fill-content">
                                             <QuickChart benchmarks={this.state.graph}
