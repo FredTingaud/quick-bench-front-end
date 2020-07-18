@@ -8,7 +8,6 @@ class QuickChart extends React.Component {
         super(props);
         this.state = {
             showNoop: false,
-            index: 1,
             data: [],
             labels: [],
             colors: []
@@ -19,7 +18,7 @@ class QuickChart extends React.Component {
         return parametrized.length > 0 && new Set(parametrized).size < parametrized.length;
     }
     isLine(input) {
-        return this.state.index === 1 && this.isParametric(input);
+        return this.props.index === 1 && this.isParametric(input);
     }
     drawLineChart(input) {
         let max = -Infinity;
@@ -70,7 +69,7 @@ class QuickChart extends React.Component {
     }
     renderIfParametric() {
         if (this.isParametric(this.props.benchmarks)) {
-            return <FormControl as="select" className="pull-right" onChange={(e) => this.changeDisplay(e)} defaultValue={this.state.index}>
+            return <FormControl as="select" className="pull-right" onChange={(e) => this.changeDisplay(e)} defaultValue={this.props.index}>
                 <option value="0">Bar</option>
                 <option value="1">Line</option>
             </FormControl>;

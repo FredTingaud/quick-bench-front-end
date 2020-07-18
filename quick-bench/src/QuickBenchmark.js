@@ -76,7 +76,7 @@ class Benchmark extends React.Component {
         , benchNames: []
         , annotation: ''
         , isAnnotated: true
-        , chartIndex: 0
+        , chartIndex: 1
         , displayTab: 'charts'
     };
     constructor(props) {
