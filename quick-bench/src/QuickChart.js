@@ -22,8 +22,8 @@ class QuickChart extends React.Component {
         return this.state.index === 1 && this.isParametric(input);
     }
     drawLineChart(input) {
-        let max;
-        let min;
+        let max = -Infinity;
+        let min = Infinity;
         let chartData = [];
         const horizontals = input.filter(v => v.x.indexOf('/') === -1);
         let functionNames = input.filter(v => v.x.indexOf('/') > -1).map(v => v.x.substring(0, v.x.indexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
@@ -32,8 +32,8 @@ class QuickChart extends React.Component {
             let n = names[i];
             const times = input.filter(v => v.x.indexOf('/') > -1 && v.x.startsWith(n + '/')).map(v => ({ x: parseInt(v.x.substring(v.x.lastIndexOf('/') + 1), 10), y: v.cpu_time }));
             chartData.push(times);
-            max = Math.max(...times.map(elt => elt.x));
-            min = Math.min(...times.map(elt => elt.x));
+            max = Math.max(max, ...times.map(elt => elt.x));
+            min = Math.min(min, ...times.map(elt => elt.x));
         }
         names = names.concat(horizontals.map(v => v.x));
         functionNames = functionNames.concat(horizontals.map(v => v.x));
@@ -91,7 +91,7 @@ class QuickChart extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.benchmarks !== this.props.benchmarks || prevProps.titles !== this.props.titles || prevProps.index !== this.props.index) {
             this.refreshState();
-      }
+        }
     }
     render() {
         const isLine = this.isLine(this.props.benchmarks);
