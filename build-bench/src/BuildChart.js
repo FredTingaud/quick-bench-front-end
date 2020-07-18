@@ -90,7 +90,7 @@ class BuildChart extends React.Component {
         }
     }
     componentDidUpdate(prevProps) {
-        if (prevProps.benchmarks !== this.props.benchmarks || prevProps.titles !== this.props.titles) {
+        if (prevProps.benchmarks !== this.props.benchmarks || prevProps.titles !== this.props.titles || prevProps.index !== this.props.index) {
             this.refreshState();
         }
     }
