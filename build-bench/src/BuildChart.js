@@ -108,6 +108,7 @@ class BuildChart extends React.Component {
                 xaxis={chartData[this.props.index].xaxis}
                 yaxis={chartData[this.props.index].yaxis}
                 fill={true}
+                afterTooltip={true}
             >{this.renderDisplayTypes()}</TimeChart>
         );
     }
