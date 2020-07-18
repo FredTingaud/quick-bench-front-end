@@ -14,8 +14,12 @@ class QuickChart extends React.Component {
             colors: []
         };
     }
+    isParametric(input) {
+        let parametrized = input.filter(v => v.name.indexOf('/') > -1 && !isNaN(parseInt(v.name.substring(v.name.lastIndexOf('/') + 1), 10))).map(v => v.name.substring(0, v.name.lastIndexOf('/')));
+        return parametrized.length > 0 && new Set(parametrized).size < parametrized.length;
+    }
     isLine(input) {
-        return this.state.index === 1 && input.some(v => v.name.indexOf('/') > -1);
+        return this.state.index === 1 && this.isParametric(input);
     }
     drawLineChart(input) {
         let max;
@@ -65,7 +69,7 @@ class QuickChart extends React.Component {
         this.setState({ index: i });
     }
     renderIfParametric() {
-        if (this.props.benchmarks.find(v => v.name.indexOf('/') > -1)) {
+        if (this.isParametric(this.props.benchmarks)) {
             return <FormControl as="select" className="pull-right" onChange={(e) => this.changeDisplay(e)} defaultValue={this.state.index}>
                 <option value="0">Bar</option>
                 <option value="1">Line</option>
