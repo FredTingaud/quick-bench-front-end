@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, DropdownItem, Dropdown, Form, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Dropdown, Form, Button } from 'react-bootstrap';
 import AuthorDialog from './dialogs/AuthorDialog.js';
 import ThanksDialog from './dialogs/ThanksDialog.js';
 import PrivacyDialog from './dialogs/PrivacyDialog.js';
@@ -62,17 +62,17 @@ class Header extends React.Component {
                         <Nav>
                             {this.props.motd ? <Button href={this.props.motd.url} variant="secondary" className="mx-5" target="_blank">{this.props.motd.text}</Button> : null}
                             <NavDropdown title="Support Quick Bench Suite" id="basic-nav-dropdown" alignRight>
-                                <DropdownItem href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src={patreon} className="line-img" alt="Patreon icon" /> Support on Patreon</DropdownItem>
+                                <Dropdown.Item href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src={patreon} className="line-img" alt="Patreon icon" /> Support on Patreon</Dropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)} alignRight>
                                 {this.props.entries()}
                                 <Dropdown.Divider />
-                                <DropdownItem href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</DropdownItem>
-                                <DropdownItem href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</DropdownItem>
+                                <Dropdown.Item href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</Dropdown.Item>
+                                <Dropdown.Item href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</Dropdown.Item>
                                 <Dropdown.Divider />
-                                <DropdownItem eventKey="privacy">Privacy Policy</DropdownItem>
-                                <DropdownItem eventKey="favicon">Thanks</DropdownItem>
-                                <DropdownItem eventKey="author">About the author</DropdownItem>
+                                <Dropdown.Item eventKey="privacy">Privacy Policy</Dropdown.Item>
+                                <Dropdown.Item eventKey="favicon">Thanks</Dropdown.Item>
+                                <Dropdown.Item eventKey="author">About the author</Dropdown.Item>
                             </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>

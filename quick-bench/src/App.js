@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DropdownItem } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 import Benchmark from './QuickBenchmark.js';
 import Header from 'components/Header.js';
 import 'components/resources/css/Shared.css';
@@ -55,8 +55,8 @@ class App extends Component {
     Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />;
 
     renderEntries() {
-        return <><DropdownItem onClick={() => this.openAbout()}>About Quick Bench</DropdownItem>
-            <DropdownItem onClick={() => this.openBenchmark()}>How to write my benchmarks</DropdownItem>
+        return <><Dropdown.Item onClick={() => this.openAbout()}>About Quick Bench</Dropdown.Item>
+            <Dropdown.Item onClick={() => this.openBenchmark()}>How to write my benchmarks</Dropdown.Item>
         </>;
     }
     render() {
