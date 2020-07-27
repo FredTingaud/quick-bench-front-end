@@ -18,6 +18,14 @@
     "react-app-rewired": "^2.1.6",
     "react-scripts": "3.4.1"
   },
+  "jest": {
+    "verbose":true,
+    "transformIgnorePatterns": ["/node_modules/(?!monaco-editor).+\\.js$"],
+    "displayName": {
+      "name": "quick-bench",
+      "color": "cyan"
+    }
+  },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
