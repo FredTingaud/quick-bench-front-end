@@ -8,8 +8,6 @@ import AboutDialog from './dialogs/AboutDialog.js';
 import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import { ReactComponent as Logo } from './logo.svg';
 
-const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
-
 const maxCodeSize = 20000;
 
 class App extends Component {
@@ -52,7 +50,7 @@ class App extends Component {
         this.setState({ showBenchmark: false });
     }
 
-    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />;
+    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />;
 
     renderEntries() {
         return <><Dropdown.Item onClick={() => this.openAbout()}>About Quick Bench</Dropdown.Item>

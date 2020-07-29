@@ -11,8 +11,8 @@ import CPPInsightsButton from 'components/CPPInsightsButton.js';
 import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
 import { ReactComponent as Logo } from './logo.svg';
+import QuickFetch from './QuickFetch.js';
 
-var request = require('request');
 const protocolVersion = 4;
 
 const startCode = `static void StringCreation(benchmark::State& state) {
@@ -136,47 +136,47 @@ class Benchmark extends React.Component {
         return null;
     }
     getCode(id) {
-        request.get(this.props.url + '/quick/' + id, (err, res, body) => {
-            this.setState({
-                sending: false,
-                clean: true,
-                force: false
-            });
-            if (body) {
-                let result = JSON.parse(body);
-                if (result) {
-                    if (result.result) {
-                        let compiler = result.tab.compiler === 'clang++-3.8' ? 'clang-3.8' : result.tab.options.compiler;
-                        let options = {
-                            compiler: compiler
-                            , cppVersion: result.tab.options.cppVersion
-                            , optim: result.tab.options.optim
-                            , lib: result.tab.options.lib
-                        };
-                        this.setState({
-                            text: result.tab.code
-                            , graph: result.result.benchmarks
-                            , options: options
-                            , location: id
-                        });
-                    }
-                    if (result.message) {
-                        this.setState({
-                            message: result.message
-                        });
-                    }
-                    if (result.annotation) {
-                        this.setState({
-                            annotation: result.annotation
-                            , isAnnotated: true
-                        });
-                    } else {
-                        this.setState({ isAnnotated: false });
-                    }
-                }
-            }
-        });
+        QuickFetch.fetchContent(id, (result) => this.loadCode(result, id));
     }
+    loadCode(result, id) {
+        this.setState({
+            sending: false,
+            clean: true,
+            force: false
+        });
+        if (result) {
+            if (result.result) {
+                let compiler = result.tab.compiler === 'clang++-3.8' ? 'clang-3.8' : result.tab.options.compiler;
+                let options = {
+                    compiler: compiler,
+                    cppVersion: result.tab.options.cppVersion,
+                    optim: result.tab.options.optim,
+                    lib: result.tab.options.lib
+                };
+                this.setState({
+                    text: result.tab.code,
+                    graph: result.result.benchmarks,
+                    options: options,
+                    location: id
+                });
+            }
+            if (result.message) {
+                this.setState({
+                    message: result.message
+                });
+            }
+            if (result.annotation) {
+                this.setState({
+                    annotation: result.annotation,
+                    isAnnotated: true
+                });
+            }
+            else {
+                this.setState({ isAnnotated: false });
+            }
+        }
+    }
+
     sendCode() {
         if (this.state.text.length > this.props.maxCodeSize) {
             this.setState({
@@ -193,9 +193,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 message: ''
             });
             this.setState({ progress: 0 });
-            let interval = setInterval(() => {
-                this.setState({ progress: this.state.progress + 100 / 60 });
-            }, 1000);
 
             var obj = {
                 "code": this.state.text,
@@ -204,44 +201,37 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 "force": this.state.clean && this.state.force,
                 "isAnnotated": this.state.isAnnotated,
             };
-            request({
-                url: this.props.url + '/quick/'
-                , method: "POST"
-                , json: true
-                , headers: {
-                    "content-type": "application/json"
-                }
-                , body: obj
-            }, (err, res, body) => {
-                this.setState({
-                    sending: false,
-                    clean: true,
-                    force: false
-                });
-                clearInterval(interval);
-                if (body) {
-
-                    if (body.result) {
-                        this.setState({
-                            graph: body.result.benchmarks || []
-                        });
-                    }
-                    if (body.id) {
-                        this.setState({ location: body.id }, () => this.props.onLocationChange(body.id));
-                    }
-                    if (body.annotation) {
-                        this.setState({ annotation: body.annotation });
-                    }
-                    if (body.message) {
-                        this.setState({ message: body.message });
-                    }
-                }
-                else if (err) {
-                    this.setState({ message: err });
-                }
-            });
+        QuickFetch.fetchResults(obj, (content, err) => this.receiveResults(content, err));
         }
     }
+    receiveResults(body, err) {
+        this.setState({
+            sending: false,
+            clean: true,
+            force: false
+        });
+        if (body) {
+
+            if (body.result) {
+                this.setState({
+                    graph: body.result.benchmarks || []
+                });
+            }
+            if (body.id) {
+                this.setState({ location: body.id }, () => this.props.onLocationChange(body.id));
+            }
+            if (body.annotation) {
+                this.setState({ annotation: body.annotation });
+            }
+            if (body.message) {
+                this.setState({ message: body.message });
+            }
+        }
+        else if (err) {
+            this.setState({ message: err });
+        }
+    }
+
     importCode(text) {
         return text.replace(includeStr, '').replace(mainStr, '');
     }
