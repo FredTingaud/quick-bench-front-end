@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshots passed ids 1`] = `
+exports[`displays id with annotations 1`] = `
 <div
   className="fill-content container-fluid"
 >
@@ -256,6 +256,267 @@ exports[`snapshots passed ids 1`] = `
             >
               Assembly
             </a>
+          </div>
+        </div>
+        <div
+          className="fill-content tab-content"
+        >
+          <div
+            aria-hidden={false}
+            aria-labelledby={null}
+            className="fade fill-content tab-pane active show"
+            id={null}
+            role="tabpanel"
+          >
+            <div />
+          </div>
+          <div
+            aria-hidden={true}
+            aria-labelledby={null}
+            className="fade fill-content tab-pane"
+            id={null}
+            role="tabpanel"
+          >
+            <nav
+              className="nav nav-tabs"
+              onKeyDown={[Function]}
+              role="tablist"
+            />
+            <div
+              className="tab-content"
+            />
+            <div
+              className="flex-container"
+            >
+              <div />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`displays id without annotations 1`] = `
+<div
+  className="fill-content container-fluid"
+>
+  <div
+    className="fill-row row"
+  >
+    <div
+      className="full-size col-sm-6"
+    >
+      <div
+        className="code-editor"
+      >
+        <div
+          className="flex-container"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+    <div
+      className="flex-container col-sm-6"
+    >
+      <div
+        className="fill-content"
+      >
+        <div
+          className="fixed-content"
+        >
+          <div
+            className="my-2 card"
+          >
+            <div
+              className="card-body"
+            >
+              <div
+                className="btn-toolbar"
+                role="toolbar"
+              >
+                <div
+                  className="mr-2 dropdown"
+                  onKeyDown={[Function]}
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={false}
+                    id="compiler"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    compiler = GCC 8.3
+                  </button>
+                </div>
+                <div
+                  className="mr-2 dropdown"
+                  onKeyDown={[Function]}
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={false}
+                    id="language"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    std = c++17
+                  </button>
+                </div>
+                <div
+                  className="mr-2 dropdown"
+                  onKeyDown={[Function]}
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={false}
+                    id="optim"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    optim = O2
+                  </button>
+                </div>
+                <div
+                  className="dropdown"
+                  onKeyDown={[Function]}
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={true}
+                    id="libc"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    STL = libstdc++(GNU)
+                  </button>
+                </div>
+              </div>
+              <hr
+                className="config-separator"
+              />
+              <div
+                className="justify-content-between btn-toolbar"
+                role="toolbar"
+              >
+                <form
+                  className="form-inline"
+                >
+                  <button
+                    className="mr-2 btn btn-primary"
+                    disabled={false}
+                    id="Run"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                     
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      strokeWidth="0"
+                      style={
+                        Object {
+                          "color": undefined,
+                        }
+                      }
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
+                      />
+                    </svg>
+                     Run Benchmark
+                  </button>
+                  <div
+                    className="mr-2 custom-control custom-checkbox"
+                  >
+                    <input
+                      checked={false}
+                      className="custom-control-input"
+                      disabled={false}
+                      id="disassembly"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    <label
+                      className="custom-control-label"
+                      htmlFor="disassembly"
+                      title=""
+                    >
+                      Record disassembly
+                    </label>
+                  </div>
+                  <div
+                    className="custom-control custom-checkbox"
+                  >
+                    <input
+                      checked={false}
+                      className="custom-control-input"
+                      disabled={false}
+                      id="clean-cache"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    <label
+                      className="custom-control-label"
+                      htmlFor="clean-cache"
+                      title=""
+                    >
+                      Clear cached results
+                    </label>
+                  </div>
+                </form>
+                <form
+                  className="form-inline"
+                >
+                  <button
+                    className="mr-2 btn btn-outline-dark"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    type="button"
+                  >
+                    <img
+                      alt="Open in Compiler Explorer"
+                      className="line-img"
+                      src="Compiler-Explorer.svg"
+                    />
+                  </button>
+                  <button
+                    className="mr-2 btn btn-outline-dark"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    type="button"
+                  >
+                    <img
+                      alt="Open in CPP Insights"
+                      className="line-img"
+                      src="cppinsights.svg"
+                    />
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
         <div
