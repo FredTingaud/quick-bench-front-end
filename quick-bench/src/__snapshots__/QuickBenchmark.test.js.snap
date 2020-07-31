@@ -16,7 +16,36 @@ exports[`displays id with annotations 1`] = `
         <div
           className="flex-container"
         >
-          <div />
+          <MonacoEditor
+            editorDidMount={[Function]}
+            language="cpp"
+            onChange={[Function]}
+            options={
+              Object {
+                "selectOnLineNumbers": true,
+              }
+            }
+            value="static void StringCreation(benchmark::State& state) {
+  // Code inside this loop is measured repeatedly
+  for (auto _ : state) {
+    std::string created_string(\\"hello\\");
+    // Make sure the variable is not optimized away by compiler
+    benchmark::DoNotOptimize(created_string);
+  }
+}
+// Register the function as a benchmark
+BENCHMARK(StringCreation);
+
+static void StringCopy(benchmark::State& state) {
+  // Code before the loop is not measured
+  std::string x = \\"hello\\";
+  for (auto _ : state) {
+    std::string copy(x);
+  }
+}
+BENCHMARK(StringCopy);
+"
+          />
         </div>
       </div>
     </div>
@@ -268,7 +297,70 @@ exports[`displays id with annotations 1`] = `
             id={null}
             role="tabpanel"
           >
-            <div />
+            <TimeChart
+              afterTooltip={true}
+              colors={
+                Array [
+                  Array [
+                    "#5ed9cd",
+                    "#f5b5c0",
+                  ],
+                ]
+              }
+              data={
+                Array [
+                  Array [
+                    4.977504785737881,
+                    14.969946162155678,
+                  ],
+                ]
+              }
+              dataLabels={
+                Array [
+                  "cpu_time",
+                ]
+              }
+              fill={true}
+              id="abcd"
+              labels={
+                Array [
+                  "StringCreation",
+                  "StringCopy",
+                ]
+              }
+              legend={false}
+              less="faster"
+              more="slower"
+              title={
+                Array [
+                  "ratio (CPU time / Noop time)",
+                  "Lower is faster",
+                ]
+              }
+              type="bar"
+              xaxis="bar"
+              yaxis="linear"
+            >
+              <div
+                className="force-cb custom-control custom-checkbox custom-control-inline"
+              >
+                <input
+                  checked={false}
+                  className="custom-control-input"
+                  disabled={false}
+                  id="Noop"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <label
+                  className="custom-control-label"
+                  htmlFor="Noop"
+                  title=""
+                >
+                  Show Noop bar
+                </label>
+              </div>
+            </TimeChart>
           </div>
           <div
             aria-hidden={true}
@@ -288,7 +380,18 @@ exports[`displays id with annotations 1`] = `
             <div
               className="flex-container"
             >
-              <div />
+              <MonacoEditor
+                editorDidMount={[Function]}
+                language="asm"
+                options={
+                  Object {
+                    "lineNumbers": [Function],
+                    "lineNumbersMinChars": 10,
+                    "readOnly": true,
+                    "selectOnLineNumbers": true,
+                  }
+                }
+              />
             </div>
           </div>
         </div>
@@ -314,7 +417,36 @@ exports[`displays id without annotations 1`] = `
         <div
           className="flex-container"
         >
-          <div />
+          <MonacoEditor
+            editorDidMount={[Function]}
+            language="cpp"
+            onChange={[Function]}
+            options={
+              Object {
+                "selectOnLineNumbers": true,
+              }
+            }
+            value="static void StringCreation(benchmark::State& state) {
+  // Code inside this loop is measured repeatedly
+  for (auto _ : state) {
+    std::string created_string(\\"hello\\");
+    // Make sure the variable is not optimized away by compiler
+    benchmark::DoNotOptimize(created_string);
+  }
+}
+// Register the function as a benchmark
+BENCHMARK(StringCreation);
+
+static void StringCopy(benchmark::State& state) {
+  // Code before the loop is not measured
+  std::string x = \\"hello\\";
+  for (auto _ : state) {
+    std::string copy(x);
+  }
+}
+BENCHMARK(StringCopy);
+"
+          />
         </div>
       </div>
     </div>
@@ -529,7 +661,70 @@ exports[`displays id without annotations 1`] = `
             id={null}
             role="tabpanel"
           >
-            <div />
+            <TimeChart
+              afterTooltip={true}
+              colors={
+                Array [
+                  Array [
+                    "#5ed9cd",
+                    "#f5b5c0",
+                  ],
+                ]
+              }
+              data={
+                Array [
+                  Array [
+                    4.977504785737881,
+                    14.969946162155678,
+                  ],
+                ]
+              }
+              dataLabels={
+                Array [
+                  "cpu_time",
+                ]
+              }
+              fill={true}
+              id="abcd"
+              labels={
+                Array [
+                  "StringCreation",
+                  "StringCopy",
+                ]
+              }
+              legend={false}
+              less="faster"
+              more="slower"
+              title={
+                Array [
+                  "ratio (CPU time / Noop time)",
+                  "Lower is faster",
+                ]
+              }
+              type="bar"
+              xaxis="bar"
+              yaxis="linear"
+            >
+              <div
+                className="force-cb custom-control custom-checkbox custom-control-inline"
+              >
+                <input
+                  checked={false}
+                  className="custom-control-input"
+                  disabled={false}
+                  id="Noop"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <label
+                  className="custom-control-label"
+                  htmlFor="Noop"
+                  title=""
+                >
+                  Show Noop bar
+                </label>
+              </div>
+            </TimeChart>
           </div>
           <div
             aria-hidden={true}
@@ -549,7 +744,18 @@ exports[`displays id without annotations 1`] = `
             <div
               className="flex-container"
             >
-              <div />
+              <MonacoEditor
+                editorDidMount={[Function]}
+                language="asm"
+                options={
+                  Object {
+                    "lineNumbers": [Function],
+                    "lineNumbersMinChars": 10,
+                    "readOnly": true,
+                    "selectOnLineNumbers": true,
+                  }
+                }
+              />
             </div>
           </div>
         </div>

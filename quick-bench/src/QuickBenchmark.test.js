@@ -7,12 +7,9 @@ import TimeChart from "components/TimeChart.js";
 
 import renderer from 'react-test-renderer';
 
-jest.mock("react-monaco-editor", () => () => <div></div>);
+jest.mock("react-monaco-editor", () => 'MonacoEditor');
 
-jest.mock('components/TimeChart.js', () => {
-    const TimeChart = () => <div />;
-    return TimeChart;
-  });
+jest.mock('components/TimeChart.js', () => 'TimeChart');
 
 jest.mock("components/Fetch.js", () => {
     return {
