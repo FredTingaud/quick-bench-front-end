@@ -19,8 +19,6 @@
     "react-scripts": "3.4.1"
   },
   "jest": {
-    "verbose":true,
-    "transformIgnorePatterns": ["/node_modules/(?!monaco-editor).+\\.js$"],
     "displayName": {
       "name": "quick-bench",
       "color": "cyan"
