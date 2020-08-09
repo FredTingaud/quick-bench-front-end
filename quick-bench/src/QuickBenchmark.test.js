@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import Benchmark from './QuickBenchmark';
 
 import Fetch from "components/Fetch.js";
-import TimeChart from "components/TimeChart.js";
 
 import renderer from 'react-test-renderer';
 
-jest.mock("react-monaco-editor", () => 'MonacoEditor');
+jest.mock("react-monaco-editor", () => (props) => <mock-MonacoEditor {...props} />);
 
-jest.mock('components/TimeChart.js', () => 'TimeChart');
+jest.mock('components/TimeChart.js', () => (props) => <mock-TimeChart {...props}/>);
 
 jest.mock("components/Fetch.js", () => {
     return {

@@ -16,7 +16,7 @@ exports[`displays id with annotations 1`] = `
         <div
           className="flex-container"
         >
-          <MonacoEditor
+          <mock-MonacoEditor
             editorDidMount={[Function]}
             language="cpp"
             onChange={[Function]}
@@ -297,7 +297,7 @@ BENCHMARK(StringCopy);
             id={null}
             role="tabpanel"
           >
-            <TimeChart
+            <mock-TimeChart
               afterTooltip={true}
               colors={
                 Array [
@@ -360,7 +360,7 @@ BENCHMARK(StringCopy);
                   Show Noop bar
                 </label>
               </div>
-            </TimeChart>
+            </mock-TimeChart>
           </div>
           <div
             aria-hidden={true}
@@ -380,7 +380,7 @@ BENCHMARK(StringCopy);
             <div
               className="flex-container"
             >
-              <MonacoEditor
+              <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="asm"
                 options={
@@ -417,7 +417,7 @@ exports[`displays id without annotations 1`] = `
         <div
           className="flex-container"
         >
-          <MonacoEditor
+          <mock-MonacoEditor
             editorDidMount={[Function]}
             language="cpp"
             onChange={[Function]}
@@ -661,7 +661,7 @@ BENCHMARK(StringCopy);
             id={null}
             role="tabpanel"
           >
-            <TimeChart
+            <mock-TimeChart
               afterTooltip={true}
               colors={
                 Array [
@@ -724,7 +724,7 @@ BENCHMARK(StringCopy);
                   Show Noop bar
                 </label>
               </div>
-            </TimeChart>
+            </mock-TimeChart>
           </div>
           <div
             aria-hidden={true}
@@ -744,7 +744,7 @@ BENCHMARK(StringCopy);
             <div
               className="flex-container"
             >
-              <MonacoEditor
+              <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="asm"
                 options={
