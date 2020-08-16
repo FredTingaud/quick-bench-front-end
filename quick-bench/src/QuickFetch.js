@@ -1,7 +1,7 @@
 import Fetch from 'components/Fetch.js'
 
-function fetchResults(obj, callback){ 
- return Fetch.fetchResults('quick', obj, 60, callback);
+function fetchResults(obj, callback, progressCallback){ 
+    return Fetch.fetchResults('quick', obj, 60, callback, progressCallback);
 }
 
 

@@ -2,9 +2,11 @@ var request = require('request');
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
 
-function fetchResults(route, obj, timeout, callback) {
+function fetchResults(route, obj, timeout, callback, progressCallback) {
+    let progress = 0;
     let interval = setInterval(() => {
-        this.setState({ progress: this.state.progress + 100 / timeout });
+        progress = progress + 100 / timeout;
+        progressCallback(progress);
     }, 1000);
     request({
         url: url + '/' + route + '/'

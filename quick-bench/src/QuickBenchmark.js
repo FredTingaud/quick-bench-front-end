@@ -201,7 +201,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 "force": this.state.clean && this.state.force,
                 "isAnnotated": this.state.isAnnotated,
             };
-        QuickFetch.fetchResults(obj, (content, err) => this.receiveResults(content, err));
+            QuickFetch.fetchResults(obj, (content, err) => this.receiveResults(content, err), (progress) => { this.setState({ progress: progress }); });
         }
     }
     receiveResults(body, err) {
