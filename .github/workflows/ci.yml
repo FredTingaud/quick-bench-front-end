@@ -19,7 +19,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - name: Test Quick Bench
+      - name: Build Quick Bench
         run: yarn
+        working-directory: ./quick-bench
+      - name: Test Quick Bench
         run: yarn test
         working-directory: ./quick-bench
