@@ -25,22 +25,22 @@ const requestBody = JSON.parse("{\"tab\":{\"code\":\"static void StringCreation(
 const requestBodyNoAnnot = JSON.parse("{\"tab\":{\"code\":\"static void StringCreation(benchmark::State& state) {\\n  // Code inside this loop is measured repeatedly\\n  for (auto _ : state) {\\n    std::string created_string(\\\"hello\\\");\\n    // Make sure the variable is not optimized away by compiler\\n    benchmark::DoNotOptimize(created_string);\\n  }\\n}\\n// Register the function as a benchmark\\nBENCHMARK(StringCreation);\\n\\nstatic void StringCopy(benchmark::State& state) {\\n  // Code before the loop is not measured\\n  std::string x = \\\"hello\\\";\\n  for (auto _ : state) {\\n    std::string copy(x);\\n  }\\n}\\nBENCHMARK(StringCopy);\\n\",\"options\":{\"compiler\":\"gcc-8.3\",\"optim\":\"2\",\"cppVersion\":\"17\",\"lib\":\"gnu\"},\"isAnnotated\":false,\"protocolVersion\":4},\"result\":{\"context\":{\"date\":\"2020-07-28 20:49:21\",\"host_name\":\"767db83f0ac2\",\"executable\":\"./bench\",\"num_cpus\":1,\"mhz_per_cpu\":2400,\"cpu_scaling_enabled\":false,\"caches\":[{\"type\":\"Data\",\"level\":1,\"size\":32768,\"num_sharing\":1},{\"type\":\"Instruction\",\"level\":1,\"size\":32768,\"num_sharing\":1},{\"type\":\"Unified\",\"level\":2,\"size\":262144,\"num_sharing\":1},{\"type\":\"Unified\",\"level\":3,\"size\":31457280,\"num_sharing\":1}],\"load_avg\":[0,0,0],\"library_build_type\":\"release\"},\"benchmarks\":[{\"name\":\"StringCreation\",\"cpu_time\":4.977504785737881},{\"name\":\"StringCopy\",\"cpu_time\":14.969946162155678},{\"name\":\"Noop\",\"cpu_time\":1}]},\"message\":\"\",\"id\":\"eP40RY6zDK-eJFdSSPBINa0apTM\"}");
 
 beforeEach(() => {
-    Fetch.fetchContent.mockClear();
+    Fetch.fetchId.mockClear();
   });
 
 it('doesnt load when there is no id', () => {
       const div = document.createElement('div');
     ReactDOM.render(<Benchmark/>, div);
-    expect(Fetch.fetchContent.mock.calls.length).toBe(0);
+    expect(Fetch.fetchId.mock.calls.length).toBe(0);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   it('loads passed ids', () => {
     const div = document.createElement('div');
     ReactDOM.render(<Benchmark id={'abcd'}/>, div);
-    expect(Fetch.fetchContent.mock.calls.length).toBe(1);
-    expect(Fetch.fetchContent.mock.calls[0][1]).toBe('abcd');
-    let callback = Fetch.fetchContent.mock.calls[0][2];
+    expect(Fetch.fetchId.mock.calls.length).toBe(1);
+    expect(Fetch.fetchId.mock.calls[0][1]).toBe('abcd');
+    let callback = Fetch.fetchId.mock.calls[0][2];
     callback(requestBody);
    
     ReactDOM.unmountComponentAtNode(div);
@@ -48,9 +48,9 @@ it('doesnt load when there is no id', () => {
 
   it('displays id with annotations', () => {
     const tree = renderer.create(<Benchmark id={'abcd'}/>);
-    expect(Fetch.fetchContent.mock.calls.length).toBe(1);
-    expect(Fetch.fetchContent.mock.calls[0][1]).toBe('abcd');
-    let callback = Fetch.fetchContent.mock.calls[0][2];
+    expect(Fetch.fetchId.mock.calls.length).toBe(1);
+    expect(Fetch.fetchId.mock.calls[0][1]).toBe('abcd');
+    let callback = Fetch.fetchId.mock.calls[0][2];
     callback(requestBody);
    
     expect(tree.toJSON()).toMatchSnapshot();
@@ -58,9 +58,9 @@ it('doesnt load when there is no id', () => {
   
   it('displays id without annotations', () => {
     const tree = renderer.create(<Benchmark id={'abcd'}/>);
-    expect(Fetch.fetchContent.mock.calls.length).toBe(1);
-    expect(Fetch.fetchContent.mock.calls[0][1]).toBe('abcd');
-    let callback = Fetch.fetchContent.mock.calls[0][2];
+    expect(Fetch.fetchId.mock.calls.length).toBe(1);
+    expect(Fetch.fetchId.mock.calls[0][1]).toBe('abcd');
+    let callback = Fetch.fetchId.mock.calls[0][2];
     callback(requestBodyNoAnnot);
    
     expect(tree.toJSON()).toMatchSnapshot();

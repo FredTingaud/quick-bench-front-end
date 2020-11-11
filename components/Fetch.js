@@ -22,8 +22,18 @@ function fetchResults(route, obj, timeout, callback, progressCallback) {
     });
 }
 
-function fetchContent(route, id, callback) {
+function fetchId(route, id, callback) {
     request.get(url + '/'+ route+'/' + id, (err, res, body) => {
+        let result;
+        if (body) {
+            result = JSON.parse(body);
+        }
+        callback(result);
+    });
+}
+
+function fetch(route, callback) {
+    request.get(url + '/' + route, (err, res, body) => {
         let result;
         if (body) {
             result = JSON.parse(body);
@@ -34,5 +44,6 @@ function fetchContent(route, id, callback) {
 
 export default {
     fetchResults: fetchResults,
-    fetchContent: fetchContent
+    fetchId: fetchId,
+    fetch: fetch
 }

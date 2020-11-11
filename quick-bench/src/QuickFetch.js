@@ -1,15 +1,18 @@
 import Fetch from 'components/Fetch.js'
 
-function fetchResults(obj, callback, progressCallback){ 
-    return Fetch.fetchResults('quick', obj, 60, callback, progressCallback);
+function fetchResults(obj, timeout, callback, progressCallback){ 
+    return Fetch.fetchResults('quick', obj, timeout, callback, progressCallback);
 }
 
-
-function fetchContent(id, callback) {
-    return Fetch.fetchContent('quick', id, callback);
+function fetchId(id, callback) {
+    return Fetch.fetchId('quick', id, callback);
 }
 
+function fetchEnv(callback) {
+    return Fetch.fetch('quick-env', callback)
+}
 export default {
     fetchResults: fetchResults,
-    fetchContent: fetchContent
+    fetchId: fetchId,
+    fetchEnv: fetchEnv
 }

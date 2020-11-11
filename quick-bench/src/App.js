@@ -7,8 +7,8 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AboutDialog from './dialogs/AboutDialog.js';
 import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import { ReactComponent as Logo } from './logo.svg';
+import QuickFetch from './QuickFetch.js';
 
-const maxCodeSize = 20000;
 
 class App extends Component {
     constructor(props) {
@@ -17,7 +17,9 @@ class App extends Component {
             location: null,
             prevlocation: null,
             showAbout: false,
-            showBenchmark: false
+            showBenchmark: false,
+            maxCodeSize: 20000,
+            timeout: 60
         };
     }
     componentDidUpdate() {
@@ -26,6 +28,12 @@ class App extends Component {
                 prevlocation: this.state.location
             });
         }
+    }
+    componentDidMount() {
+        QuickFetch.fetchEnv(env => this.setState({
+            timeout: env.timeout,
+            maxCodeSize: env.maxCodeSize
+        }));
     }
     redirect() {
         if (this.state.location !== this.state.prevlocation && this.state.location) {
@@ -50,7 +58,7 @@ class App extends Component {
         this.setState({ showBenchmark: false });
     }
 
-    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />;
+    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} maxCodeSize={this.state.maxCodeSize} timeout={this.state.timeout} onLocationChange={(l) => this.setState({ location: l })} />;
 
     renderEntries() {
         return <><Dropdown.Item onClick={() => this.openAbout()}>About Quick Bench</Dropdown.Item>

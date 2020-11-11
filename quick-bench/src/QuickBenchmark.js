@@ -136,7 +136,7 @@ class Benchmark extends React.Component {
         return null;
     }
     getCode(id) {
-        QuickFetch.fetchContent(id, (result) => this.loadCode(result, id));
+        QuickFetch.fetchId(id, (result) => this.loadCode(result, id));
     }
     loadCode(result, id) {
         this.setState({
@@ -201,7 +201,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 "force": this.state.clean && this.state.force,
                 "isAnnotated": this.state.isAnnotated,
             };
-            QuickFetch.fetchResults(obj, (content, err) => this.receiveResults(content, err), (progress) => { this.setState({ progress: progress }); });
+            QuickFetch.fetchResults(obj, this.props.timeout, (content, err) => this.receiveResults(content, err), (progress) => { this.setState({ progress: progress }); });
         }
     }
     receiveResults(body, err) {
