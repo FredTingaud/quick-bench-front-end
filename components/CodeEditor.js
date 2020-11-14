@@ -34,15 +34,16 @@ class CodeEditor extends React.Component {
     }
     addDecoration(name, i, max) {
         const re1 = new RegExp(`\\s${name}\\s*\\(\\s*benchmark\\s*::\\s*State\\s*&`);
-        const re2 = new RegExp(`BENCHMARK\\s*\\(\\s*${name}\\s*\\)\\s*`);
-        const match1 = this.editor.getModel().findNextMatch(re1, {
+        const re2 = new RegExp(`(BENCHMARK\\s*\\(\\s*)${name}\\s*\\)\\s*`);
+        const model = this.editor.getModel();
+        const match1 = model.findNextMatch(re1, {
             column: 1,
             lineNumber: 1
         }, true, true, null, false);
-        const match2 = this.editor.getModel().findNextMatch(re2, {
+        const match2 = model.findNextMatch(re2, {
             column: 1,
             lineNumber: 1
-        }, true, true, null, false);
+        }, true, true, null, true);
 
         if (match1 && match2) {
             this.decorations.push(
@@ -52,14 +53,14 @@ class CodeEditor extends React.Component {
                         linesDecorationsClassName: Palette.pickCSS(i, max)
                     }
                 });
-            const r1 = this.editor.getModel().findNextMatch(name, match1.range.getStartPosition(), false, true, null, false);
+            const r1 = model.findNextMatch(name, match1.range.getStartPosition(), false, true, null, false);
             this.decorations.push({
                 range: r1.range,
                 options: {
                     inlineClassName: Palette.pickCSS(i, max)
                 }
             });
-            const r2 = this.editor.getModel().findNextMatch(name, match2.range.getStartPosition(), false, true, null, false);
+            const r2 = model.findNextMatch(name, model.modifyPosition(match2.range.getStartPosition(), match2.matches[1].length), false, true, null, false);
             this.decorations.push({
                 range: r2.range,
                 options: {
