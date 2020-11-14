@@ -6,10 +6,9 @@ import 'components/resources/css/Shared.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AboutDialog from './dialogs/AboutDialog.js';
 import { ReactComponent as Logo } from './logo.svg';
+import BuildFetch from './BuildFetch.js';
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
-
-const maxCodeSize = 20000;
 
 class App extends Component {
     constructor(props) {
@@ -17,7 +16,9 @@ class App extends Component {
         this.state = {
             location: null,
             prevlocation: null,
-            showAbout: false
+            showAbout: false,
+            maxCodeSize: 20000,
+            timeout: 60
         };
     }
     componentDidUpdate() {
@@ -26,6 +27,12 @@ class App extends Component {
                 prevlocation: this.state.location
             });
         }
+    }
+    componentDidMount() {
+        BuildFetch.fetchEnv(env => this.setState({
+            timeout: env.timeout,
+            maxCodeSize: env.maxCodeSize
+        }));
     }
     redirect() {
         if (this.state.location !== this.state.prevlocation && this.state.location) {
@@ -43,7 +50,7 @@ class App extends Component {
         this.setState({ showAbout: false });
     }
 
-    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={maxCodeSize} onLocationChange={(l) => this.setState({ location: l })} />;
+    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} url={url} maxCodeSize={this.state.maxCodeSize} timeout={this.state.timeout} onLocationChange={(l) => this.setState({ location: l })} />;
 
     renderEntries() {
         return <><Dropdown.Item onClick={() => this.openAbout()}>About Build Bench</Dropdown.Item></>;

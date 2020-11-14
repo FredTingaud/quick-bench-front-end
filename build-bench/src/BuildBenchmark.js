@@ -14,8 +14,8 @@ import HashParser from 'components/HashParser.js';
 import CEButton from 'components/CEButton.js';
 import CPPInsightsButton from 'components/CPPInsightsButton.js';
 import { ReactComponent as Logo } from './logo.svg';
+import BuildFetch from './BuildFetch.js';
 
-var request = require('request');
 const protocolVersion = 3;
 
 const startCode1 = `#include <cstdio>
@@ -157,44 +157,42 @@ class Benchmark extends React.Component {
     }
     getCode(id) {
         this.clearResults();
-        request.get(this.props.url + '/build/' + id, (err, res, body) => {
-            this.setState({
-                sending: false,
-                clean: true,
-                force: false
-            });
-            if (body) {
-                let result = JSON.parse(body);
-                if (result) {
-                    if (result.result) {
-                        let titles = result.tabs.map(t => t.title);
-                        let options = result.tabs.map(t => ({
-                            compiler: t.compiler
-                            , cppVersion: t.cppVersion
-                            , optim: t.optim
-                            , lib: t.lib
-                        }));
-                        this.setState({
-                            texts: result.tabs.map(t => t.code)
-                            , titles: titles
-                            , graph: result.result
-                            , options: options
-                            , location: id
-                            , textsWrapped: result.tabs.every(v => v.code === result.tabs[0].code)
-                            , optionsWrapped: options.every(o => JSON.stringify(o) === JSON.stringify(options[0]))
-                            , includes: this.formatIncludes(result.includes)
-                            , asm: result.asm
-                            , pp: result.preprocessed
-                        });
-                    }
-                    if (result.messages) {
-                        this.setState({
-                            messages: result.messages
-                        });
-                    }
-                }
-            }
+        BuildFetch.fetchId(id, (result) => this.loadCode(result, id));
+    }
+    loadCode(result, id) {
+        this.setState({
+            sending: false,
+            clean: true,
+            force: false
         });
+        if (result) {
+            if (result.result) {
+                let titles = result.tabs.map(t => t.title);
+                let options = result.tabs.map(t => ({
+                    compiler: t.compiler
+                    , cppVersion: t.cppVersion
+                    , optim: t.optim
+                    , lib: t.lib
+                }));
+                this.setState({
+                    texts: result.tabs.map(t => t.code)
+                    , titles: titles
+                    , graph: result.result
+                    , options: options
+                    , location: id
+                    , textsWrapped: result.tabs.every(v => v.code === result.tabs[0].code)
+                    , optionsWrapped: options.every(o => JSON.stringify(o) === JSON.stringify(options[0]))
+                    , includes: this.formatIncludes(result.includes)
+                    , asm: result.asm
+                    , pp: result.preprocessed
+                });
+            }
+            if (result.messages) {
+                this.setState({
+                    messages: result.messages
+                });
+            }
+        }
     }
     sendCode() {
         const bigger = this.state.texts.findIndex(t => t.length > this.props.maxCodeSize);
@@ -210,9 +208,6 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 messages: []
             });
             this.setState({ progress: 0 });
-            let interval = setInterval(() => {
-                this.setState({ progress: this.state.progress + 100 / 120 });
-            }, 1000);
 
             var obj = {
                 "tabs": this.state.texts.map((c, i) => ({
@@ -228,40 +223,32 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 "protocolVersion": protocolVersion,
                 "force": this.state.clean && this.state.force,
             };
-            request({
-                url: this.props.url + '/build/'
-                , method: "POST"
-                , json: true
-                , headers: {
-                    "content-type": "application/json"
-                }
-                , body: obj
-            }, (err, res, body) => {
+            BuildFetch.fetchResults(obj, this.props.timeout, (content, err) => this.receiveResults(content, err));
+        }
+    }
+    receiveResults(body, err) {
+        this.setState({
+            sending: false,
+            clean: true,
+            force: false
+        });
+        if (body) {
+            if (body.result) {
                 this.setState({
-                    sending: false,
-                    clean: true,
-                    force: false
+                    graph: body.result,
+                    location: body.id,
+                    includes: this.formatIncludes(this.bufferMap(body.includes)),
+                    asm: this.bufferMap(body.asm),
+                    pp: this.bufferMap(body.preprocessed)
                 });
-                clearInterval(interval);
-                if (body) {
-                    if (body.result) {
-                        this.setState({
-                            graph: body.result,
-                            location: body.id,
-                            includes: this.formatIncludes(this.bufferMap(body.includes)),
-                            asm: this.bufferMap(body.asm),
-                            pp: this.bufferMap(body.preprocessed)
-                        });
-                        this.props.onLocationChange(body.id);
-                    }
-                    if (body.messages) {
-                        this.setState({ messages: body.messages });
-                    }
-                }
-                else if (err) {
-                    this.setState({ messages: [err] });
-                }
-            });
+                this.props.onLocationChange(body.id);
+            }
+            if (body.messages) {
+                this.setState({ messages: body.messages });
+            }
+        }
+        else if (err) {
+            this.setState({ messages: [err] });
         }
     }
     setDirty() {
