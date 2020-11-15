@@ -14,7 +14,7 @@ jest.mock("components/Fetch.js", () => {
     return {
         __esModule: true,
         default: {
-            fetchContent: jest.fn(),
+            fetchId: jest.fn(),
             fetchResults: jest.fn()
         }
     }
