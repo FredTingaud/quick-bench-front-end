@@ -39,6 +39,10 @@ class ContainersDialog extends React.Component {
                 this.handleClose();
             });
         }
+
+        if (removed.length === 0 && added.length === 0) {
+            this.handleClose();
+        }
     }
 
     changeDownloadList(k, name) {
