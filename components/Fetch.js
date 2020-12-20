@@ -64,10 +64,25 @@ function pullContainers(list, callback) {
     });
 }
 
+function deleteContainers(list, callback) {
+    request({
+        url: url + '/containers/'
+        , method: "DELETE"
+        , json: true
+        , headers: {
+            "content-type": "application/json"
+        }
+        , body: { tags: list }
+    }, (err, res, body) => {
+        callback(body.containers);
+    });
+}
+
 export default {
     fetchResults: fetchResults,
     fetchId: fetchId,
     fetch: fetch,
     fetchPossibleContainers: fetchPossibleContainers,
-    pullContainers: pullContainers
+    pullContainers: pullContainers,
+    deleteContainers: deleteContainers
 };

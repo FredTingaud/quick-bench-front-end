@@ -16,17 +16,29 @@ class ContainersDialog extends React.Component {
 
     prepare() {
         this.setState({
-            checked: [],
+            checked: [...this.props.containers],
             pulling: false
         });
-        Fetch.fetchPossibleContainers(p => this.setState({ possibles: p.filter(c => !this.props.containers.includes(c)) }));
+        Fetch.fetchPossibleContainers(p => this.setState({ possibles: p }));
     }
     proceed() {
         this.setState({ pulling: true });
-        Fetch.pullContainers(this.state.checked, e => {
-            this.props.containersChanged(e);
-            this.handleClose();
-        });
+
+        const added = this.state.checked.filter(c => this.props.containers.includes(c));
+        if (added.length > 0) {
+            Fetch.pullContainers(added, e => {
+                this.props.containersChanged(e);
+                this.handleClose();
+            });
+        }
+
+        const removed = this.props.containers.filter(c => !this.state.checked.includes(c));
+        if (removed.length > 0) {
+            Fetch.deleteContainers(removed, e => {
+                this.props.containersChanged(e);
+                this.handleClose();
+            });
+        }
     }
 
     changeDownloadList(k, name) {
@@ -48,11 +60,11 @@ class ContainersDialog extends React.Component {
                     <Form>
                         <Form.Row>
                             <Form.Group as={Col} controlId="clangForm">
-                                {this.state.possibles.filter(p => p.startsWith('clang')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} />)}
+                                {this.state.possibles.filter(p => p.startsWith('clang')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} defaultChecked={this.props.containers.includes(p)} />)}
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="gccForm">
-                                {this.state.possibles.filter(p => p.startsWith('gcc')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} />)}
+                                {this.state.possibles.filter(p => p.startsWith('gcc')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} defaultChecked={this.props.containers.includes(p)}/>)}
                             </Form.Group>
                         </Form.Row>
                     </Form>
