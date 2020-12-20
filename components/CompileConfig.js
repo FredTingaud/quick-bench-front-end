@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, ButtonToolbar, DropdownButton } from 'react-bootstrap';
+import { Dropdown, ButtonToolbar, DropdownButton, Button } from 'react-bootstrap';
 import { BsCloudDownload } from "react-icons/bs";
 
 const o0Name = 'None';
@@ -119,10 +119,14 @@ class CompileConfig extends React.Component {
         const maxVersion = this.state.maxVersion;
         return (
             <ButtonToolbar>
-                <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
-                    {this.props.compilers.map((name) => <Dropdown.Item key={name} eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
-                    {this.props.pullCompiler ? <Dropdown.Item key="dl" eventKey="dl"><BsCloudDownload/> Pull other compiler</Dropdown.Item> : null}
-                </DropdownButton>
+                {this.props.compilers && this.props.compilers.length > 0 ?
+                    <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
+                        {this.props.compilers.map((name) => <Dropdown.Item key={name} eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
+                        {this.props.pullCompiler ? <Dropdown.Item key="dl" eventKey="dl"><BsCloudDownload /> Pull other compiler</Dropdown.Item> : null}
+                    </DropdownButton>
+                    :
+                    <Button onClick={() => this.props.pullCompiler()}><BsCloudDownload /> Pull compilers</Button>
+                    }
                 <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
                     <Dropdown.Item eventKey="11">{v11Name}</Dropdown.Item>
                     <Dropdown.Item eventKey="14">{v14Name}</Dropdown.Item>

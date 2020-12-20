@@ -52,10 +52,10 @@ class ContainersDialog extends React.Component {
         return (
             <Modal show={this.props.show} onHide={this.handleClose} onShow={() => this.prepare()} dialogClassName="modal-60w">
                 <Modal.Header closeButton>
-                    <Modal.Title>Pull another compiler</Modal.Title>
+                    <Modal.Title>Choose your compilers</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Choose which container to pull.
+                    Choose which compilers to handle.
                     <br />
                     <Form>
                         <Form.Row>
