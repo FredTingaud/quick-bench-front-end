@@ -24,7 +24,7 @@ class ContainersDialog extends React.Component {
     proceed() {
         this.setState({ pulling: true });
 
-        const added = this.state.checked.filter(c => this.props.containers.includes(c));
+        const added = this.state.checked.filter(c => !this.props.containers.includes(c));
         if (added.length > 0) {
             Fetch.pullContainers(added, e => {
                 this.props.containersChanged(e);
