@@ -8,6 +8,8 @@ import AboutDialog from './dialogs/AboutDialog.js';
 import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
 import { ReactComponent as Logo } from './logo.svg';
 import QuickFetch from './QuickFetch.js';
+import DefaultSettings from 'components/DefaultSettings.js';
+import ContainersDialog from 'components/dialogs/ContainersDialog.js';
 
 
 class App extends Component {
@@ -19,7 +21,9 @@ class App extends Component {
             showAbout: false,
             showBenchmark: false,
             maxCodeSize: 20000,
-            timeout: 60
+            timeout: 60,
+            downloadContainers: false,
+            containers: DefaultSettings.allCompilers
         };
     }
     componentDidUpdate() {
@@ -30,10 +34,17 @@ class App extends Component {
         }
     }
     componentDidMount() {
-        QuickFetch.fetchEnv(env => this.setState({
-            timeout: env.timeout,
-            maxCodeSize: env.maxCodeSize
-        }));
+        QuickFetch.fetchEnv(env => {
+            if (!env)
+                return;
+            this.setState({
+                timeout: env.timeout,
+                maxCodeSize: env.maxCodeSize,
+                containers: env.containers,
+                downloadContainers: env.containerDl
+            });
+        });
+        
     }
     redirect() {
         if (this.state.location !== this.state.prevlocation && this.state.location) {
@@ -58,7 +69,17 @@ class App extends Component {
         this.setState({ showBenchmark: false });
     }
 
-    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} maxCodeSize={this.state.maxCodeSize} timeout={this.state.timeout} onLocationChange={(l) => this.setState({ location: l })} />;
+    openContainers() {
+        this.setState({ showContainers: true });
+    }
+    closeContainers() {
+        this.setState({ showContainers: false });
+    }
+    pullContainer() {
+        this.openContainers();
+    }
+
+    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} maxCodeSize={this.state.maxCodeSize} timeout={this.state.timeout} containers={this.state.containers} pullContainer={this.state.downloadContainers ? (() => this.pullContainer()) : null} onLocationChange={(l) => this.setState({ location: l })} />;
 
     renderEntries() {
         return <><Dropdown.Item onClick={() => this.openAbout()}>About Quick Bench</Dropdown.Item>
@@ -77,7 +98,7 @@ class App extends Component {
                 </div>
                 <AboutDialog show={this.state.showAbout} onHide={() => this.closeAbout()} />
                 <BenchmarkDialog show={this.state.showBenchmark} onHide={() => this.closeBenchmark()} />
-
+                <ContainersDialog show={this.state.showContainers} onHide={() => this.closeContainers()} containers={this.state.containers} containersChanged={c => this.setState({ containers: c })} />
             </BrowserRouter>
         );
     }

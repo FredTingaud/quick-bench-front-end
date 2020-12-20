@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dropdown, ButtonToolbar, DropdownButton } from 'react-bootstrap';
+import { BsCloudDownload } from "react-icons/bs";
 
 const o0Name = 'None';
 const oGName = 'Og';
@@ -86,6 +87,10 @@ class CompileConfig extends React.Component {
         }
     }
     changeCompiler(key) {
+        if (key === "dl") {
+            this.props.pullCompiler();
+            return;
+        }
         let opts = this.props.value;
         this.refreshMaxCppVersion(key, opts);
         opts.compiler = key;
@@ -116,6 +121,7 @@ class CompileConfig extends React.Component {
             <ButtonToolbar>
                 <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
                     {this.props.compilers.map((name) => <Dropdown.Item key={name} eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
+                    {this.props.pullCompiler ? <Dropdown.Item key="dl" eventKey="dl"><BsCloudDownload/> Pull other compiler</Dropdown.Item> : null}
                 </DropdownButton>
                 <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
                     <Dropdown.Item eventKey="11">{v11Name}</Dropdown.Item>

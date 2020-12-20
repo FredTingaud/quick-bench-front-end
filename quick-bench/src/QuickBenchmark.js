@@ -38,12 +38,6 @@ BENCHMARK(StringCopy);
 const includeStr = '#include <benchmark/benchmark.h>\n';
 const mainStr = '\nBENCHMARK_MAIN();';
 
-const compilers = ['clang-3.8', 'clang-3.9', 'clang-4.0', 'clang-5.0',
-    'clang-6.0', 'clang-7.0', 'clang-7.1', 'clang-8.0', 'clang-9.0',
-    'clang-10.0', 'gcc-5.5', 'gcc-6.4', 'gcc-6.5', 'gcc-7.2', 'gcc-7.3',
-    'gcc-7.4', 'gcc-7.5', 'gcc-8.1', 'gcc-8.2', 'gcc-8.3', 'gcc-8.4',
-    'gcc-9.1', 'gcc-9.2', 'gcc-9.3', 'gcc-10.1'];
-
 const PALETTE = [
     "#5ed9cd",
     "#61d6eb",
@@ -85,7 +79,7 @@ class Benchmark extends React.Component {
         this.state.location = props.id;
         this.state.prevLocation = props.id;
 
-        let stateFromHash = HashParser.getState(compilers, this.state.options);
+        let stateFromHash = HashParser.getState(this.props.containers, this.state.options);
         if (stateFromHash.length > 0) {
             this.state.text = this.importCode(stateFromHash[0].text);
             this.state.options = stateFromHash[0].options;
@@ -275,7 +269,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                         <div className="fill-content">
                             <div className="fixed-content">
                                 <Card body className="my-2">
-                                    <CompileConfig compilers={compilers} value={this.state.options} onChange={c => this.onOptionsChange(c)} />
+                                    <CompileConfig compilers={this.props.containers} value={this.state.options} onChange={c => this.onOptionsChange(c)} pullCompiler={this.props.pullContainer}/>
                                     <hr className="config-separator" />
                                     <ButtonToolbar className="justify-content-between">
                                         <Form inline>

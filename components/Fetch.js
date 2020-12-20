@@ -23,7 +23,7 @@ function fetchResults(route, obj, timeout, callback, progressCallback) {
 }
 
 function fetchId(route, id, callback) {
-    request.get(url + '/'+ route+'/' + id, (err, res, body) => {
+    request.get(url + '/' + route + '/' + id, (err, res, body) => {
         let result;
         if (body) {
             result = JSON.parse(body);
@@ -42,8 +42,32 @@ function fetch(route, callback) {
     });
 }
 
+function fetchPossibleContainers(callback) {
+    request.get(url + '/containers/', (err, res, body) => {
+        if (body) {
+            callback(JSON.parse(body).tags);
+        }
+    });
+}
+
+function pullContainers(list, callback) {
+    request({
+        url: url + '/containers/'
+        , method: "POST"
+        , json: true
+        , headers: {
+            "content-type": "application/json"
+        }
+        , body: { tags: list }
+    }, (err, res, body) => {
+        callback(body.containers);
+    });
+}
+
 export default {
     fetchResults: fetchResults,
     fetchId: fetchId,
-    fetch: fetch
-}
+    fetch: fetch,
+    fetchPossibleContainers: fetchPossibleContainers,
+    pullContainers: pullContainers
+};
