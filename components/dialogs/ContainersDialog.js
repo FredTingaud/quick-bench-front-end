@@ -10,23 +10,34 @@ class ContainersDialog extends React.Component {
             checked: [],
             pulling: false
         };
+
+        this.waitAdd = false;
+        this.waitRemove = false;
     }
 
-    handleClose = () => this.props.onHide();
+    handleClose() {
+        if (!this.waitAdd && !this.waitRemove)
+            this.props.onHide();
+    }
 
     prepare() {
         this.setState({
             checked: [...this.props.containers],
             pulling: false
         });
+        this.waitAdd = false;
+        this.waitRemove = false;
         Fetch.fetchPossibleContainers(p => this.setState({ possibles: p }));
     }
+
     proceed() {
         this.setState({ pulling: true });
 
         const added = this.state.checked.filter(c => !this.props.containers.includes(c));
         if (added.length > 0) {
+            this.waitAdd = true;
             Fetch.pullContainers(added, e => {
+                this.waitAdd = false;
                 this.props.containersChanged(e);
                 this.handleClose();
             });
@@ -34,15 +45,15 @@ class ContainersDialog extends React.Component {
 
         const removed = this.props.containers.filter(c => !this.state.checked.includes(c));
         if (removed.length > 0) {
+            this.waitRemove = true;
             Fetch.deleteContainers(removed, e => {
+                this.waitRemove = false;
                 this.props.containersChanged(e);
                 this.handleClose();
             });
         }
 
-        if (removed.length === 0 && added.length === 0) {
-            this.handleClose();
-        }
+        this.handleClose();
     }
 
     changeDownloadList(k, name) {
@@ -74,7 +85,7 @@ class ContainersDialog extends React.Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => this.proceed()} disabled={this.state.pulling}>Proceed</Button>
+                    <Button variant="primary" onClick={() => this.proceed()} disabled={this.state.pulling}>{this.state.pulling ? "Proceeding" : "Proceed"}</Button>
                     <Button variant="light" onClick={this.handleClose} disabled={this.state.pulling}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
