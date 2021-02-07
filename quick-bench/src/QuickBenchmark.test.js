@@ -9,7 +9,7 @@ import renderer from 'react-test-renderer';
 
 jest.mock("react-monaco-editor", () => (props) => <mock-MonacoEditor {...props} />);
 
-jest.mock('components/TimeChart.js', () => (props) => <mock-TimeChart {...props}/>);
+jest.mock('components/TimeChart.js', () => (props) => <mock-TimeChart {...props} />);
 
 jest.mock("components/Fetch.js", () => {
     return {
@@ -27,42 +27,48 @@ const requestBodyNoAnnot = JSON.parse("{\"tab\":{\"code\":\"static void StringCr
 
 beforeEach(() => {
     Fetch.fetchId.mockClear();
-  });
+});
 
 it('doesnt load when there is no id', () => {
-      const div = document.createElement('div');
-    ReactDOM.render(<Benchmark containers={DefaultSettings.allCompilers}/>, div);
+    const div = document.createElement('div');
+    ReactDOM.render(<Benchmark containers={DefaultSettings.allCompilers} />, div);
     expect(Fetch.fetchId.mock.calls.length).toBe(0);
     ReactDOM.unmountComponentAtNode(div);
-  });
+});
 
-  it('loads passed ids', () => {
+it('loads passed ids', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Benchmark id={'abcd'}/>, div);
+    ReactDOM.render(<Benchmark id={'abcd'} />, div);
     expect(Fetch.fetchId.mock.calls.length).toBe(1);
     expect(Fetch.fetchId.mock.calls[0][1]).toBe('abcd');
     let callback = Fetch.fetchId.mock.calls[0][2];
     callback(requestBody);
-   
-    ReactDOM.unmountComponentAtNode(div);
-  });
 
-  it('displays id with annotations', () => {
-    const tree = renderer.create(<Benchmark id={'abcd'}  containers={DefaultSettings.allCompilers}/>);
+    ReactDOM.unmountComponentAtNode(div);
+});
+
+it('displays button when no container is available', () => {
+    const tree = renderer.create(<Benchmark />);
+
+    expect(tree.toJSON()).toMatchSnapshot();
+});
+
+it('displays id with annotations', () => {
+    const tree = renderer.create(<Benchmark id={'abcd'} containers={DefaultSettings.allCompilers} />);
     expect(Fetch.fetchId.mock.calls.length).toBe(1);
     expect(Fetch.fetchId.mock.calls[0][1]).toBe('abcd');
     let callback = Fetch.fetchId.mock.calls[0][2];
     callback(requestBody);
-   
+
     expect(tree.toJSON()).toMatchSnapshot();
-  });
-  
-  it('displays id without annotations', () => {
-    const tree = renderer.create(<Benchmark id={'abcd'}  containers={DefaultSettings.allCompilers}/>);
+});
+
+it('displays id without annotations', () => {
+    const tree = renderer.create(<Benchmark id={'abcd'} containers={DefaultSettings.allCompilers} />);
     expect(Fetch.fetchId.mock.calls.length).toBe(1);
     expect(Fetch.fetchId.mock.calls[0][1]).toBe('abcd');
     let callback = Fetch.fetchId.mock.calls[0][2];
     callback(requestBodyNoAnnot);
-   
+
     expect(tree.toJSON()).toMatchSnapshot();
-  });
+});

@@ -1,5 +1,277 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`displays button when no container is available 1`] = `
+<div
+  className="fill-content container-fluid"
+>
+  <div
+    className="fill-row row"
+  >
+    <div
+      className="full-size col-sm-6"
+    >
+      <div
+        className="code-editor"
+      >
+        <div
+          className="flex-container"
+        >
+          <mock-MonacoEditor
+            editorDidMount={[Function]}
+            language="cpp"
+            onChange={[Function]}
+            options={
+              Object {
+                "selectOnLineNumbers": true,
+              }
+            }
+            value="static void StringCreation(benchmark::State& state) {
+  // Code inside this loop is measured repeatedly
+  for (auto _ : state) {
+    std::string created_string(\\"hello\\");
+    // Make sure the variable is not optimized away by compiler
+    benchmark::DoNotOptimize(created_string);
+  }
+}
+// Register the function as a benchmark
+BENCHMARK(StringCreation);
+
+static void StringCopy(benchmark::State& state) {
+  // Code before the loop is not measured
+  std::string x = \\"hello\\";
+  for (auto _ : state) {
+    std::string copy(x);
+  }
+}
+BENCHMARK(StringCopy);
+"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="flex-container col-sm-6"
+    >
+      <div
+        className="fill-content"
+      >
+        <div
+          className="fixed-content"
+        >
+          <div
+            className="my-2 card"
+          >
+            <div
+              className="card-body"
+            >
+              <div
+                className="btn-toolbar"
+                role="toolbar"
+              >
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    strokeWidth="0"
+                    style={
+                      Object {
+                        "color": undefined,
+                      }
+                    }
+                    viewBox="0 0 16 16"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4.887 5.2l-.964-.165A2.5 2.5 0 103.5 10H6v1H3.5a3.5 3.5 0 11.59-6.95 5.002 5.002 0 119.804 1.98A2.501 2.501 0 0113.5 11H10v-1h3.5a1.5 1.5 0 00.237-2.981L12.7 6.854l.216-1.028a4 4 0 10-7.843-1.587l-.185.96z"
+                    />
+                    <path
+                      clipRule="evenodd"
+                      d="M5 12.5a.5.5 0 01.707 0L8 14.793l2.293-2.293a.5.5 0 11.707.707l-2.646 2.646a.5.5 0 01-.708 0L5 13.207a.5.5 0 010-.707z"
+                      fillRule="evenodd"
+                    />
+                    <path
+                      clipRule="evenodd"
+                      d="M8 6a.5.5 0 01.5.5v8a.5.5 0 01-1 0v-8A.5.5 0 018 6z"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                   Pull compilers
+                </button>
+                <div
+                  className="mr-2 dropdown"
+                  onKeyDown={[Function]}
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={false}
+                    id="language"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    std = c++20
+                  </button>
+                </div>
+                <div
+                  className="mr-2 dropdown"
+                  onKeyDown={[Function]}
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={false}
+                    id="optim"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    optim = O3
+                  </button>
+                </div>
+                <div
+                  className="dropdown"
+                  onKeyDown={[Function]}
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={false}
+                    id="libc"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    STL = libstdc++(GNU)
+                  </button>
+                </div>
+              </div>
+              <hr
+                className="config-separator"
+              />
+              <div
+                className="justify-content-between btn-toolbar"
+                role="toolbar"
+              >
+                <form
+                  className="form-inline"
+                >
+                  <button
+                    className="mr-2 btn btn-primary"
+                    disabled={false}
+                    id="Run"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                     
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      strokeWidth="0"
+                      style={
+                        Object {
+                          "color": undefined,
+                        }
+                      }
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
+                      />
+                    </svg>
+                     Run Benchmark
+                  </button>
+                  <div
+                    className="mr-2 custom-control custom-checkbox"
+                  >
+                    <input
+                      checked={true}
+                      className="custom-control-input"
+                      disabled={false}
+                      id="disassembly"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    <label
+                      className="custom-control-label"
+                      htmlFor="disassembly"
+                      title=""
+                    >
+                      Record disassembly
+                    </label>
+                  </div>
+                </form>
+                <form
+                  className="form-inline"
+                >
+                  <button
+                    className="mr-2 btn btn-outline-dark"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    type="button"
+                  >
+                    <img
+                      alt="Open in Compiler Explorer"
+                      className="line-img"
+                      src="Compiler-Explorer.svg"
+                    />
+                  </button>
+                  <button
+                    className="mr-2 btn btn-outline-dark"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    type="button"
+                  >
+                    <img
+                      alt="Open in CPP Insights"
+                      className="line-img"
+                      src="cppinsights.svg"
+                    />
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="watermark"
+        >
+          <svg
+            className="watermark2"
+            style={
+              Object {
+                "fill": "#26595430",
+              }
+            }
+            title="Run with Quick Bench!"
+          >
+            logo.svg
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`displays id with annotations 1`] = `
 <div
   className="fill-content container-fluid"
