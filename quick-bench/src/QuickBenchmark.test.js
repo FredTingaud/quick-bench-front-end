@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DefaultSettings from 'components/DefaultSettings.js';
 import Benchmark from './QuickBenchmark';
 
 import Fetch from "components/Fetch.js";
@@ -30,7 +31,7 @@ beforeEach(() => {
 
 it('doesnt load when there is no id', () => {
       const div = document.createElement('div');
-    ReactDOM.render(<Benchmark/>, div);
+    ReactDOM.render(<Benchmark containers={DefaultSettings.allCompilers}/>, div);
     expect(Fetch.fetchId.mock.calls.length).toBe(0);
     ReactDOM.unmountComponentAtNode(div);
   });
@@ -47,7 +48,7 @@ it('doesnt load when there is no id', () => {
   });
 
   it('displays id with annotations', () => {
-    const tree = renderer.create(<Benchmark id={'abcd'}/>);
+    const tree = renderer.create(<Benchmark id={'abcd'}  containers={DefaultSettings.allCompilers}/>);
     expect(Fetch.fetchId.mock.calls.length).toBe(1);
     expect(Fetch.fetchId.mock.calls[0][1]).toBe('abcd');
     let callback = Fetch.fetchId.mock.calls[0][2];
@@ -57,7 +58,7 @@ it('doesnt load when there is no id', () => {
   });
   
   it('displays id without annotations', () => {
-    const tree = renderer.create(<Benchmark id={'abcd'}/>);
+    const tree = renderer.create(<Benchmark id={'abcd'}  containers={DefaultSettings.allCompilers}/>);
     expect(Fetch.fetchId.mock.calls.length).toBe(1);
     expect(Fetch.fetchId.mock.calls[0][1]).toBe('abcd');
     let callback = Fetch.fetchId.mock.calls[0][2];
