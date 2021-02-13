@@ -6,7 +6,7 @@ import 'components/resources/css/Shared.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AboutDialog from './dialogs/AboutDialog.js';
 import BenchmarkDialog from './dialogs/BenchmarkDialog.js';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'components/resources/ico/qb.svg';
 import QuickFetch from './QuickFetch.js';
 import DefaultSettings from 'components/DefaultSettings.js';
 import ContainersDialog from 'components/dialogs/ContainersDialog.js';

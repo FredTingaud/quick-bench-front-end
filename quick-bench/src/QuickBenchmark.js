@@ -10,7 +10,7 @@ import CEButton from 'components/CEButton.js';
 import CPPInsightsButton from 'components/CPPInsightsButton.js';
 import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'components/resources/ico/qb.svg';
 import QuickFetch from './QuickFetch.js';
 
 const protocolVersion = 4;
@@ -79,7 +79,7 @@ class Benchmark extends React.Component {
         this.state.location = props.id;
         this.state.prevLocation = props.id;
 
-        let stateFromHash = HashParser.getState(this.props.containers, this.state.options);
+        let stateFromHash = HashParser.getState(this.state.options);
         if (stateFromHash.length > 0) {
             this.state.text = this.importCode(stateFromHash[0].text);
             this.state.options = stateFromHash[0].options;

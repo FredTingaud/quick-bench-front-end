@@ -10,7 +10,7 @@ function decodeHash(str) {
     return false;
 }
 
-function getState(compilers, defaultOptions) {
+function getState(defaultOptions) {
     if (window.location.hash) {
         let state = [].concat(decodeHash(window.location.hash));
         window.location.hash = "";

@@ -13,6 +13,7 @@ import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
 import CEButton from 'components/CEButton.js';
 import CPPInsightsButton from 'components/CPPInsightsButton.js';
+import QuickBenchButton from 'components/QuickBenchButton.js';
 import { ReactComponent as Logo } from './logo.svg';
 import BuildFetch from './BuildFetch.js';
 
@@ -77,7 +78,7 @@ class Benchmark extends React.Component {
         this.state.location = props.id;
         this.state.prevLocation = props.id;
 
-        let stateFromHash = HashParser.getState(this.props.containers, this.state.options[0]);
+        let stateFromHash = HashParser.getState(this.state.options[0]);
         if (stateFromHash.length > 0) {
             this.state.titles = stateFromHash.map(s => s.title);
             this.state.texts = stateFromHash.map(s => s.text);
@@ -360,6 +361,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         <Form inline>
                                             <CEButton className="float-right" texts={this.state.texts} options={this.state.options} />
                                             <CPPInsightsButton className="float-right" text={this.state.texts[this.state.index]} options={this.state.options[this.state.index]} />
+                                            <QuickBenchButton className="float-right" text={this.state.texts[this.state.index]} options={this.state.options[this.state.index]} />
                                         </Form>
                                     </ButtonToolbar>
                                     <Display when={this.state.sending}>
