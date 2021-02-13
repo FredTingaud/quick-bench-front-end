@@ -82,8 +82,8 @@ class Benchmark extends React.Component {
             this.state.titles = stateFromHash.map(s => s.title);
             this.state.texts = stateFromHash.map(s => s.text);
             this.state.options = stateFromHash.map(s => s.options);
-            this.state.textsWrapped = this.state.texts.every(t => t === this.state.texts[0])
-            this.state.optionsWrapped = this.state.options.every(o => JSON.stringify(o) === JSON.stringify(this.state.options[0]))
+            this.state.textsWrapped = this.state.texts.length > 1 && this.state.texts.every(t => t === this.state.texts[0])
+            this.state.optionsWrapped = this.state.options.length > 1 && this.state.options.every(o => JSON.stringify(o) === JSON.stringify(this.state.options[0]))
         }
     }
     initializeCode() {
