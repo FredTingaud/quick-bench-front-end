@@ -14,7 +14,7 @@ import HashParser from 'components/HashParser.js';
 import CEButton from 'components/CEButton.js';
 import CPPInsightsButton from 'components/CPPInsightsButton.js';
 import QuickBenchButton from 'components/QuickBenchButton.js';
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from 'components/resources/ico/bb.svg';
 import BuildFetch from './BuildFetch.js';
 
 const protocolVersion = 3;

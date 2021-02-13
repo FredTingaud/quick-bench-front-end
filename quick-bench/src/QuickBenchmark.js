@@ -12,6 +12,7 @@ import Display from 'components/Display.js';
 import HashParser from 'components/HashParser.js';
 import { ReactComponent as Logo } from 'components/resources/ico/qb.svg';
 import QuickFetch from './QuickFetch.js';
+import BBButton from 'components/BBButton';
 
 const protocolVersion = 4;
 
@@ -282,6 +283,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         <Form inline>
                                             <CEButton className="float-right" texts={includeStr + this.state.text + mainStr} options={this.state.options} />
                                             <CPPInsightsButton className="float-right" text={includeStr + this.state.text + mainStr} options={this.state.options} />
+                                            <BBButton className="float-right" text={includeStr + this.state.text + mainStr} options={this.state.options} />
                                         </Form>
                                     </ButtonToolbar>
                                     <Display when={this.state.sending}>
