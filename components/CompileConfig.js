@@ -16,12 +16,25 @@ const v20Name = 'c++20';
 const lGName = 'libstdc++(GNU)';
 const lCName = 'libc++(LLVM)';
 
+
+function commonPrefixLength(s1, s2) {
+    const L = s2.length;
+    let i = 0;
+    while (i < L && s1.charAt(i) === s2.charAt(i)) i++;
+    return i;
+}
+
 class CompileConfig extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             maxVersion: 20
         };
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.compilers !== this.props.compilers) {
+            this.changeCompiler(this.props.value.compiler);
+        }
     }
     compilerName(name) {
         if (name.startsWith('gcc-')) {
@@ -86,14 +99,24 @@ class CompileConfig extends React.Component {
             opts.cppVersion = "17";
         }
     }
+    checkedCompiler(comp) {
+        if (!comp)
+            return this.state.compiler;
+        if (this.props.compilers.indexOf(comp) > -1)
+            return comp;
+        // If we receive an unknown compiler version
+        // We search the one that has the longest common prefix
+        return this.props.compilers[this.props.compilers.reduce((best, x, i, arr) => commonPrefixLength(x, comp) >= commonPrefixLength(arr[best], comp) ? i : best, 0)];
+    }
     changeCompiler(key) {
         if (key === "dl") {
             this.props.pullCompiler();
             return;
         }
         let opts = this.props.value;
-        this.refreshMaxCppVersion(key, opts);
-        opts.compiler = key;
+        let comp = this.checkedCompiler(key);
+        this.refreshMaxCppVersion(comp, opts);
+        opts.compiler = comp;
         this.props.onChange(opts);
     }
     changeVersion(key) {
@@ -126,7 +149,7 @@ class CompileConfig extends React.Component {
                     </DropdownButton>
                     :
                     <Button onClick={() => this.props.pullCompiler()}><BsCloudDownload /> Pull compilers</Button>
-                    }
+                }
                 <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
                     <Dropdown.Item eventKey="11">{v11Name}</Dropdown.Item>
                     <Dropdown.Item eventKey="14">{v14Name}</Dropdown.Item>
