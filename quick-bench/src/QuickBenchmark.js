@@ -13,6 +13,7 @@ import HashParser from 'components/HashParser.js';
 import { ReactComponent as Logo } from 'components/resources/ico/qb.svg';
 import QuickFetch from './QuickFetch.js';
 import BBButton from 'components/BBButton';
+import DefaultSettings from 'components/DefaultSettings';
 
 const protocolVersion = 4;
 
@@ -61,7 +62,7 @@ class Benchmark extends React.Component {
         , sending: false
         , progress: 0
         , options: {
-            compiler: "clang-10.0"
+            compiler: DefaultSettings.latestCompiler
             , cppVersion: "20"
             , optim: "3"
             , lib: "gnu"

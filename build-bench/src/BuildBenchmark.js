@@ -16,6 +16,7 @@ import CPPInsightsButton from 'components/CPPInsightsButton.js';
 import QuickBenchButton from 'components/QuickBenchButton.js';
 import { ReactComponent as Logo } from 'components/resources/ico/bb.svg';
 import BuildFetch from './BuildFetch.js';
+import DefaultSettings from 'components/DefaultSettings';
 
 const protocolVersion = 3;
 
@@ -58,7 +59,7 @@ class Benchmark extends React.Component {
         , progress: 0
         , index: 0
         , options: Array(2).fill().map(a => ({
-            compiler: "clang-10.0"
+            compiler: DefaultSettings.latestCompiler
             , cppVersion: "20"
             , optim: "3"
             , lib: "gnu"

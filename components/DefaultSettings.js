@@ -5,5 +5,6 @@ const ALL_COMPILERS = ['clang-3.8', 'clang-3.9', 'clang-4.0', 'clang-5.0',
     'gcc-9.1', 'gcc-9.2', 'gcc-9.3', 'gcc-10.1'];
 
 export default {
-    allCompilers: ALL_COMPILERS
+    allCompilers: ALL_COMPILERS,
+    latestCompiler: 'clang-11.0'
 };
