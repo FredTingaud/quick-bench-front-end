@@ -34,6 +34,11 @@ class CompileConfig extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.compilers !== this.props.compilers) {
             this.changeCompiler(this.props.value.compiler);
+        } else if (prevProps.value.compiler !== this.props.value.compiler) {
+            let fixed = this.checkedCompiler(this.props.value.compiler);
+            if (fixed !== this.props.value.compiler) {
+                this.changeCompiler(fixed);
+            }
         }
     }
     compilerName(name) {
@@ -102,6 +107,8 @@ class CompileConfig extends React.Component {
     checkedCompiler(comp) {
         if (!comp)
             return this.state.compiler;
+        if (!this.props.compilers)
+            return comp;
         if (this.props.compilers.indexOf(comp) > -1)
             return comp;
         // If we receive an unknown compiler version
