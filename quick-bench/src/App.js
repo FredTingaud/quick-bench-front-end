@@ -91,7 +91,7 @@ class App extends Component {
             <BrowserRouter history={this.state.location}>
                 <div className="one-page">
                     <div className="fixed-content" ref={div => { this.header = div; }}>
-                        <Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Quick C++ Benchmark</>} entries={() => this.renderEntries()} motd={{ url: "https://build-bench.com", text: "Discover Build Bench!" }} />
+                        <Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Quick C++ Benchmark</>} entries={() => this.renderEntries()} motd={{ url: "https://github.com/FredTingaud/bench-runner", text: "Run Quick Bench locally" }} />
                     </div >
                     <Route exact path={["/", "/q/:id"]} component={this.Home} />
                     {this.redirect()}
