@@ -246,6 +246,22 @@ BENCHMARK(StringCopy);
                       src="cppinsights.svg"
                     />
                   </button>
+                  <button
+                    className="mr-2 btn btn-outline-dark"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    type="button"
+                  >
+                    <img
+                      alt="Open in Build Bench"
+                      className="line-img"
+                      src="bb.svg"
+                    />
+                  </button>
                 </form>
               </div>
             </div>
@@ -263,7 +279,7 @@ BENCHMARK(StringCopy);
             }
             title="Run with Quick Bench!"
           >
-            logo.svg
+            qb.svg
           </svg>
         </div>
       </div>
@@ -515,6 +531,22 @@ BENCHMARK(StringCopy);
                       alt="Open in CPP Insights"
                       className="line-img"
                       src="cppinsights.svg"
+                    />
+                  </button>
+                  <button
+                    className="mr-2 btn btn-outline-dark"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    type="button"
+                  >
+                    <img
+                      alt="Open in Build Bench"
+                      className="line-img"
+                      src="bb.svg"
                     />
                   </button>
                 </form>
@@ -916,6 +948,22 @@ BENCHMARK(StringCopy);
                       alt="Open in CPP Insights"
                       className="line-img"
                       src="cppinsights.svg"
+                    />
+                  </button>
+                  <button
+                    className="mr-2 btn btn-outline-dark"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    type="button"
+                  >
+                    <img
+                      alt="Open in Build Bench"
+                      className="line-img"
+                      src="bb.svg"
                     />
                   </button>
                 </form>
