@@ -59,7 +59,7 @@ class QuickChart extends React.Component {
     }
 
     toggleNoop(e) {
-        this.setState({ showNoop: e.target.checked });
+        this.setState({ showNoop: e.target.checked }, () => this.refreshState());
     }
 
     changeDisplay(e) {
