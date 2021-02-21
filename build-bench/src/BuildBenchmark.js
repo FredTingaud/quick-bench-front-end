@@ -220,7 +220,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 "protocolVersion": protocolVersion,
                 "force": this.state.clean && this.state.force,
             };
-            BuildFetch.fetchResults(obj, this.props.timeout, (content, err) => this.receiveResults(content, err), (progress) => { this.setState({ progress: progress }); });
+            BuildFetch.fetchResults(obj, this.props.timeout * this.state.titles.length, (content, err) => this.receiveResults(content, err), (progress) => { this.setState({ progress: progress }); });
         }
     }
     receiveResults(body, err) {
