@@ -107,7 +107,7 @@ class CompileConfig extends React.Component {
     checkedCompiler(comp) {
         if (!comp)
             return this.state.compiler;
-        if (!this.props.compilers)
+        if (!this.props.compilers || this.props.compilers.length==0)
             return comp;
         if (this.props.compilers.indexOf(comp) > -1)
             return comp;
