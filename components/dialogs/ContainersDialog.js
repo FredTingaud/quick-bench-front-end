@@ -65,7 +65,7 @@ class ContainersDialog extends React.Component {
 
     render() {
         return (
-            <Modal show={this.props.show} onHide={this.handleClose} onShow={() => this.prepare()} dialogClassName="modal-60w">
+            <Modal show={this.props.show} onHide={() => this.handleClose()} onShow={() => this.prepare()} dialogClassName="modal-60w">
                 <Modal.Header closeButton>
                     <Modal.Title>Choose your compilers</Modal.Title>
                 </Modal.Header>
@@ -86,7 +86,7 @@ class ContainersDialog extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => this.proceed()} disabled={this.state.pulling}>{this.state.pulling ? "Proceeding" : "Proceed"}</Button>
-                    <Button variant="light" onClick={this.handleClose} disabled={this.state.pulling}>Cancel</Button>
+                    <Button variant="light" onClick={() => this.handleClose()} disabled={this.state.pulling}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         );
