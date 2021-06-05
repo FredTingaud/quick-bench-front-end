@@ -32,12 +32,14 @@ class CompileConfig extends React.Component {
         };
     }
     componentDidUpdate(prevProps) {
-        if (prevProps.compilers !== this.props.compilers) {
-            this.changeCompiler(this.props.value.compiler);
-        } else if (prevProps.value.compiler !== this.props.value.compiler) {
-            let fixed = this.checkedCompiler(this.props.value.compiler);
-            if (fixed !== this.props.value.compiler) {
-                this.changeCompiler(fixed);
+        if (this.props.compilers && this.props.compilers.length > 0) {
+            if (prevProps.compilers !== this.props.compilers) {
+                this.changeCompiler(this.props.value.compiler);
+            } else if (prevProps.value.compiler !== this.props.value.compiler) {
+                let fixed = this.checkedCompiler(this.props.value.compiler);
+                if (fixed !== this.props.value.compiler) {
+                    this.changeCompiler(fixed);
+                }
             }
         }
     }
@@ -150,32 +152,34 @@ class CompileConfig extends React.Component {
         return (
             <ButtonToolbar>
                 {this.props.compilers && this.props.compilers.length > 0 ?
-                    <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
-                        {this.props.compilers.map((name) => <Dropdown.Item key={name} eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
-                        {this.props.pullCompiler ? <Dropdown.Item key="dl" eventKey="dl"><BsCloudDownload /> Pull other compiler</Dropdown.Item> : null}
-                    </DropdownButton>
+                    <>
+                        <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="mr-2">
+                            {this.props.compilers.map((name) => <Dropdown.Item key={name} eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
+                            {this.props.pullCompiler ? <Dropdown.Item key="dl" eventKey="dl"><BsCloudDownload /> Pull other compiler</Dropdown.Item> : null}
+                        </DropdownButton>
+                        <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
+                            <Dropdown.Item eventKey="11">{v11Name}</Dropdown.Item>
+                            <Dropdown.Item eventKey="14">{v14Name}</Dropdown.Item>
+                            <Dropdown.Item eventKey="17">{v17Name}</Dropdown.Item>
+                            <Dropdown.Item eventKey="20" disabled={maxVersion < 20}>{v20Name}</Dropdown.Item>
+                        </DropdownButton>
+                        <DropdownButton id="optim" variant="outline-dark" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)} className="mr-2">
+                            <Dropdown.Item eventKey="0">{o0Name}</Dropdown.Item>
+                            <Dropdown.Item eventKey="G">{oGName}</Dropdown.Item>
+                            <Dropdown.Item eventKey="1">{o1Name}</Dropdown.Item>
+                            <Dropdown.Item eventKey="2">{o2Name}</Dropdown.Item>
+                            <Dropdown.Item eventKey="S">{oSName}</Dropdown.Item>
+                            <Dropdown.Item eventKey="3">{o3Name}</Dropdown.Item>
+                            <Dropdown.Item eventKey="F">{oFName}</Dropdown.Item>
+                        </DropdownButton>
+                        <DropdownButton id="libc" variant="outline-dark" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} >
+                            <Dropdown.Item eventKey="gnu">{lGName}</Dropdown.Item>
+                            <Dropdown.Item eventKey="llvm">{lCName}</Dropdown.Item>
+                        </DropdownButton>
+                    </>
                     :
                     <Button onClick={() => this.props.pullCompiler()}><BsCloudDownload /> Pull compilers</Button>
                 }
-                <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="mr-2">
-                    <Dropdown.Item eventKey="11">{v11Name}</Dropdown.Item>
-                    <Dropdown.Item eventKey="14">{v14Name}</Dropdown.Item>
-                    <Dropdown.Item eventKey="17">{v17Name}</Dropdown.Item>
-                    <Dropdown.Item eventKey="20" disabled={maxVersion < 20}>{v20Name}</Dropdown.Item>
-                </DropdownButton>
-                <DropdownButton id="optim" variant="outline-dark" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)} className="mr-2">
-                    <Dropdown.Item eventKey="0">{o0Name}</Dropdown.Item>
-                    <Dropdown.Item eventKey="G">{oGName}</Dropdown.Item>
-                    <Dropdown.Item eventKey="1">{o1Name}</Dropdown.Item>
-                    <Dropdown.Item eventKey="2">{o2Name}</Dropdown.Item>
-                    <Dropdown.Item eventKey="S">{oSName}</Dropdown.Item>
-                    <Dropdown.Item eventKey="3">{o3Name}</Dropdown.Item>
-                    <Dropdown.Item eventKey="F">{oFName}</Dropdown.Item>
-                </DropdownButton>
-                <DropdownButton id="libc" variant="outline-dark" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} >
-                    <Dropdown.Item eventKey="gnu">{lGName}</Dropdown.Item>
-                    <Dropdown.Item eventKey="llvm">{lCName}</Dropdown.Item>
-                </DropdownButton>
             </ButtonToolbar>
         );
     }

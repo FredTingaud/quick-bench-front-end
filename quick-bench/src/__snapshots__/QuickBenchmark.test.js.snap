@@ -104,54 +104,6 @@ BENCHMARK(StringCopy);
                   </svg>
                    Pull compilers
                 </button>
-                <div
-                  className="mr-2 dropdown"
-                  onKeyDown={[Function]}
-                >
-                  <button
-                    aria-expanded={false}
-                    aria-haspopup={true}
-                    className="dropdown-toggle btn btn-outline-dark"
-                    disabled={false}
-                    id="language"
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    std = c++20
-                  </button>
-                </div>
-                <div
-                  className="mr-2 dropdown"
-                  onKeyDown={[Function]}
-                >
-                  <button
-                    aria-expanded={false}
-                    aria-haspopup={true}
-                    className="dropdown-toggle btn btn-outline-dark"
-                    disabled={false}
-                    id="optim"
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    optim = O3
-                  </button>
-                </div>
-                <div
-                  className="dropdown"
-                  onKeyDown={[Function]}
-                >
-                  <button
-                    aria-expanded={false}
-                    aria-haspopup={true}
-                    className="dropdown-toggle btn btn-outline-dark"
-                    disabled={false}
-                    id="libc"
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    STL = libstdc++(GNU)
-                  </button>
-                </div>
               </div>
               <hr
                 className="config-separator"
