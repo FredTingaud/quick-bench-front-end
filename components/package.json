@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "ansi_up": "^4.0.4",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "js-file-download": "^0.4.12",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
