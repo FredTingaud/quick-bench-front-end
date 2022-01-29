@@ -4,5 +4,6 @@
     "quick-bench",
     "build-bench",
     "components"
-  ]
+  ],
+  "dependencies": {}
 }
