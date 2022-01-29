@@ -10,10 +10,10 @@
     "request": "^2.87.0"
   },
   "devDependencies": {
-    "monaco-editor-webpack-plugin": "^1.9.0",
+    "monaco-editor-webpack-plugin": "^7.0.1",
     "react-app-rewire-yarn-workspaces": "^1.0.3",
     "react-app-rewired": "^2.1.6",
-    "react-scripts": "3.4.1"
+    "react-scripts": "^4.0.0"
   },
   "jest": {
     "displayName": {
