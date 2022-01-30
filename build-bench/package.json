@@ -6,8 +6,7 @@
     "element-resize-event": "^3.0.3",
     "react-dom": "16.12.0",
     "react-router": "^5.0.1",
-    "react-router-dom": "^5.0.1",
-    "request": "^2.87.0"
+    "react-router-dom": "^5.0.1"
   },
   "devDependencies": {
     "monaco-editor-webpack-plugin": "^7.0.1",

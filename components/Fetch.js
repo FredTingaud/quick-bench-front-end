@@ -1,87 +1,120 @@
-var request = require('request');
-
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
 
-function fetchResults(route, obj, timeout, callback, progressCallback) {
+async function fetchResults(route, obj, timeout, callback, progressCallback) {
     let progress = 0;
     let interval = setInterval(() => {
         progress = progress + 100 / timeout;
         progressCallback(progress);
     }, 1000);
-    request({
-        url: url + '/' + route + '/'
-        , method: "POST"
-        , json: true
-        , headers: {
-            "content-type": "application/json"
-        }
-        , body: obj
-    }, (err, res, body) => {
+    try {
+        const res = await fetch(url + '/' + route + '/'
+            , {
+                method: "POST"
+                , json: true
+                , headers: {
+                    "content-type": "application/json"
+                }
+                , body: JSON.stringify(obj)
+            });
         clearInterval(interval);
-        callback(body, err);
-    });
+        if (res.ok) {
+            callback(await res.json(), null);
+        } else {
+            callback(null, await res.text());
+        }
+    } catch (err) {
+        clearInterval(interval);
+        callback(null, err.message);
+    }
+
 }
 
-function fetchId(route, id, callback) {
-    request.get(url + '/' + route + '/' + id, (err, res, body) => {
-        let result;
-        if (body) {
-            result = JSON.parse(body);
+async function fetchId(route, id, callback) {
+    try {
+        const result = await fetch(url + '/' + route + '/' + id);
+        if (result.ok) {
+            callback(await result.json());
+        } else {
+            callback(null);
         }
-        callback(result);
-    });
+    } catch (_) {
+        callback(null);
+    }
 }
 
-function fetch(route, callback) {
-    request.get(url + '/' + route, (err, res, body) => {
-        let result;
-        if (body) {
-            result = JSON.parse(body);
+async function fetchRoute(route, callback) {
+    try {
+        const result = await fetch(url + '/' + route);
+        if (result.ok) {
+            callback(await result.json());
+        } else {
+            callback(null);
         }
-        callback(result);
-    });
+    } catch (_) {
+        callback(null);
+    }
 }
 
-function fetchPossibleContainers(callback) {
-    request.get(url + '/containers/', (err, res, body) => {
-        if (body) {
-            callback(JSON.parse(body).tags);
+async function fetchPossibleContainers(callback) {
+    try {
+        const result = await fetch(url + '/containers/');
+        if (result.ok) {
+            callback((await result.json()).tags);
+        } else {
+            callback(null);
         }
-    });
+    } catch (_) {
+        callback(null);
+    }
 }
 
-function pullContainers(list, callback) {
-    request({
-        url: url + '/containers/'
-        , method: "POST"
-        , json: true
-        , headers: {
-            "content-type": "application/json"
+async function pullContainers(list, callback) {
+    try {
+        const result = await fetch(url + '/containers/'
+            , {
+                method: "POST"
+                , json: true
+                , headers: {
+                    "content-type": "application/json"
+                }
+                , body: JSON.stringify({ tags: list })
+            });
+        if (result.ok) {
+            callback((await result.json()).containers);
+        } else {
+            callback(null);
         }
-        , body: { tags: list }
-    }, (err, res, body) => {
-        callback(body.containers);
-    });
+    } catch (_) {
+        callback(null);
+    }
 }
 
-function deleteContainers(list, callback) {
-    request({
-        url: url + '/containers/'
-        , method: "DELETE"
-        , json: true
-        , headers: {
-            "content-type": "application/json"
+async function deleteContainers(list, callback) {
+    try {
+        const result = await fetch(
+            url + '/containers/'
+            , {
+                method: "DELETE"
+                , json: true
+                , headers: {
+                    "content-type": "application/json"
+                }
+                , body: JSON.stringify({ tags: list })
+            });
+        if (result.ok) {
+            callback((await result.json()).containers);
+        } else {
+            callback(null);
         }
-        , body: { tags: list }
-    }, (err, res, body) => {
-        callback(body.containers);
-    });
+    } catch (_) {
+        callback(null);
+    }
 }
 
 export default {
     fetchResults: fetchResults,
     fetchId: fetchId,
-    fetch: fetch,
+    fetch: fetchRoute,
     fetchPossibleContainers: fetchPossibleContainers,
     pullContainers: pullContainers,
     deleteContainers: deleteContainers
