@@ -2,7 +2,7 @@ import React from 'react';
 
 import InteropHelper from 'components/InteropHelper';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import svg from 'components/resources/ico/Compiler-Explorer.svg';
+import CompilerExplorerIcon from 'components/icons/CompilerExplorerIcon';
 
 class CEButton extends React.Component {
     compilerCeId(opt) {
@@ -78,7 +78,7 @@ class CEButton extends React.Component {
                 overlay={(p) => this.renderTooltip(p)}
             >
                 <Button variant="outline-dark" onClick={() => this.openCodeInCE(this.props.texts, this.props.options)} className="mr-2">
-                    <img src={svg} className="line-img" alt="Open in Compiler Explorer" />
+                    <CompilerExplorerIcon className="line-img" alt="Open in Compiler Explorer" />
                 </Button>
             </OverlayTrigger>);
     }
