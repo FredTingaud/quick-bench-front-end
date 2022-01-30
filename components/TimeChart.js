@@ -9,7 +9,7 @@ class TimeChart extends React.Component {
     componentDidMount() {
         if (this.props.data.length > 0) {
             this.createChart();
-            this.showChart;
+            this.showChart();
         }
     }
     componentDidUpdate(prevProps) {
