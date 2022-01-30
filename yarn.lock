@@ -2249,10 +2249,10 @@ ansi-styles@^5.0.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
 
-ansi_up@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/ansi_up/-/ansi_up-4.0.4.tgz#5b8c35f0b02e4476f3f18cf89c3bf48d15d054f6"
-  integrity sha512-vRxC8q6QY918MbehO869biJW4tiunJdjOhi5fpY6NLOliBQlZhOkKgABJKJqH+JZfb/WfjvjN1chLWI6tODerw==
+ansi_up@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/ansi_up/-/ansi_up-5.1.0.tgz#9cf10e6d359bb434bdcfab5ae4c3abfe1617b6db"
+  integrity sha512-3wwu+nJCKBVBwOCurm0uv91lMoVkhFB+3qZQz3U11AmAdDJ4tkw1sNPWJQcVxMVYwe0pGEALOjSBOxdxNc+pNQ==
 
 anymatch@^3.0.3, anymatch@~3.1.2:
   version "3.1.2"
