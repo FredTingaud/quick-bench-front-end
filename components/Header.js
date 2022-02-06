@@ -52,27 +52,27 @@ class Header extends React.Component {
     render() {
         return (
             <Navbar bg="dark" variant="dark" collapseOnSelect>
-                <Nav className="mr-auto">
+                <Nav className="me-auto">
                     <Navbar.Brand>
                         {this.props.brand}
                     </Navbar.Brand>
                 </Nav>
-                <Form inline>
-                    <Navbar.Collapse className="mr-sm-2">
+                <Form>
+                    <Navbar.Collapse className="me-sm-2">
                         <Nav>
                             {this.props.motd ? <Button href={this.props.motd.url} variant="secondary" className="mx-5" target="_blank">{this.props.motd.text}</Button> : null}
-                            <NavDropdown title="Support Quick Bench Suite" id="basic-nav-dropdown" alignRight>
+                            <NavDropdown title="Support Quick Bench Suite" id="basic-nav-dropdown" align="end">
                                 <Dropdown.Item href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src={patreon} className="line-img" alt="Patreon icon" /> Support on Patreon</Dropdown.Item>
                             </NavDropdown>
-                            <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)} alignRight>
+                            <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)} align="end">
                                 {this.props.entries()}
-                                <Dropdown.Divider />
-                                <Dropdown.Item href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</Dropdown.Item>
-                                <Dropdown.Item href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item eventKey="privacy">Privacy Policy</Dropdown.Item>
-                                <Dropdown.Item eventKey="favicon">Thanks</Dropdown.Item>
-                                <Dropdown.Item eventKey="author">About the author</Dropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</NavDropdown.Item>
+                                <NavDropdown.Item href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item eventKey="privacy">Privacy Policy</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="favicon">Thanks</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="author">About the author</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>

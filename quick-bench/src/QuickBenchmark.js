@@ -54,7 +54,7 @@ const PALETTE = [
     "#7ddc58",
     "#5bdca8"
 ];
-class Benchmark extends React.Component {
+class QuickBenchmark extends React.Component {
     static initialState = {
         text: startCode
         , graph: []
@@ -77,7 +77,7 @@ class Benchmark extends React.Component {
     };
     constructor(props) {
         super(props);
-        this.state = JSON.parse(JSON.stringify(Benchmark.initialState));
+        this.state = JSON.parse(JSON.stringify(QuickBenchmark.initialState));
         this.state.location = props.id;
         this.state.prevLocation = props.id;
 
@@ -89,7 +89,7 @@ class Benchmark extends React.Component {
         }
     }
     initializeCode() {
-        this.setState(Benchmark.initialState);
+        this.setState(QuickBenchmark.initialState);
     }
     componentDidMount() {
         if (this.props.id) {
@@ -271,22 +271,28 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                         <div className="fill-content">
                             <div className="fixed-content">
                                 <Card body className="my-2">
-                                    <CompileConfig compilers={this.props.containers} value={this.state.options} onChange={c => this.onOptionsChange(c)} pullCompiler={this.props.pullContainer}/>
+                                    <CompileConfig compilers={this.props.containers} value={this.state.options} onChange={c => this.onOptionsChange(c)} pullCompiler={this.props.pullContainer} />
                                     <hr className="config-separator" />
-                                    <ButtonToolbar className="justify-content-between">
-                                        <Form inline>
-                                            <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="mr-2" id="Run"> <MdTimer /> Run Benchmark</Button>
-                                            <FormCheck ref="force" checked={this.state.isAnnotated} custom type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="mr-2" />
-                                            <Display when={this.state.clean}>
-                                                <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
-                                            </Display>
-                                        </Form>
-                                        <Form inline>
-                                            <CEButton className="float-right" texts={includeStr + this.state.text + mainStr} options={this.state.options} />
-                                            <CPPInsightsButton className="float-right" text={includeStr + this.state.text + mainStr} options={this.state.options} />
-                                            <BBButton className="float-right" text={includeStr + this.state.text + mainStr} options={this.state.options} />
-                                        </Form>
-                                    </ButtonToolbar>
+                                    <Container fluid className="g-0">
+                                        <Row className="align-items-center gx-2" xs="auto">
+                                            <Col>
+                                                <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="me-2" id="Run"> <MdTimer /> Run Benchmark</Button>
+                                            </Col>
+                                            <Col>
+                                                <FormCheck ref="force" checked={this.state.isAnnotated} type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="me-2" />
+                                            </Col>
+                                            <Col>
+                                                <Display when={this.state.clean}>
+                                                    <FormCheck ref="force" type="checkbox" checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
+                                                </Display>
+                                            </Col>
+                                            <Col xs="auto" className="ms-auto">
+                                                <CEButton className="float-right" texts={includeStr + this.state.text + mainStr} options={this.state.options} />
+                                                <CPPInsightsButton className="float-right" text={includeStr + this.state.text + mainStr} options={this.state.options} />
+                                                <BBButton className="float-right" text={includeStr + this.state.text + mainStr} options={this.state.options} />
+                                            </Col>
+                                        </Row>
+                                    </Container>
                                     <Display when={this.state.sending}>
                                         <ProgressBar animated now={this.state.progress} />
                                     </Display>
@@ -338,4 +344,4 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
     }
 }
 
-export default Benchmark;
+export default QuickBenchmark;

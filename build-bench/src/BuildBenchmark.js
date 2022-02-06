@@ -3,7 +3,7 @@ import CodeEditor from 'components/CodeEditor.js';
 import BashOutput from 'components/BashOutput.js';
 import CompileConfig from 'components/CompileConfig.js';
 import BuildChart from './BuildChart.js';
-import { Button, ButtonToolbar, Container, Row, Col, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
+import { Button, Container, Row, Col, Card, FormCheck, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import OutputTabs from './OutputTabs.js';
 import WrappableTabs from './WrappableTabs.js';
@@ -49,7 +49,7 @@ const PALETTE = [
     "#ff9470"
 ];
 
-class Benchmark extends React.Component {
+class BuildBenchmark extends React.Component {
     static initialState = {
         texts: [startCode1, startCode2]
         , titles: ['cstdio', 'iostream']
@@ -75,7 +75,7 @@ class Benchmark extends React.Component {
     }
     constructor(props) {
         super(props);
-        this.state = JSON.parse(JSON.stringify(Benchmark.initialState));
+        this.state = JSON.parse(JSON.stringify(BuildBenchmark.initialState));
         this.state.location = props.id;
         this.state.prevLocation = props.id;
 
@@ -89,7 +89,7 @@ class Benchmark extends React.Component {
         }
     }
     initializeCode() {
-        this.setState(Benchmark.initialState);
+        this.setState(BuildBenchmark.initialState);
     }
     componentDidMount() {
         if (this.props.id) {
@@ -128,9 +128,6 @@ class Benchmark extends React.Component {
             };
         }
         return null;
-    }
-    bufferMap(buffers) {
-        return (buffers || []).map(s => s ? Buffer.from(s).toString() : '');
     }
     formatIncludes(includes) {
         return includes.map(s => s.split('\n').map(s => {
@@ -234,9 +231,9 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 this.setState({
                     graph: body.result,
                     location: body.id,
-                    includes: this.formatIncludes(this.bufferMap(body.includes)),
-                    asm: this.bufferMap(body.asm),
-                    pp: this.bufferMap(body.preprocessed)
+                    includes: this.formatIncludes(body.includes),
+                    asm: body.asm,
+                    pp: body.preprocessed
                 });
                 this.props.onLocationChange(body.id);
             }
@@ -352,22 +349,28 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                         <CompileConfig compilers={this.props.containers} pullCompiler={this.props.pullContainer} />
                                     </WrappableTabs>
                                     <hr className="config-separator" />
-                                    <ButtonToolbar className="justify-content-between">
-                                        <Form inline>
-                                            <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="mr-2" id="Run"> <MdTimer /> Build Time</Button>
+                                    <Container fluid className="g-0">
+                                        <Row className="align-items-center gx-2" xs="auto">
+                                            <Col>
+                                            <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="me-2" id="Run"> <MdTimer /> Build Time</Button>
+                                            </Col>
+                                            <Col>
                                             <Display when={this.state.clean}>
-                                                <FormCheck ref="force" type="checkbox" custom checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
+                                                <FormCheck ref="force" type="checkbox" checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
                                             </Display>
-                                        </Form>
-                                        <Form inline>
-                                            <CEButton className="float-right" texts={this.state.texts} options={this.state.options} />
-                                            <CPPInsightsButton className="float-right" text={this.state.texts[this.state.index]} options={this.state.options[this.state.index]} />
-                                            <QuickBenchButton className="float-right" text={this.state.texts[this.state.index]} options={this.state.options[this.state.index]} />
-                                        </Form>
-                                    </ButtonToolbar>
-                                    <Display when={this.state.sending}>
-                                        <ProgressBar animated now={this.state.progress} />
-                                    </Display>
+                                            </Col>
+                                            <Col className="ms-auto">
+                                                <CEButton className="float-right" texts={this.state.texts} options={this.state.options} />
+                                                <CPPInsightsButton className="float-right" text={this.state.texts[this.state.index]} options={this.state.options[this.state.index]} />
+                                                <QuickBenchButton className="float-right" text={this.state.texts[this.state.index]} options={this.state.options[this.state.index]} />
+                                            </Col>
+                                        </Row>
+                                        <Row className="gy-0">
+                                            <Display when={this.state.sending}>
+                                                <ProgressBar animated now={this.state.progress} />
+                                            </Display>
+                                        </Row>
+                                    </Container>
                                 </Card>
                             </div>
                             <Tab.Container defaultActiveKey="charts">
@@ -432,4 +435,4 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
     }
 }
 
-export default Benchmark;
+export default BuildBenchmark;

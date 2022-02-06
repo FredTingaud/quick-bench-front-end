@@ -27,7 +27,7 @@ class QuickBenchButton extends React.Component {
                 delay={{ show: 250, hide: 400 }}
                 overlay={(p) => this.renderTooltip(p)}
             >
-                <Button variant="outline-dark" onClick={() => this.openCodeInQB(this.props.text, this.props.options)} className="mr-2">
+                <Button variant="outline-dark" onClick={() => this.openCodeInQB(this.props.text, this.props.options)} className="me-2">
                     <img src={svg} className="line-img" alt="Open in Quick Bench" />
                 </Button>
             </OverlayTrigger>

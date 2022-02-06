@@ -1,5 +1,5 @@
 import React, { Children, isValidElement, cloneElement } from 'react';
-import { Tab, Tabs, Row, Col, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Nav } from 'react-bootstrap';
 import { MdClose, MdEdit } from "react-icons/md";
 import { AiOutlineMergeCells, AiOutlineSplitCells } from "react-icons/ai";
 import ConfirmOverwrite from './dialogs/ConfirmOverwrite.js';
@@ -88,19 +88,20 @@ class WrappableTabs extends React.Component {
         let colors = this.props.titles.map((_, i) => Palette.pickBorderCSS(i, this.props.titles.length, this.props.palette));
 
         let tabsList = this.props.titles.map(function (name, i) {
-            return <Tab title={
-                <>
+            return <Nav.Item key={i}>
+                <Nav.Link eventKey={i} className={`out-tab ${colors[i]}`}>
                     {name}
                     {selection === i ? (<button className="close-button" onClick={() => renameTab(i)} ><MdEdit /></button>) : null}
                     <button className="close-button" onClick={() => closeTab(i)} disabled={closable}><MdClose /></button>
-                </>} eventKey={i} key={i} tabClassName={`out-tab ${colors[i]}`} />
+                </Nav.Link>
+            </Nav.Item>
         });
 
-        return (<Tabs onSelect={(key) => this.handleSelect(key)} activeKey={this.props.index.toString()} id="bench-asm-selection" >
-            <Tab title={<AiOutlineMergeCells />} eventKey="Merge" key="Merge" disabled={closable} />
+        return (<Nav variant="tabs" onSelect={(key) => this.handleSelect(key)} activeKey={this.props.index.toString()} id="bench-asm-selection" >
+            <Nav.Item key="Merge"><Nav.Link eventKey="Merge" disabled={closable}>{<AiOutlineMergeCells />}</Nav.Link></Nav.Item>
             {tabsList}
-            <Tab title="+" eventKey={this.props.titles.length} key="+" />
-        </Tabs>);
+            <Nav.Item key="+"><Nav.Link eventKey={this.props.titles.length}>+</Nav.Link></Nav.Item>
+        </Nav>);
     }
     render() {
         const childrenWithProps = Children.map(this.props.children, child => {
@@ -115,15 +116,17 @@ class WrappableTabs extends React.Component {
         return (
             <Card className="flex-container">
                 <Card.Header>
-                    <Row>
-                        <ConfirmOverwrite confirm={() => this.confirmWrap()} show={this.state.showConfirm} hide={() => this.hideConfirm()} />
+                    <Container className="g-0">
+                        <Row className="g-0">
+                            <ConfirmOverwrite confirm={() => this.confirmWrap()} show={this.state.showConfirm} hide={() => this.hideConfirm()} />
 
-                        <RenameTab name={this.props.titles[this.props.index]} rename={e => this.rename(e)} show={this.state.showTabRename} hide={() => this.hideTabRename()} />
+                            <RenameTab name={this.props.titles[this.props.index]} rename={e => this.rename(e)} show={this.state.showTabRename} hide={() => this.hideTabRename()} />
 
-                        <Col xs={12}>
-                            {this.props.wrapped ? this.renderUnwrapButton() : this.renderTabs()}
-                        </Col>
-                    </Row>
+                            <Col xs={12} className="g-0">
+                                {this.props.wrapped ? this.renderUnwrapButton() : this.renderTabs()}
+                            </Col>
+                        </Row>
+                    </Container>
                 </Card.Header>
                 <Card.Body className={this.props.packed ? "packed-card" : ""}>
                     {childrenWithProps}

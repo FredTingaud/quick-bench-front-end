@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap';
-import Benchmark from './QuickBenchmark.js';
+import QuickBenchmark from './QuickBenchmark.js';
 import Header from 'components/Header.js';
 import 'components/resources/css/Shared.css';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
@@ -79,7 +79,7 @@ class App extends Component {
         this.openContainers();
     }
 
-    Home = ({ match }) => <Benchmark id={match.params ? match.params.id : null} maxCodeSize={this.state.maxCodeSize} timeout={this.state.timeout} containers={this.state.containers} pullContainer={this.state.downloadContainers ? (() => this.pullContainer()) : null} onLocationChange={(l) => this.setState({ location: l })} />;
+    Home = ({ match }) => <QuickBenchmark id={match.params ? match.params.id : null} maxCodeSize={this.state.maxCodeSize} timeout={this.state.timeout} containers={this.state.containers} pullContainer={this.state.downloadContainers ? (() => this.pullContainer()) : null} onLocationChange={(l) => this.setState({ location: l })} />;
 
     renderEntries() {
         return <><Dropdown.Item onClick={() => this.openAbout()}>About Quick Bench</Dropdown.Item>
@@ -91,7 +91,7 @@ class App extends Component {
             <BrowserRouter history={this.state.location}>
                 <div className="one-page">
                     <div className="fixed-content" ref={div => { this.header = div; }}>
-                        <Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Quick C++ Benchmark</>} entries={() => this.renderEntries()} motd={{ url: "https://github.com/FredTingaud/bench-runner", text: "Run Quick Bench locally" }} />
+                        <Header brand={<><Logo className="line-img me-2" style={{ fill: "#FFFFFF" }} title="logo" /> Quick C++ Benchmark</>} entries={() => this.renderEntries()} motd={{ url: "https://github.com/FredTingaud/bench-runner", text: "Run Quick Bench locally" }} />
                     </div >
                     <Route exact path={["/", "/q/:id"]} component={this.Home} />
                     {this.redirect()}

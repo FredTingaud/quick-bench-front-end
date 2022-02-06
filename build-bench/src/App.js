@@ -80,7 +80,7 @@ class App extends Component {
         return (
             <BrowserRouter history={this.state.location}>
                 <div className="one-page">
-                    <div ref={div => { this.header = div; }}><Header brand={<><Logo className="line-img mr-2" style={{ fill: "#FFFFFF" }} title="logo" /> Compare C++ Builds</>} entries={() => this.renderEntries()} motd={{ url: "https://github.com/FredTingaud/bench-runner", text: "Run Build Bench locally" }} /></div>
+                    <div ref={div => { this.header = div; }}><Header brand={<><Logo className="line-img me-2" style={{ fill: "#FFFFFF" }} title="logo" /> Compare C++ Builds</>} entries={() => this.renderEntries()} motd={{ url: "https://github.com/FredTingaud/bench-runner", text: "Run Build Bench locally" }} /></div>
                     <Route exact path={["/", "/b/:id"]} component={this.Home} />
                     {this.redirect()}
                 </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import TimeChart from 'components/TimeChart.js';
-import { FormControl } from 'react-bootstrap';
+import { FormSelect, Col } from 'react-bootstrap';
 import Palette from 'components/Palette.js';
 
 const chartData = [{
@@ -75,9 +75,11 @@ class BuildChart extends React.Component {
         return colors.map(c => Palette.lighten(c, Math.pow(0.3, i)));
     }
     renderDisplayTypes() {
-        return <FormControl as="select" className="pull-right" onChange={(e) => this.props.changeDisplay(parseInt(e.target.value))} defaultValue={chartData[this.props.index].name}>
-            {chartData.map((d, i) => <option value={i} key={d.name}>{d.name}</option>)}
-        </FormControl>;
+        return <Col>
+            <FormSelect className="pull-right" onChange={(e) => this.props.changeDisplay(parseInt(e.target.value))} defaultValue={chartData[this.props.index].name}>
+                {chartData.map((d, i) => <option value={i} key={d.name}>{d.name}</option>)}
+            </FormSelect>
+        </Col>;
     }
     refreshState() {
         const [labels, data] = this.makeData(this.props.benchmarks, this.props.titles, this.props.index);

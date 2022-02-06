@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Form, Col } from 'react-bootstrap';
+import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
 import Fetch from 'components/Fetch.js';
 
 class ContainersDialog extends React.Component {
@@ -73,7 +73,7 @@ class ContainersDialog extends React.Component {
                     Choose which compilers to handle.
                     <br />
                     <Form>
-                        <Form.Row>
+                        <Row>
                             <Form.Group as={Col} controlId="clangForm">
                                 {this.state.possibles.filter(p => p.startsWith('clang')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} defaultChecked={this.props.containers.includes(p)} />)}
                             </Form.Group>
@@ -81,7 +81,7 @@ class ContainersDialog extends React.Component {
                             <Form.Group as={Col} controlId="gccForm">
                                 {this.state.possibles.filter(p => p.startsWith('gcc')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} defaultChecked={this.props.containers.includes(p)}/>)}
                             </Form.Group>
-                        </Form.Row>
+                        </Row>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

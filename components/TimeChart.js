@@ -1,9 +1,8 @@
 import React from 'react';
 import Chart from 'chart.js';
-import { Button, Card, OverlayTrigger, Tooltip, Form } from 'react-bootstrap';
+import { Button, Card, OverlayTrigger, Tooltip, Container, Row } from 'react-bootstrap';
 import fileDownload from 'js-file-download';
 import { GoDesktopDownload } from "react-icons/go";
-import Palette from 'components/Palette.js';
 
 class TimeChart extends React.Component {
     componentDidMount() {
@@ -180,14 +179,16 @@ class TimeChart extends React.Component {
             return (
                 <Card body className="my-2" >
                     < canvas id='result-chart' />
-                    <Form inline>
-                        <OverlayTrigger placement='bottom' overlay={tooltip}>
-                            <Button variant="default" onClick={() => this.saveChart()} className="mr-2">
-                                <GoDesktopDownload />
-                            </Button>
-                        </OverlayTrigger>
-                        {this.props.children}
-                    </Form>
+                    <Container fluid>
+                        <Row xs="auto" className="align-items-center">
+                            <OverlayTrigger placement='bottom' overlay={tooltip}>
+                                <Button variant="default" onClick={() => this.saveChart()} className="me-2">
+                                    <GoDesktopDownload className="center-icon" />
+                                </Button>
+                            </OverlayTrigger>
+                            {this.props.children}
+                        </Row>
+                    </Container>
                 </Card>
             );
         }

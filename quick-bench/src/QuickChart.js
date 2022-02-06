@@ -112,7 +112,7 @@ class QuickChart extends React.Component {
                 afterTooltip={!isLine}
             >
 
-                <FormCheck className="force-cb" inline id="Noop" custom checked={this.state.showNoop} type="checkbox" onChange={(e) => this.toggleNoop(e)} label="Show Noop bar" />
+                <FormCheck className="force-cb" id="Noop" checked={this.state.showNoop} type="checkbox" onChange={(e) => this.toggleNoop(e)} label="Show Noop bar" />
                 {this.renderIfParametric()}
             </TimeChart>
         );

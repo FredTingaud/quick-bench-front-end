@@ -77,7 +77,7 @@ class CEButton extends React.Component {
                 delay={{ show: 250, hide: 400 }}
                 overlay={(p) => this.renderTooltip(p)}
             >
-                <Button variant="outline-dark" onClick={() => this.openCodeInCE(this.props.texts, this.props.options)} className="mr-2">
+                <Button variant="outline-dark" onClick={() => this.openCodeInCE(this.props.texts, this.props.options)} className="me-2">
                     <CompilerExplorerIcon className="line-img" alt="Open in Compiler Explorer" />
                 </Button>
             </OverlayTrigger>);
