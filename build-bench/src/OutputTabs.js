@@ -14,7 +14,7 @@ class OutputTabs extends React.Component {
 
     return(<Row>
         <Col xs={12}>
-            <Tab.Container activeKey={this.props.index.toString()}>
+            <Tab.Container id="output-tabs" activeKey={this.props.index.toString()}>
                 <Nav variant="tabs" onSelect={(key) => this.props.setIndex(parseInt(key))} id="bench-asm-selection" >
                     {tabsList}
                 </Nav>

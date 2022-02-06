@@ -25,3 +25,9 @@ jobs:
       - name: Test Quick Bench
         run: yarn test
         working-directory: ./quick-bench
+      - name: Build Build Bench
+        run: yarn
+        working-directory: ./build-bench
+      - name: Test Build Bench
+        run: yarn test
+        working-directory: ./build-bench

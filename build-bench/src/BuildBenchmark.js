@@ -373,7 +373,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                     </Container>
                                 </Card>
                             </div>
-                            <Tab.Container defaultActiveKey="charts">
+                            <Tab.Container defaultActiveKey="charts" id="visualization-tabs">
                                 <Display when={this.state.graph.length > 0}>
                                     <Nav variant="tabs">
                                         <Nav.Item>

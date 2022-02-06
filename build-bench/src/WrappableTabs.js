@@ -97,7 +97,7 @@ class WrappableTabs extends React.Component {
             </Nav.Item>
         });
 
-        return (<Nav variant="tabs" onSelect={(key) => this.handleSelect(key)} activeKey={this.props.index.toString()} id="bench-asm-selection" >
+        return (<Nav id="translation-units" variant="tabs" onSelect={(key) => this.handleSelect(key)} activeKey={this.props.index.toString()} id="bench-asm-selection" >
             <Nav.Item key="Merge"><Nav.Link eventKey="Merge" disabled={closable}>{<AiOutlineMergeCells />}</Nav.Link></Nav.Item>
             {tabsList}
             <Nav.Item key="+"><Nav.Link eventKey={this.props.titles.length}>+</Nav.Link></Nav.Item>
