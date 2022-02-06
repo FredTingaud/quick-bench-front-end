@@ -571,12 +571,12 @@ BENCHMARK(StringCopy);
             className="nav-item"
           >
             <a
-              aria-controls="react-aria1362405586-12-tabpane-charts"
+              aria-controls="output-tabs-tabpane-charts"
               aria-selected={true}
               className="nav-link active"
               data-rr-ui-event-key="charts"
               disabled={false}
-              id="react-aria1362405586-12-tab-charts"
+              id="output-tabs-tab-charts"
               onClick={[Function]}
               role="tab"
             >
@@ -587,11 +587,11 @@ BENCHMARK(StringCopy);
             className="nav-item"
           >
             <a
-              aria-controls="react-aria1362405586-12-tabpane-asm"
+              aria-controls="output-tabs-tabpane-asm"
               className="nav-link"
               data-rr-ui-event-key="asm"
               disabled={false}
-              id="react-aria1362405586-12-tab-asm"
+              id="output-tabs-tab-asm"
               onClick={[Function]}
               role="tab"
               tabIndex={-1}
@@ -604,9 +604,9 @@ BENCHMARK(StringCopy);
           className="fill-content tab-content"
         >
           <div
-            aria-labelledby="react-aria1362405586-12-tab-charts"
+            aria-labelledby="output-tabs-tab-charts"
             className="fill-content tab-pane active"
-            id="react-aria1362405586-12-tabpane-charts"
+            id="output-tabs-tabpane-charts"
             role="tabpanel"
           >
             <mock-TimeChart
@@ -675,9 +675,9 @@ BENCHMARK(StringCopy);
             </mock-TimeChart>
           </div>
           <div
-            aria-labelledby="react-aria1362405586-12-tab-asm"
+            aria-labelledby="output-tabs-tab-asm"
             className="fill-content tab-pane"
-            id="react-aria1362405586-12-tabpane-asm"
+            id="output-tabs-tabpane-asm"
             role="tabpanel"
           >
             <ul
@@ -1010,9 +1010,9 @@ BENCHMARK(StringCopy);
           className="fill-content tab-content"
         >
           <div
-            aria-labelledby="react-aria1362405586-17-tab-charts"
+            aria-labelledby="output-tabs-tab-charts"
             className="fill-content tab-pane active"
-            id="react-aria1362405586-17-tabpane-charts"
+            id="output-tabs-tabpane-charts"
             role="tabpanel"
           >
             <mock-TimeChart
@@ -1081,9 +1081,9 @@ BENCHMARK(StringCopy);
             </mock-TimeChart>
           </div>
           <div
-            aria-labelledby="react-aria1362405586-17-tab-asm"
+            aria-labelledby="output-tabs-tab-asm"
             className="fill-content tab-pane"
-            id="react-aria1362405586-17-tabpane-asm"
+            id="output-tabs-tabpane-asm"
             role="tabpanel"
           >
             <ul

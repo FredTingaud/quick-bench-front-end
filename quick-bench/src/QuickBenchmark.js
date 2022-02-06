@@ -298,7 +298,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                     </Display>
                                 </Card>
                             </div>
-                            <Tab.Container activeKey={this.state.annotation ? this.state.displayTab : "charts"} onSelect={(k) => this.setState({ displayTab: k })}>
+                            <Tab.Container id="output-tabs" activeKey={this.state.annotation ? this.state.displayTab : "charts"} onSelect={(k) => this.setState({ displayTab: k })}>
                                 <Display when={this.state.graph.length > 0 && this.state.annotation}>
                                     <Nav variant="tabs">
                                         <Nav.Item>
