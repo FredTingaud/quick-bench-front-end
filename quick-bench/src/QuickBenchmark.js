@@ -3,7 +3,7 @@ import CodeEditor from 'components/CodeEditor.js';
 import BashOutput from 'components/BashOutput.js';
 import CompileConfig from 'components/CompileConfig.js';
 import QuickChart from './QuickChart.js';
-import { Button, Container, Row, Col, Card, FormCheck, ProgressBar, Nav, Tab } from 'react-bootstrap';
+import { Dropdown, Button, DropdownButton, Container, Row, Col, Card, FormCheck, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import AssemblyEditor from './AssemblyEditor.js';
 import CEButton from 'components/CEButton.js';
@@ -54,6 +54,21 @@ const PALETTE = [
     "#7ddc58",
     "#5bdca8"
 ];
+
+const NONE_DISASSEMBLY_IDENTIFIER = "no"
+const NONE_DISASSEMBLY_PRETTY_NAME = "None"
+const DEFAULT_DISASSEMBLY_PRETTY_NAME = NONE_DISASSEMBLY_PRETTY_NAME
+const ATT_DISASSEMBLY_IDENTIFIER = "att"
+const ATT_DISASSEMBLY_PRETTY_NAME = "AT&T"
+const INTEL_DISASSEMBLY_IDENTIFIER = "intel"
+const INTEL_DISASSEMBLY_PRETTY_NAME = "Intel"
+
+const disassembly_identifier_to_pretty_name = {
+    [ATT_DISASSEMBLY_IDENTIFIER]: ATT_DISASSEMBLY_PRETTY_NAME
+    , [INTEL_DISASSEMBLY_IDENTIFIER]: INTEL_DISASSEMBLY_PRETTY_NAME
+    , [NONE_DISASSEMBLY_IDENTIFIER]: NONE_DISASSEMBLY_PRETTY_NAME
+}
+
 class QuickBenchmark extends React.Component {
     static initialState = {
         text: startCode
@@ -71,7 +86,7 @@ class QuickBenchmark extends React.Component {
         , force: false
         , benchNames: []
         , annotation: ''
-        , isAnnotated: true
+        , disassemblyOption: NONE_DISASSEMBLY_IDENTIFIER
         , chartIndex: 1
         , displayTab: 'charts'
     };
@@ -164,11 +179,14 @@ class QuickBenchmark extends React.Component {
             if (result.annotation) {
                 this.setState({
                     annotation: result.annotation,
-                    isAnnotated: true
+                    disassemblyOption: result.disassemblyOption !== "" ? result.disassemblyOption : NONE_DISASSEMBLY_IDENTIFIER,
                 });
             }
             else {
-                this.setState({ isAnnotated: false });
+                this.setState({
+                    annotation: '',
+                    disassemblyOption: NONE_DISASSEMBLY_IDENTIFIER
+                });
             }
         }
     }
@@ -195,7 +213,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 "options": this.state.options,
                 "protocolVersion": protocolVersion,
                 "force": this.state.clean && this.state.force,
-                "isAnnotated": this.state.isAnnotated,
+                "disassemblyOption": this.state.disassemblyOption,
             };
             QuickFetch.fetchResults(obj, this.props.timeout, (content, err) => this.receiveResults(content, err), (progress) => { this.setState({ progress: progress }); });
         }
@@ -255,6 +273,19 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
     toggleAnnotated(e) {
         this.setState({ isAnnotated: e.target.checked });
     }
+    changeDisassemblyOption(k) {
+        this.setState({ disassemblyOption: k });
+    }
+    disassemblyOptionFormat(option) {
+        if (option === undefined) {
+          return DEFAULT_DISASSEMBLY_PRETTY_NAME;
+        }
+        if (!disassembly_identifier_to_pretty_name.hasOwnProperty(option)) {
+            console.trace("PANIC: Attempted to set an unsupported assembly format: " + option);
+            return DEFAULT_DISASSEMBLY_PRETTY_NAME;
+        }
+        return disassembly_identifier_to_pretty_name[option];
+    }
     render() {
         return (
             <Container fluid className="fill-content">
@@ -278,8 +309,16 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             <Col>
                                                 <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="me-2" id="Run"> <MdTimer /> Run Benchmark</Button>
                                             </Col>
+
                                             <Col>
-                                                <FormCheck ref="force" checked={this.state.isAnnotated} type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="me-2" />
+                                                Record disassembly?
+                                            </Col>
+                                            <Col>
+                                                <DropdownButton id="disassembly-format" variant="outline-dark" title={this.disassemblyOptionFormat(this.state.disassemblyOption)} onSelect={key => this.changeDisassemblyOption(key)} className="me-2">
+                                                    <Dropdown.Item eventKey={NONE_DISASSEMBLY_IDENTIFIER}>{NONE_DISASSEMBLY_PRETTY_NAME}</Dropdown.Item>
+                                                    <Dropdown.Item eventKey={ATT_DISASSEMBLY_IDENTIFIER}>{ATT_DISASSEMBLY_PRETTY_NAME}</Dropdown.Item>
+                                                    <Dropdown.Item eventKey={INTEL_DISASSEMBLY_IDENTIFIER}>{INTEL_DISASSEMBLY_PRETTY_NAME}</Dropdown.Item>
+                                                </DropdownButton>
                                             </Col>
                                             <Col>
                                                 <Display when={this.state.clean}>
