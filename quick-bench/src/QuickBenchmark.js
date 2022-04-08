@@ -3,7 +3,7 @@ import CodeEditor from 'components/CodeEditor.js';
 import BashOutput from 'components/BashOutput.js';
 import CompileConfig from 'components/CompileConfig.js';
 import QuickChart from './QuickChart.js';
-import { Button, ButtonToolbar, Container, Row, Col, Card, FormCheck, Form, ProgressBar, Nav, Tab } from 'react-bootstrap';
+import { Dropdown, Button, DropdownButton, Container, Row, Col, Card, FormCheck, ProgressBar, Nav, Tab } from 'react-bootstrap';
 import { MdTimer } from "react-icons/md";
 import AssemblyEditor from './AssemblyEditor.js';
 import CEButton from 'components/CEButton.js';
@@ -54,6 +54,18 @@ const PALETTE = [
     "#7ddc58",
     "#5bdca8"
 ];
+
+const ATT_FORMAT_IDENTIFIER = "att"
+const ATT_FORMAT_PRETTY_NAME = "AT&T"
+const DEFAULT_FORMAT_PRETTY_NAME = "AT&T"
+const INTEL_FORMAT_IDENTIFIER = "intel"
+const INTEL_FORMAT_PRETTY_NAME = "Intel"
+
+const asm_format_identifer_to_pretty_name = {
+    [ATT_FORMAT_IDENTIFIER]: ATT_FORMAT_PRETTY_NAME
+    , [INTEL_FORMAT_IDENTIFIER]: INTEL_FORMAT_PRETTY_NAME
+}
+
 class QuickBenchmark extends React.Component {
     static initialState = {
         text: startCode
@@ -72,6 +84,7 @@ class QuickBenchmark extends React.Component {
         , benchNames: []
         , annotation: ''
         , isAnnotated: true
+        , disassemblyFormat: ATT_FORMAT_IDENTIFIER
         , chartIndex: 1
         , displayTab: 'charts'
     };
@@ -195,7 +208,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                 "options": this.state.options,
                 "protocolVersion": protocolVersion,
                 "force": this.state.clean && this.state.force,
-                "isAnnotated": this.state.isAnnotated,
+                "isAnnotated": this.state.isAnnotated + "-" + this.state.disassemblyFormat,
             };
             QuickFetch.fetchResults(obj, this.props.timeout, (content, err) => this.receiveResults(content, err), (progress) => { this.setState({ progress: progress }); });
         }
@@ -255,6 +268,16 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
     toggleAnnotated(e) {
         this.setState({ isAnnotated: e.target.checked });
     }
+    changeDisassemblyFormat(k) {
+        this.setState({ disassemblyFormat: k });
+    }
+    disassemblyFormatTitle(format) {
+        if (!asm_format_identifer_to_pretty_name.hasOwnProperty(format)) {
+            console.log("PANIC: Attempted to set an unsupported assembly format: " + format);
+            return DEFAULT_FORMAT_PRETTY_NAME;
+        }
+        return asm_format_identifer_to_pretty_name[format];
+    }
     render() {
         return (
             <Container fluid className="fill-content">
@@ -280,6 +303,12 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             </Col>
                                             <Col>
                                                 <FormCheck ref="force" checked={this.state.isAnnotated} type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="me-2" />
+                                            </Col>
+                                            <Col>
+                                                <DropdownButton id="disassembly-format" variant="outline-dark" title={this.disassemblyFormatTitle(this.state.disassemblyFormat)} onSelect={key => this.changeDisassemblyFormat(key)} className="me-2">
+                                                    <Dropdown.Item eventKey={ATT_FORMAT_IDENTIFIER}>{ATT_FORMAT_PRETTY_NAME}</Dropdown.Item>
+                                                    <Dropdown.Item eventKey={INTEL_FORMAT_IDENTIFIER}>{INTEL_FORMAT_PRETTY_NAME}</Dropdown.Item>
+                                                </DropdownButton>
                                             </Col>
                                             <Col>
                                                 <Display when={this.state.clean}>
