@@ -158,24 +158,24 @@ BENCHMARK(StringCopy);
                   <div
                     className="col"
                   >
+                    Record disassembly?
+                  </div>
+                  <div
+                    className="col"
+                  >
                     <div
-                      className="me-2 form-check"
+                      className="me-2 dropdown"
                     >
-                      <input
-                        checked={true}
-                        className="form-check-input"
+                      <button
+                        aria-expanded={false}
+                        className="dropdown-toggle btn btn-outline-dark"
                         disabled={false}
-                        id="disassembly"
-                        onChange={[Function]}
-                        type="checkbox"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="disassembly"
-                        title=""
+                        id="disassembly-format"
+                        onClick={[Function]}
+                        type="button"
                       >
-                        Record disassembly
-                      </label>
+                        None
+                      </button>
                     </div>
                   </div>
                   <div
@@ -483,24 +483,24 @@ BENCHMARK(StringCopy);
                   <div
                     className="col"
                   >
+                    Record disassembly?
+                  </div>
+                  <div
+                    className="col"
+                  >
                     <div
-                      className="me-2 form-check"
+                      className="me-2 dropdown"
                     >
-                      <input
-                        checked={true}
-                        className="form-check-input"
+                      <button
+                        aria-expanded={false}
+                        className="dropdown-toggle btn btn-outline-dark"
                         disabled={false}
-                        id="disassembly"
-                        onChange={[Function]}
-                        type="checkbox"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="disassembly"
-                        title=""
+                        id="disassembly-format"
+                        onClick={[Function]}
+                        type="button"
                       >
-                        Record disassembly
-                      </label>
+                        None
+                      </button>
                     </div>
                   </div>
                   <div
@@ -981,24 +981,24 @@ BENCHMARK(StringCopy);
                   <div
                     className="col"
                   >
+                    Record disassembly?
+                  </div>
+                  <div
+                    className="col"
+                  >
                     <div
-                      className="me-2 form-check"
+                      className="me-2 dropdown"
                     >
-                      <input
-                        checked={false}
-                        className="form-check-input"
+                      <button
+                        aria-expanded={false}
+                        className="dropdown-toggle btn btn-outline-dark"
                         disabled={false}
-                        id="disassembly"
-                        onChange={[Function]}
-                        type="checkbox"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="disassembly"
-                        title=""
+                        id="disassembly-format"
+                        onClick={[Function]}
+                        type="button"
                       >
-                        Record disassembly
-                      </label>
+                        None
+                      </button>
                     </div>
                   </div>
                   <div
@@ -1409,24 +1409,24 @@ BENCHMARK(StringCopy);
                   <div
                     className="col"
                   >
+                    Record disassembly?
+                  </div>
+                  <div
+                    className="col"
+                  >
                     <div
-                      className="me-2 form-check"
+                      className="me-2 dropdown"
                     >
-                      <input
-                        checked={false}
-                        className="form-check-input"
+                      <button
+                        aria-expanded={false}
+                        className="dropdown-toggle btn btn-outline-dark"
                         disabled={false}
-                        id="disassembly"
-                        onChange={[Function]}
-                        type="checkbox"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="disassembly"
-                        title=""
+                        id="disassembly-format"
+                        onClick={[Function]}
+                        type="button"
                       >
-                        Record disassembly
-                      </label>
+                        None
+                      </button>
                     </div>
                   </div>
                   <div
