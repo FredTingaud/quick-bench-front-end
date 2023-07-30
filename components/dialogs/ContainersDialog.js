@@ -22,7 +22,7 @@ class ContainersDialog extends React.Component {
 
     prepare() {
         this.setState({
-            checked: [...this.props.containers],
+            checked: this.props.containers.map(c => c.name),
             pulling: false
         });
         this.waitAdd = false;
@@ -33,7 +33,7 @@ class ContainersDialog extends React.Component {
     proceed() {
         this.setState({ pulling: true });
 
-        const added = this.state.checked.filter(c => !this.props.containers.includes(c));
+        const added = this.state.checked.filter(c => !this.props.containers.some(cont => cont.name === c));
         if (added.length > 0) {
             this.waitAdd = true;
             Fetch.pullContainers(added, e => {
@@ -43,7 +43,7 @@ class ContainersDialog extends React.Component {
             });
         }
 
-        const removed = this.props.containers.filter(c => !this.state.checked.includes(c));
+        const removed = this.props.containers.filter(c => !this.state.checked.includes(c.name));
         if (removed.length > 0) {
             this.waitRemove = true;
             Fetch.deleteContainers(removed, e => {

@@ -11,8 +11,11 @@ function fetchId(id, callback) {
 function fetchEnv(callback) {
     return Fetch.fetch('quick-env', callback)
 }
-export default {
+
+const QuickFetch = {
     fetchResults: fetchResults,
     fetchId: fetchId,
     fetchEnv: fetchEnv
-}
+};
+
+export default QuickFetch

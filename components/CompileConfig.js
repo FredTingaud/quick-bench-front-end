@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, ButtonToolbar, DropdownButton, Button, ButtonGroup } from 'react-bootstrap';
+import { Dropdown, ButtonToolbar, DropdownButton, Button } from 'react-bootstrap';
 import { BsCloudDownload } from "react-icons/bs";
 
 const o0Name = 'None';
@@ -9,12 +9,9 @@ const o2Name = 'O2';
 const oSName = 'Os';
 const o3Name = 'O3';
 const oFName = 'OFast';
-const v11Name = 'c++11';
-const v14Name = 'c++14';
-const v17Name = 'c++17';
-const v20Name = 'c++20';
 const lGName = 'libstdc++(GNU)';
 const lCName = 'libc++(LLVM)';
+const equivalentVersions = [['1y', '14'], ['1z', '17'],['2a', '20'], ['2b', '23'], ['2c', '26']];
 
 
 function commonPrefixLength(s1, s2) {
@@ -27,13 +24,11 @@ function commonPrefixLength(s1, s2) {
 class CompileConfig extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            maxVersion: 20
-        };
     }
     componentDidUpdate(prevProps) {
         if (this.props.compilers && this.props.compilers.length > 0) {
             if (prevProps.compilers !== this.props.compilers) {
+                console.log("compilers set: " + JSON.stringify(this.props.compilers));
                 this.changeCompiler(this.props.value.compiler);
             } else if (prevProps.value.compiler !== this.props.value.compiler) {
                 let fixed = this.checkedCompiler(this.props.value.compiler);
@@ -44,6 +39,7 @@ class CompileConfig extends React.Component {
         }
     }
     compilerName(name) {
+        console.log(' name ' + name);
         if (name.startsWith('gcc-')) {
             return "GCC " + name.substring(4);
         } else if (name.startsWith('clang-')) {
@@ -57,17 +53,6 @@ class CompileConfig extends React.Component {
             this.changeLib('gnu');
         }
         return 'compiler = ' + this.compilerName(key);
-    }
-    versionTitle(key) {
-        let vName = v11Name;
-        if (key === '14') {
-            vName = v14Name;
-        } else if (key === '17') {
-            vName = v17Name;
-        } else if (key === '20') {
-            vName = v20Name;
-        }
-        return 'std = ' + vName;
     }
     optimTitle(key) {
         let oName = o0Name;
@@ -94,16 +79,24 @@ class CompileConfig extends React.Component {
         }
         return 'STL = ' + lName;
     }
-    refreshMaxCppVersion(key, opts) {
-        let maxV;
-        if (key.startsWith("clang-")) {
-            maxV = parseInt(key.substring("clang-".length)) >= 6 ? 20 : 17;
-        } else if (key.startsWith("gcc-")) {
-            maxV = parseInt(key.substring("gcc-".length)) >= 8 ? 20 : 17;
+    equivalentCppVersion(v1, v2) {
+        return equivalentVersions.some(ev => v1.replace(ev[0], ev[1]) === v2) ||
+            equivalentVersions.some(ev => v2.replace(ev[0], ev[1]) === v1);
+    }
+    refreshCppVersion(key, opts) {
+        const ind = this.index(key);
+        if (ind === -1) {
+            return;
         }
-        this.setState({ maxVersion: maxV });
-        if (opts.cppVersion === "20" && maxV < 20) {
-            opts.cppVersion = "17";
+        const versions = this.props.compilers[ind].std;
+        if (versions.includes(opts.cppVersion)) {
+            return;
+        }
+        const vIndex = versions.findIndex(v => this.equivalentCppVersion(v, opts.cppVersion));
+        if (vIndex > -1) {
+            this.changeVersion(versions[vIndex]);
+        } else {
+            this.changeVersion(versions[versions.length - 1]);
         }
     }
     checkedCompiler(comp) {
@@ -111,11 +104,14 @@ class CompileConfig extends React.Component {
             return this.state.compiler;
         if (!this.props.compilers || this.props.compilers.length==0)
             return comp;
-        if (this.props.compilers.indexOf(comp) > -1)
+        if (this.index(comp) > -1)
             return comp;
         // If we receive an unknown compiler version
         // We search the one that has the longest common prefix
-        return this.props.compilers[this.props.compilers.reduce((best, x, i, arr) => commonPrefixLength(x, comp) >= commonPrefixLength(arr[best], comp) ? i : best, 0)];
+        return this.props.compilers[this.props.compilers.reduce((best, x, i, arr) => commonPrefixLength(x.name, comp) >= commonPrefixLength(arr[best].name, comp) ? i : best, 0)].name;
+    }
+    index(comp){
+        return this.props.compilers.findIndex(c => c.name === comp);
     }
     changeCompiler(key) {
         if (key === "dl") {
@@ -124,7 +120,7 @@ class CompileConfig extends React.Component {
         }
         let opts = this.props.value;
         let comp = this.checkedCompiler(key);
-        this.refreshMaxCppVersion(comp, opts);
+        this.refreshCppVersion(comp, opts);
         opts.compiler = comp;
         this.props.onChange(opts);
     }
@@ -148,20 +144,18 @@ class CompileConfig extends React.Component {
         const cppVersion = this.props.value.cppVersion;
         const optim = this.props.value.optim;
         const lib = this.props.value.lib;
-        const maxVersion = this.state.maxVersion;
+        const index = Math.max(0, this.index(compiler));
+        console.log(this.props.compilers);
         return (
             <ButtonToolbar>
                 {this.props.compilers && this.props.compilers.length > 0 ?
                     <>
                         <DropdownButton id="compiler" variant="outline-dark" title={this.compilerTitle(compiler)} onSelect={key => this.changeCompiler(key)} className="me-2">
-                            {this.props.compilers.map((name) => <Dropdown.Item key={name} eventKey={name}>{this.compilerName(name)}</Dropdown.Item>)}
+                            {this.props.compilers.map(c => <Dropdown.Item key={c.name} eventKey={c.name}>{this.compilerName(c.name)}</Dropdown.Item>)}
                             {this.props.pullCompiler ? <Dropdown.Item key="dl" eventKey="dl"><BsCloudDownload /> Pull other compiler</Dropdown.Item> : null}
                         </DropdownButton>
-                        <DropdownButton id="language" variant="outline-dark" title={this.versionTitle(cppVersion)} onSelect={key => this.changeVersion(key)} className="me-2">
-                            <Dropdown.Item eventKey="11">{v11Name}</Dropdown.Item>
-                            <Dropdown.Item eventKey="14">{v14Name}</Dropdown.Item>
-                            <Dropdown.Item eventKey="17">{v17Name}</Dropdown.Item>
-                            <Dropdown.Item eventKey="20" disabled={maxVersion < 20}>{v20Name}</Dropdown.Item>
+                        <DropdownButton id="language" variant="outline-dark" title={'std = ' + cppVersion} onSelect={key => this.changeVersion(key)} className="me-2">
+                            {this.props.compilers[index].std.map(s => <Dropdown.Item key={s} eventKey={s}>{s}</Dropdown.Item>)}
                         </DropdownButton>
                         <DropdownButton id="optim" variant="outline-dark" title={this.optimTitle(optim)} onSelect={key => this.changeOptim(key)} className="me-2">
                             <Dropdown.Item eventKey="0">{o0Name}</Dropdown.Item>
