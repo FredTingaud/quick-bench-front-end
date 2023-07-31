@@ -28,7 +28,6 @@ class CompileConfig extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.compilers && this.props.compilers.length > 0) {
             if (prevProps.compilers !== this.props.compilers) {
-                console.log("compilers set: " + JSON.stringify(this.props.compilers));
                 this.changeCompiler(this.props.value.compiler);
             } else if (prevProps.value.compiler !== this.props.value.compiler) {
                 let fixed = this.checkedCompiler(this.props.value.compiler);
@@ -39,7 +38,6 @@ class CompileConfig extends React.Component {
         }
     }
     compilerName(name) {
-        console.log(' name ' + name);
         if (name.startsWith('gcc-')) {
             return "GCC " + name.substring(4);
         } else if (name.startsWith('clang-')) {
@@ -145,7 +143,6 @@ class CompileConfig extends React.Component {
         const optim = this.props.value.optim;
         const lib = this.props.value.lib;
         const index = Math.max(0, this.index(compiler));
-        console.log(this.props.compilers);
         return (
             <ButtonToolbar>
                 {this.props.compilers && this.props.compilers.length > 0 ?

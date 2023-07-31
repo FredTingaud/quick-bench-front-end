@@ -8,7 +8,6 @@ class QuickBenchButton extends React.Component {
     openCodeInQB(text, options) {
         let clientstate = { text: text };
         Object.assign(clientstate, options);
-        console.log(JSON.stringify(clientstate));
         var link = window.location.protocol + '//quick-bench.com/#' + InteropHelper.b64UTFEncode(JSON.stringify(clientstate));
         window.open(link, '_blank');
     }

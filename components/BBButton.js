@@ -8,7 +8,6 @@ class BBButton extends React.Component {
     openCodeInBB(text, options) {
         let clientstate = { text: text };
         Object.assign(clientstate, options);
-        console.log(JSON.stringify(clientstate));
         var link = window.location.protocol + '//build-bench.com/#' + InteropHelper.b64UTFEncode(JSON.stringify(clientstate));
         window.open(link, '_blank');
     }
