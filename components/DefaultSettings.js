@@ -2,5 +2,6 @@ const ALL_COMPILERS = [{ name: 'Loading...', std: ['Loading...'] }];
 
 export default {
     allCompilers: ALL_COMPILERS,
-    latestCompiler: 'Loading...'
+    latestCompiler: 'Loading...',
+    protocolVersion: 5
 };

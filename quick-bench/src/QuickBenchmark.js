@@ -15,8 +15,6 @@ import QuickFetch from './QuickFetch.js';
 import BBButton from 'components/BBButton';
 import DefaultSettings from 'components/DefaultSettings';
 
-const protocolVersion = 4;
-
 const startCode = `static void StringCreation(benchmark::State& state) {
   // Code inside this loop is measured repeatedly
   for (auto _ : state) {
@@ -193,7 +191,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
             var obj = {
                 "code": this.state.text,
                 "options": this.state.options,
-                "protocolVersion": protocolVersion,
+                "protocolVersion": DefaultSettings.protocolVersion,
                 "force": this.state.clean && this.state.force,
                 "isAnnotated": this.state.isAnnotated,
             };

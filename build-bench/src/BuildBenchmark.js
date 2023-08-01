@@ -18,8 +18,6 @@ import { ReactComponent as Logo } from 'components/resources/ico/bb.svg';
 import BuildFetch from './BuildFetch.js';
 import DefaultSettings from 'components/DefaultSettings';
 
-const protocolVersion = 3;
-
 const startCode1 = `#include <cstdio>
 
 int main() {
@@ -214,7 +212,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                     , "asm": 'att'
                     , "withPP": true
                 })),
-                "protocolVersion": protocolVersion,
+                "protocolVersion": DefaultSettings.protocolVersion,
                 "force": this.state.clean && this.state.force,
             };
             BuildFetch.fetchResults(obj, this.props.timeout * this.state.titles.length, (content, err) => this.receiveResults(content, err), (progress) => { this.setState({ progress: progress }); });
