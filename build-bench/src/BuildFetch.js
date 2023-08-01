@@ -11,8 +11,10 @@ function fetchId(id, callback) {
 function fetchEnv(callback) {
     return Fetch.fetch('build-env', callback)
 }
-export default {
+const BuildFetch = {
     fetchResults: fetchResults,
     fetchId: fetchId,
     fetchEnv: fetchEnv
-}
+};
+
+export default BuildFetch;

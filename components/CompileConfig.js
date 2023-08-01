@@ -35,6 +35,9 @@ class CompileConfig extends React.Component {
                     this.changeCompiler(fixed);
                 }
             }
+            if (prevProps.value.cppVersion !== this.props.value.cppVersion) {
+                this.refreshCppVersion(this.props.value.compiler, this.props.value);
+            }
         }
     }
     compilerName(name) {
@@ -90,7 +93,8 @@ class CompileConfig extends React.Component {
         if (versions.includes(opts.cppVersion)) {
             return;
         }
-        const vIndex = versions.findIndex(v => this.equivalentCppVersion(v, opts.cppVersion));
+        const vers = opts.cppVersion.length === 2 ? ('c++' + opts.cppVersion) : opts.cppVersion;
+        const vIndex = versions.findIndex(v => this.equivalentCppVersion(v, vers));
         if (vIndex > -1) {
             this.changeVersion(versions[vIndex]);
         } else {

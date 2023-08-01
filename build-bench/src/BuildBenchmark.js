@@ -60,7 +60,7 @@ class BuildBenchmark extends React.Component {
         , index: 0
         , options: Array(2).fill().map(a => ({
             compiler: DefaultSettings.latestCompiler
-            , cppVersion: "20"
+            , cppVersion: "c++20"
             , optim: "3"
             , lib: "gnu"
         }))

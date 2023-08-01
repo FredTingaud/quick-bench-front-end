@@ -30,7 +30,7 @@ exports[`displays button when no container is available 1`] = `
                 >
                   <div
                     className="nav card-header-tabs nav-tabs"
-                    id="bench-asm-selection"
+                    id="translation-units"
                     onKeyDown={[Function]}
                   >
                     <div
@@ -518,7 +518,7 @@ exports[`displays id 1`] = `
                 >
                   <div
                     className="nav card-header-tabs nav-tabs"
-                    id="bench-asm-selection"
+                    id="translation-units"
                     onKeyDown={[Function]}
                   >
                     <div
@@ -797,7 +797,7 @@ exports[`displays id 1`] = `
                         onClick={[Function]}
                         type="button"
                       >
-                        compiler = Clang 11.0
+                        compiler = Clang 10.1
                       </button>
                     </div>
                     <div
@@ -811,7 +811,7 @@ exports[`displays id 1`] = `
                         onClick={[Function]}
                         type="button"
                       >
-                        std = c++20
+                        std = c++2a
                       </button>
                     </div>
                     <div
@@ -892,27 +892,7 @@ exports[`displays id 1`] = `
                   </div>
                   <div
                     className="col"
-                  >
-                    <div
-                      className="form-check"
-                    >
-                      <input
-                        checked={false}
-                        className="form-check-input"
-                        disabled={false}
-                        id="clean-cache"
-                        onChange={[Function]}
-                        type="checkbox"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="clean-cache"
-                        title=""
-                      >
-                        Clear cached results
-                      </label>
-                    </div>
-                  </div>
+                  />
                   <div
                     className="ms-auto col"
                   >
