@@ -75,11 +75,11 @@ class ContainersDialog extends React.Component {
                     <Form>
                         <Row>
                             <Form.Group as={Col} controlId="clangForm">
-                                {this.state.possibles.filter(p => p.startsWith('clang')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} defaultChecked={this.props.containers.includes(p)} />)}
+                                {this.state.possibles.filter(p => p.startsWith('clang')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} defaultChecked={this.props.containers.some(c => c.name === p)} />)}
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="gccForm">
-                                {this.state.possibles.filter(p => p.startsWith('gcc')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} defaultChecked={this.props.containers.includes(p)}/>)}
+                                {this.state.possibles.filter(p => p.startsWith('gcc')).map(p => <Form.Check type="checkbox" label={p} id={p} key={p} onChange={k => this.changeDownloadList(k, p)} defaultChecked={this.props.containers.some(c => c.name === p)}/>)}
                             </Form.Group>
                         </Row>
                     </Form>
