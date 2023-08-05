@@ -64,6 +64,7 @@ class QuickBenchmark extends React.Component {
             , cppVersion: "20"
             , optim: "3"
             , lib: "gnu"
+            , flags: []
         }
         , clean: false
         , force: false
@@ -145,7 +146,8 @@ class QuickBenchmark extends React.Component {
                     compiler: compiler,
                     cppVersion: result.tab.options.cppVersion,
                     optim: result.tab.options.optim,
-                    lib: result.tab.options.lib
+                    lib: result.tab.options.lib,
+                    flags: result.tab.options.flags
                 };
                 this.setState({
                     text: result.tab.code,

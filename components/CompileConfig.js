@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, ButtonToolbar, DropdownButton, Button } from 'react-bootstrap';
+import { Dropdown, ButtonToolbar, DropdownButton, Button, Form } from 'react-bootstrap';
 import { BsCloudDownload } from "react-icons/bs";
 
 const o0Name = 'None';
@@ -141,6 +141,19 @@ class CompileConfig extends React.Component {
         opts.lib = key;
         this.props.onChange(opts);
     }
+    changeExpFlag(active, flag) {
+        let flags = this.props.value.flags;
+        if (active){
+            flags.push(flag);
+        } else {
+            flags = flags.filter(f => f !== flag);
+        }
+        this.props.value.flags = flags;
+        this.props.onChange(this.props.value);
+    }
+    hasExpFlag(flag) {
+        return this.props.value.flags.includes(flag);
+    }
     render() {
         const compiler = this.props.value.compiler;
         const cppVersion = this.props.value.cppVersion;
@@ -167,10 +180,16 @@ class CompileConfig extends React.Component {
                             <Dropdown.Item eventKey="3">{o3Name}</Dropdown.Item>
                             <Dropdown.Item eventKey="F">{oFName}</Dropdown.Item>
                         </DropdownButton>
-                        <DropdownButton id="libc" variant="outline-dark" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} >
+                        <DropdownButton id="libc" variant="outline-dark" title={this.libTitle(lib)} onSelect={key => this.changeLib(key)} disabled={compiler.startsWith('gcc')} className="me-2">
                             <Dropdown.Item eventKey="gnu">{lGName}</Dropdown.Item>
                             <Dropdown.Item eventKey="llvm">{lCName}</Dropdown.Item>
                         </DropdownButton>
+                        {this.props.compilers[index].experimental && this.props.compilers[index].experimental.length > 0 ?
+                            <DropdownButton id="flags" variant="outline-dark" title="Other flags" className="me-2">
+                                {this.props.compilers[index].experimental.map(s => <Form.Check type='checkbox' key={s} id={s} label={s} onChange={e => this.changeExpFlag(e.target.checked, s)} checked={this.hasExpFlag(s)} className="mx-3 my-2" style={{"white-space": "nowrap"}} />)}
+                            </DropdownButton>
+                            : < div />
+                        }
                     </>
                     :
                     <Button onClick={() => this.props.pullCompiler()}><BsCloudDownload /> Pull compilers</Button>

@@ -1,5 +1,7 @@
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : window.location.origin;
 
+let waitingForContainers = false;
+
 async function fetchResults(route, obj, timeout, callback, progressCallback) {
     let progress = 0;
     let interval = setInterval(() => {
@@ -26,11 +28,17 @@ async function fetchResults(route, obj, timeout, callback, progressCallback) {
         clearInterval(interval);
         callback(null, err.message);
     }
+}
 
+async function waitForContainers() {
+    while (waitingForContainers) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
 }
 
 async function fetchId(route, id, callback) {
     try {
+        await waitForContainers();
         const result = await fetch(url + '/' + route + '/' + id);
         if (result.ok) {
             callback(await result.json());
@@ -56,6 +64,7 @@ async function fetchRoute(route, callback) {
 }
 
 async function fetchPossibleContainers(callback) {
+    waitingForContainers = true;
     try {
         const result = await fetch(url + '/containers/');
         if (result.ok) {
@@ -66,6 +75,7 @@ async function fetchPossibleContainers(callback) {
     } catch (_) {
         callback(null);
     }
+    waitingForContainers = false;
 }
 
 async function pullContainers(list, callback) {

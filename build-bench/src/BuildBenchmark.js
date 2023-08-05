@@ -211,6 +211,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                     "lib": this.state.options[i].lib
                     , "asm": 'att'
                     , "withPP": true
+                    , "flags": this.state.options[i].flags
                 })),
                 "protocolVersion": DefaultSettings.protocolVersion,
                 "force": this.state.clean && this.state.force,
