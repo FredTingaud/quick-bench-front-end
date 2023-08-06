@@ -113,6 +113,7 @@ class CompileConfig extends React.Component {
         return this.props.compilers[this.props.compilers.reduce((best, x, i, arr) => commonPrefixLength(x.name, comp) >= commonPrefixLength(arr[best].name, comp) ? i : best, 0)].name;
     }
     index(comp){
+        if (this.props.compilers == null) { return -1; }
         return this.props.compilers.findIndex(c => c.name === comp);
     }
     changeCompiler(key) {
@@ -152,7 +153,7 @@ class CompileConfig extends React.Component {
         this.props.onChange(this.props.value);
     }
     hasExpFlag(flag) {
-        return this.props.value.flags.includes(flag);
+        return this.props.value.flags?.includes(flag);
     }
     render() {
         const compiler = this.props.value.compiler;
@@ -186,7 +187,7 @@ class CompileConfig extends React.Component {
                         </DropdownButton>
                         {this.props.compilers[index].experimental && this.props.compilers[index].experimental.length > 0 ?
                             <DropdownButton id="flags" variant="outline-dark" title="Other flags" className="me-2">
-                                {this.props.compilers[index].experimental.map(s => <Form.Check type='checkbox' key={s} id={s} label={s} onChange={e => this.changeExpFlag(e.target.checked, s)} checked={this.hasExpFlag(s)} className="mx-3 my-2" style={{"white-space": "nowrap"}} />)}
+                                {this.props.compilers[index].experimental.map(s => <Form.Check type='checkbox' key={s} id={s} label={s} onChange={e => this.changeExpFlag(e.target.checked, s)} checked={this.hasExpFlag(s)} className="mx-3 my-2" style={{"whiteSpace": "nowrap"}} />)}
                             </DropdownButton>
                             : < div />
                         }
