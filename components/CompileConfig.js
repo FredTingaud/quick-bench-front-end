@@ -111,7 +111,7 @@ class CompileConfig extends React.Component {
             return comp;
         // If we receive an unknown compiler version
         // We search the one that has the longest common prefix
-        return this.props.compilers[this.props.compilers.reduce((best, x, i, arr) => commonPrefixLength(x.name, comp) >= commonPrefixLength(arr[best].name, comp) ? i : best, 0)].name;
+        return this.props.compilers[this.props.compilers.reduce((best, x, i, arr) => commonPrefixLength(x.name, comp) > commonPrefixLength(arr[best].name, comp) ? i : best, 0)].name;
     }
     index(comp) {
         if (this.props.compilers == null) { return -1; }
