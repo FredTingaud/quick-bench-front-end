@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dropdown, ButtonToolbar, DropdownButton, Button, Form } from 'react-bootstrap';
 import { BsCloudDownload } from "react-icons/bs";
+import { MdFlagCircle } from "react-icons/md";
 
 const o0Name = 'None';
 const oGName = 'Og';
@@ -186,7 +187,7 @@ class CompileConfig extends React.Component {
                             <Dropdown.Item eventKey="llvm">{lCName}</Dropdown.Item>
                         </DropdownButton>
                         {this.props.compilers[index].experimental && this.props.compilers[index].experimental.length > 0 ?
-                            <DropdownButton id="flags" variant="outline-dark" title="Other flags" className="me-2">
+                            <DropdownButton id="flags" variant="outline-dark" title={<span> Other flags {this.props.value.flags.length > 0 ? <MdFlagCircle/> : <span/>} </span>} className="me-2">
                                 {this.props.compilers[index].experimental.map(s => <Form.Check type='checkbox' key={s} id={s} label={s} onChange={e => this.changeExpFlag(e.target.checked, s)} checked={this.hasExpFlag(s)} className="mx-3 my-2" style={{"whiteSpace": "nowrap"}} />)}
                             </DropdownButton>
                             : < div />
