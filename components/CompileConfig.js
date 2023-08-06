@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, ButtonToolbar, DropdownButton, Button, Form } from 'react-bootstrap';
+import { Dropdown, ButtonToolbar, DropdownButton, Button, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BsCloudDownload } from "react-icons/bs";
 import { MdFlagCircle } from "react-icons/md";
 
@@ -12,7 +12,7 @@ const o3Name = 'O3';
 const oFName = 'OFast';
 const lGName = 'libstdc++(GNU)';
 const lCName = 'libc++(LLVM)';
-const equivalentVersions = [['1y', '14'], ['1z', '17'],['2a', '20'], ['2b', '23'], ['2c', '26']];
+const equivalentVersions = [['1y', '14'], ['1z', '17'], ['2a', '20'], ['2b', '23'], ['2c', '26']];
 
 
 function commonPrefixLength(s1, s2) {
@@ -105,7 +105,7 @@ class CompileConfig extends React.Component {
     checkedCompiler(comp) {
         if (!comp)
             return this.state.compiler;
-        if (!this.props.compilers || this.props.compilers.length==0)
+        if (!this.props.compilers || this.props.compilers.length == 0)
             return comp;
         if (this.index(comp) > -1)
             return comp;
@@ -113,7 +113,7 @@ class CompileConfig extends React.Component {
         // We search the one that has the longest common prefix
         return this.props.compilers[this.props.compilers.reduce((best, x, i, arr) => commonPrefixLength(x.name, comp) >= commonPrefixLength(arr[best].name, comp) ? i : best, 0)].name;
     }
-    index(comp){
+    index(comp) {
         if (this.props.compilers == null) { return -1; }
         return this.props.compilers.findIndex(c => c.name === comp);
     }
@@ -145,7 +145,7 @@ class CompileConfig extends React.Component {
     }
     changeExpFlag(active, flag) {
         let flags = this.props.value.flags;
-        if (active){
+        if (active) {
             flags.push(flag);
         } else {
             flags = flags.filter(f => f !== flag);
@@ -162,6 +162,15 @@ class CompileConfig extends React.Component {
         const optim = this.props.value.optim;
         const lib = this.props.value.lib;
         const index = Math.max(0, this.index(compiler));
+        const flagsTooltip = (props) => (<Tooltip id="button-tooltip" {...props}>
+            {this.props.value.flags.join(' ')}
+        </Tooltip>);
+        const flagsIcon = <OverlayTrigger
+            placement="right"
+            delay={{ show: 150, hide: 400 }}
+            overlay={flagsTooltip}>
+            <span><MdFlagCircle /></span>
+        </OverlayTrigger>;
         return (
             <ButtonToolbar>
                 {this.props.compilers && this.props.compilers.length > 0 ?
@@ -186,12 +195,9 @@ class CompileConfig extends React.Component {
                             <Dropdown.Item eventKey="gnu">{lGName}</Dropdown.Item>
                             <Dropdown.Item eventKey="llvm">{lCName}</Dropdown.Item>
                         </DropdownButton>
-                        {this.props.compilers[index].experimental && this.props.compilers[index].experimental.length > 0 ?
-                            <DropdownButton id="flags" variant="outline-dark" title={<span> Other flags {this.props.value.flags.length > 0 ? <MdFlagCircle/> : <span/>} </span>} className="me-2">
-                                {this.props.compilers[index].experimental.map(s => <Form.Check type='checkbox' key={s} id={s} label={s} onChange={e => this.changeExpFlag(e.target.checked, s)} checked={this.hasExpFlag(s)} className="mx-3 my-2" style={{"whiteSpace": "nowrap"}} />)}
-                            </DropdownButton>
-                            : < div />
-                        }
+                        <DropdownButton id="flags" variant="outline-dark" title={<span> Other flags {this.props.value.flags.length > 0 ? flagsIcon : <span />} </span>} className="me-2" disabled={!this.props.compilers[index].experimental || this.props.compilers[index].experimental.length === 0}>
+                            {this.props.compilers[index]?.experimental?.map(s => <Form.Check type='checkbox' key={s} id={s} label={s} onChange={e => this.changeExpFlag(e.target.checked, s)} checked={this.hasExpFlag(s)} className="mx-3 my-2" style={{ "whiteSpace": "nowrap" }} />)}
+                        </DropdownButton>
                     </>
                     :
                     <Button onClick={() => this.props.pullCompiler()}><BsCloudDownload /> Pull compilers</Button>
