@@ -61,6 +61,7 @@ class BuildBenchmark extends React.Component {
             , cppVersion: "c++20"
             , optim: "3"
             , lib: "gnu"
+            , flags: []
         }))
         , clean: false
         , force: false
@@ -165,6 +166,7 @@ class BuildBenchmark extends React.Component {
                     , cppVersion: t.cppVersion
                     , optim: t.optim
                     , lib: t.lib
+                    , flags: t.flags
                 }));
                 this.setState({
                     texts: result.tabs.map(t => t.code)
