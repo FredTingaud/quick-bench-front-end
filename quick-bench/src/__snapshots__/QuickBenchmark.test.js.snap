@@ -573,10 +573,12 @@ BENCHMARK(StringCopy);
               aria-selected={true}
               className="nav-link active"
               data-rr-ui-event-key="charts"
-              disabled={false}
+              href="#"
               id="output-tabs-tab-charts"
               onClick={[Function]}
+              onKeyDown={[Function]}
               role="tab"
+              tabIndex={0}
             >
               Charts
             </a>
@@ -586,11 +588,13 @@ BENCHMARK(StringCopy);
           >
             <a
               aria-controls="output-tabs-tabpane-asm"
+              aria-selected={false}
               className="nav-link"
               data-rr-ui-event-key="asm"
-              disabled={false}
+              href="#"
               id="output-tabs-tab-asm"
               onClick={[Function]}
+              onKeyDown={[Function]}
               role="tab"
               tabIndex={-1}
             >
@@ -603,7 +607,7 @@ BENCHMARK(StringCopy);
         >
           <div
             aria-labelledby="output-tabs-tab-charts"
-            className="fill-content tab-pane active"
+            className="fade fill-content tab-pane active show"
             id="output-tabs-tabpane-charts"
             role="tabpanel"
           >
@@ -674,7 +678,7 @@ BENCHMARK(StringCopy);
           </div>
           <div
             aria-labelledby="output-tabs-tab-asm"
-            className="fill-content tab-pane"
+            className="fade fill-content tab-pane"
             id="output-tabs-tabpane-asm"
             role="tabpanel"
           >

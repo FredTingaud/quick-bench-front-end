@@ -1,8 +1,10 @@
 import React from 'react';
-import Chart from 'chart.js';
+import { Chart, LinearScale, CategoryScale, Tooltip as TT, Legend, Title, BarElement, BarController, LineElement, LineController, PointElement } from 'chart.js';
 import { Button, Card, OverlayTrigger, Tooltip, Container, Row } from 'react-bootstrap';
 import fileDownload from 'js-file-download';
 import { GoDesktopDownload } from "react-icons/go";
+
+Chart.register(LinearScale, CategoryScale, TT, Legend, Title, BarElement, BarController, LineElement, LineController, PointElement);
 
 class TimeChart extends React.Component {
     componentDidMount() {
@@ -29,38 +31,43 @@ class TimeChart extends React.Component {
         const ctx = document.getElementById('result-chart');
 
         const chartOptions = {
-            title: {
-                display: true,
-                position: 'bottom'
-            },
-            legend: {
-                display: true
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false
+            plugins: {
+                title: {
+                    display: true,
+                    position: 'bottom'
+                },
+                legend: {
+                    display: true
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                }
             },
             scales: {
-                yAxes: [{
-                    id: 'linear',
+                linear: {
                     ticks: {
                         beginAtZero: true
-                    }
+                    },
+                    axis: 'y',
+                    display: 'auto'
                 },
-                {
-                    id: 'ystacks',
+                ystacks: {
                     stacked: true,
                     ticks: {
                         beginAtZero: true
-                    }
-                }],
-                xAxes: [{
-                    id: 'bar',
+                    },
+                    axis: 'y',
+                    display: 'auto'
+                },
+                bar: {
                     ticks: {
                         autoSkip: false
-                    }
-                }, {
-                    id: 'xstacks',
+                    },
+                    axis: 'x',
+                    display: 'auto'
+                },
+                xstacks: {
                     stacked: true,
                     offset: true,
                     gridLines: {
@@ -68,12 +75,15 @@ class TimeChart extends React.Component {
                     },
                     ticks: {
                         autoSkip: false
-                    }
-                }, {
-                    id: 'line',
-                    type: 'linear'
+                    },
+                    axis: 'x',
+                    display: 'auto'
+                },
+                line: {
+                    type: 'linear',
+                    axis: 'x',
+                    display: 'auto'
                 }
-                ]
             }
         };
         this.chart = new Chart(ctx, {
@@ -101,14 +111,13 @@ class TimeChart extends React.Component {
             type: this.props.type || 'bar',
             label: l,
             xAxisID: this.props.xaxis,
-            yAxisID: this.props.yaxis
+            yAxisID: this.props.yaxis,
+            tension: 0.4
         }));
-        this.chart.options.legend.display = this.props.legend;
-        this.chart.options.scales.xAxes.map(a => a.display = a.id === this.props.xaxis);
-        this.chart.options.scales.yAxes.map(a => a.display = a.id === this.props.yaxis);
-        this.chart.options.tooltips.callbacks.beforeBody = this.props.beforeTooltip ? this.sumCallback() : () => '';
-        this.chart.options.tooltips.callbacks.afterBody = this.props.afterTooltip ? this.nameCallback() : () => '';
-        this.chart.options.title.text = this.props.title;
+        this.chart.options.plugins.legend.display = this.props.legend;
+        this.chart.options.plugins.tooltip.callbacks.beforeBody = this.props.beforeTooltip ? this.sumCallback() : () => '';
+        this.chart.options.plugins.tooltip.callbacks.afterBody = this.props.afterTooltip ? this.nameCallback() : () => '';
+        this.chart.options.plugins.title.text = this.props.title;
 
         this.chart.update();
     }
@@ -117,13 +126,13 @@ class TimeChart extends React.Component {
     }
     sumCallback() {
         return (tooltipItem, data) => {
-            const index = tooltipItem[0].index;
+            const index = tooltipItem[0].dataIndex;
             return `total: ${this.sum(this.props.data, index)}`;
         };
     }
     nameCallback() {
         return (tooltipItem, data) => {
-            const index = tooltipItem[0].index;
+            const index = tooltipItem[0].dataIndex;
             const val = this.sum(this.props.data, index);
             return [''].concat(this.props.labels.map((n, i) => i === index ? '' : this.describe(val, this.sum(this.props.data, i), n)).filter(s => s !== ''));
         };

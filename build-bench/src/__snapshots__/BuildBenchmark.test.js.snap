@@ -1005,10 +1005,12 @@ exports[`displays id 1`] = `
               aria-selected={true}
               className="nav-link active"
               data-rr-ui-event-key="charts"
-              disabled={false}
+              href="#"
               id="visualization-tabs-tab-charts"
               onClick={[Function]}
+              onKeyDown={[Function]}
               role="tab"
+              tabIndex={0}
             >
               Charts
             </a>
@@ -1018,11 +1020,13 @@ exports[`displays id 1`] = `
           >
             <a
               aria-controls="visualization-tabs-tabpane-includes"
+              aria-selected={false}
               className="nav-link"
               data-rr-ui-event-key="includes"
-              disabled={false}
+              href="#"
               id="visualization-tabs-tab-includes"
               onClick={[Function]}
+              onKeyDown={[Function]}
               role="tab"
               tabIndex={-1}
             >
@@ -1034,11 +1038,13 @@ exports[`displays id 1`] = `
           >
             <a
               aria-controls="visualization-tabs-tabpane-asm"
+              aria-selected={false}
               className="nav-link"
               data-rr-ui-event-key="asm"
-              disabled={false}
+              href="#"
               id="visualization-tabs-tab-asm"
               onClick={[Function]}
+              onKeyDown={[Function]}
               role="tab"
               tabIndex={-1}
             >
@@ -1050,11 +1056,13 @@ exports[`displays id 1`] = `
           >
             <a
               aria-controls="visualization-tabs-tabpane-pp"
+              aria-selected={false}
               className="nav-link"
               data-rr-ui-event-key="pp"
-              disabled={false}
+              href="#"
               id="visualization-tabs-tab-pp"
               onClick={[Function]}
+              onKeyDown={[Function]}
               role="tab"
               tabIndex={-1}
             >
@@ -1067,12 +1075,13 @@ exports[`displays id 1`] = `
         >
           <div
             aria-labelledby="visualization-tabs-tab-charts"
-            className="fill-content tab-pane active"
+            className="fade fill-content tab-pane active show"
             id="visualization-tabs-tabpane-charts"
             role="tabpanel"
           >
             <mock-TimeChart
               afterTooltip={true}
+              beforeTooltip={true}
               colors={
                 Array [
                   Array [
@@ -1151,7 +1160,7 @@ exports[`displays id 1`] = `
           </div>
           <div
             aria-labelledby="visualization-tabs-tab-includes"
-            className="fill-content tab-pane"
+            className="fade fill-content tab-pane"
             id="visualization-tabs-tabpane-includes"
             role="tabpanel"
           >
@@ -1159,7 +1168,7 @@ exports[`displays id 1`] = `
           </div>
           <div
             aria-labelledby="visualization-tabs-tab-asm"
-            className="fill-content tab-pane"
+            className="fade fill-content tab-pane"
             id="visualization-tabs-tabpane-asm"
             role="tabpanel"
           >
@@ -1183,10 +1192,12 @@ exports[`displays id 1`] = `
                       aria-selected={true}
                       className="small-tabs out-tab tab-decoration-0 nav-link active"
                       data-rr-ui-event-key="0"
-                      disabled={false}
+                      href="#"
                       id="output-tabs-tab-0"
                       onClick={[Function]}
+                      onKeyDown={[Function]}
                       role="tab"
+                      tabIndex={0}
                     >
                       math
                     </a>
@@ -1196,11 +1207,13 @@ exports[`displays id 1`] = `
                   >
                     <a
                       aria-controls="output-tabs-tabpane-1"
+                      aria-selected={false}
                       className="small-tabs out-tab tab-decoration-6 nav-link"
                       data-rr-ui-event-key="1"
-                      disabled={false}
+                      href="#"
                       id="output-tabs-tab-1"
                       onClick={[Function]}
+                      onKeyDown={[Function]}
                       role="tab"
                       tabIndex={-1}
                     >
@@ -1246,7 +1259,7 @@ main:                                   # @main
           </div>
           <div
             aria-labelledby="visualization-tabs-tab-pp"
-            className="fill-content tab-pane"
+            className="fade fill-content tab-pane"
             id="visualization-tabs-tabpane-pp"
             role="tabpanel"
           >
@@ -1270,10 +1283,12 @@ main:                                   # @main
                       aria-selected={true}
                       className="small-tabs out-tab tab-decoration-0 nav-link active"
                       data-rr-ui-event-key="0"
-                      disabled={false}
+                      href="#"
                       id="output-tabs-tab-0"
                       onClick={[Function]}
+                      onKeyDown={[Function]}
                       role="tab"
+                      tabIndex={0}
                     >
                       math
                     </a>
@@ -1283,11 +1298,13 @@ main:                                   # @main
                   >
                     <a
                       aria-controls="output-tabs-tabpane-1"
+                      aria-selected={false}
                       className="small-tabs out-tab tab-decoration-6 nav-link"
                       data-rr-ui-event-key="1"
-                      disabled={false}
+                      href="#"
                       id="output-tabs-tab-1"
                       onClick={[Function]}
+                      onKeyDown={[Function]}
                       role="tab"
                       tabIndex={-1}
                     >

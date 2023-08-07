@@ -10,7 +10,8 @@ const chartData = [{
     more: "slower",
     less: "faster",
     xaxis: "xstacks",
-    yaxis: "ystacks"
+    yaxis: "ystacks",
+    beforeTooltip: true
 }, {
     title: "Maximum Resident Set Size (kB)",
     property: "memories",
@@ -18,7 +19,8 @@ const chartData = [{
     more: "more",
     less: "less",
     xaxis: "bar",
-    yaxis: "linear"
+    yaxis: "linear",
+    beforeTooltip: false
 }, {
     title: "Number of Filesystem Inputs",
     property: "inputs",
@@ -26,7 +28,8 @@ const chartData = [{
     more: "more",
     less: "less",
     xaxis: "bar",
-    yaxis: "linear"
+    yaxis: "linear",
+    beforeTooltip: false
 }];
 
 class BuildChart extends React.Component {
@@ -111,6 +114,7 @@ class BuildChart extends React.Component {
                 yaxis={chartData[this.props.index].yaxis}
                 fill={true}
                 afterTooltip={true}
+                beforeTooltip={chartData[this.props.index].beforeTooltip}
             >{this.renderDisplayTypes()}</TimeChart>
         );
     }
