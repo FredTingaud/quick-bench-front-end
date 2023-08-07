@@ -137,7 +137,7 @@ BENCHMARK(StringCopy);
                           fill="none"
                         />
                         <path
-                          d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 007.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
+                          d="M9 1h6v2H9zM19.03 7.39l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4a9 9 0 00-9 9c0 4.97 4.02 9 9 9a8.994 8.994 0 007.03-14.61zM13 14h-2V8h2v6z"
                         />
                       </svg>
                        Run Benchmark
@@ -379,7 +379,7 @@ BENCHMARK(StringCopy);
                   </button>
                 </div>
                 <div
-                  className="dropdown"
+                  className="me-2 dropdown"
                 >
                   <button
                     aria-expanded={false}
@@ -390,6 +390,24 @@ BENCHMARK(StringCopy);
                     type="button"
                   >
                     STL = libstdc++(GNU)
+                  </button>
+                </div>
+                <div
+                  className="me-2 dropdown"
+                >
+                  <button
+                    aria-expanded={false}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={true}
+                    id="flags"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <span>
+                       Other flags 
+                      <span />
+                       
+                    </span>
                   </button>
                 </div>
               </div>
@@ -432,7 +450,7 @@ BENCHMARK(StringCopy);
                           fill="none"
                         />
                         <path
-                          d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 007.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
+                          d="M9 1h6v2H9zM19.03 7.39l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4a9 9 0 00-9 9c0 4.97 4.02 9 9 9a8.994 8.994 0 007.03-14.61zM13 14h-2V8h2v6z"
                         />
                       </svg>
                        Run Benchmark
@@ -803,7 +821,7 @@ BENCHMARK(StringCopy);
                   </button>
                 </div>
                 <div
-                  className="dropdown"
+                  className="me-2 dropdown"
                 >
                   <button
                     aria-expanded={false}
@@ -814,6 +832,52 @@ BENCHMARK(StringCopy);
                     type="button"
                   >
                     STL = libstdc++(GNU)
+                  </button>
+                </div>
+                <div
+                  className="me-2 dropdown"
+                >
+                  <button
+                    aria-expanded={false}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={true}
+                    id="flags"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <span>
+                       Other flags 
+                      <span
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                      >
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          stroke="currentColor"
+                          strokeWidth="0"
+                          style={
+                            Object {
+                              "color": undefined,
+                            }
+                          }
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          />
+                          <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm6 13h-5l-1-2H9.5v5H8V7h6l1 2h3v6z"
+                          />
+                        </svg>
+                      </span>
+                       
+                    </span>
                   </button>
                 </div>
               </div>
@@ -856,7 +920,7 @@ BENCHMARK(StringCopy);
                           fill="none"
                         />
                         <path
-                          d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 007.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
+                          d="M9 1h6v2H9zM19.03 7.39l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4a9 9 0 00-9 9c0 4.97 4.02 9 9 9a8.994 8.994 0 007.03-14.61zM13 14h-2V8h2v6z"
                         />
                       </svg>
                        Run Benchmark
@@ -1189,7 +1253,7 @@ BENCHMARK(StringCopy);
                   </button>
                 </div>
                 <div
-                  className="dropdown"
+                  className="me-2 dropdown"
                 >
                   <button
                     aria-expanded={false}
@@ -1200,6 +1264,24 @@ BENCHMARK(StringCopy);
                     type="button"
                   >
                     STL = libstdc++(GNU)
+                  </button>
+                </div>
+                <div
+                  className="me-2 dropdown"
+                >
+                  <button
+                    aria-expanded={false}
+                    className="dropdown-toggle btn btn-outline-dark"
+                    disabled={true}
+                    id="flags"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <span>
+                       Other flags 
+                      <span />
+                       
+                    </span>
                   </button>
                 </div>
               </div>
@@ -1242,7 +1324,7 @@ BENCHMARK(StringCopy);
                           fill="none"
                         />
                         <path
-                          d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 007.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
+                          d="M9 1h6v2H9zM19.03 7.39l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4a9 9 0 00-9 9c0 4.97 4.02 9 9 9a8.994 8.994 0 007.03-14.61zM13 14h-2V8h2v6z"
                         />
                       </svg>
                        Run Benchmark

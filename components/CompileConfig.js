@@ -195,7 +195,7 @@ class CompileConfig extends React.Component {
                             <Dropdown.Item eventKey="gnu">{lGName}</Dropdown.Item>
                             <Dropdown.Item eventKey="llvm">{lCName}</Dropdown.Item>
                         </DropdownButton>
-                        <DropdownButton id="flags" variant="outline-dark" title={<span> Other flags {this.props.value.flags.length > 0 ? flagsIcon : <span />} </span>} className="me-2" disabled={!this.props.compilers[index].experimental || this.props.compilers[index].experimental.length === 0}>
+                        <DropdownButton id="flags" variant="outline-dark" title={<span> Other flags {this.props.value.flags?.length > 0 ? flagsIcon : <span />} </span>} className="me-2" disabled={!this.props.compilers[index].experimental || this.props.compilers[index].experimental.length === 0}>
                             {this.props.compilers[index]?.experimental?.map(s => <Form.Check type='checkbox' key={s} id={s} label={s} onChange={e => this.changeExpFlag(e.target.checked, s)} checked={this.hasExpFlag(s)} className="mx-3 my-2" style={{ "whiteSpace": "nowrap" }} />)}
                         </DropdownButton>
                     </>
