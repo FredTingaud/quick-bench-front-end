@@ -1039,7 +1039,7 @@ BENCHMARK(StringCopy);
         >
           <div
             aria-labelledby="output-tabs-tab-charts"
-            className="fill-content tab-pane active"
+            className="fade fill-content tab-pane active show"
             id="output-tabs-tabpane-charts"
             role="tabpanel"
           >
@@ -1110,7 +1110,7 @@ BENCHMARK(StringCopy);
           </div>
           <div
             aria-labelledby="output-tabs-tab-asm"
-            className="fill-content tab-pane"
+            className="fade fill-content tab-pane"
             id="output-tabs-tabpane-asm"
             role="tabpanel"
           >
@@ -1443,7 +1443,7 @@ BENCHMARK(StringCopy);
         >
           <div
             aria-labelledby="output-tabs-tab-charts"
-            className="fill-content tab-pane active"
+            className="fade fill-content tab-pane active show"
             id="output-tabs-tabpane-charts"
             role="tabpanel"
           >
@@ -1514,7 +1514,7 @@ BENCHMARK(StringCopy);
           </div>
           <div
             aria-labelledby="output-tabs-tab-asm"
-            className="fill-content tab-pane"
+            className="fade fill-content tab-pane"
             id="output-tabs-tabpane-asm"
             role="tabpanel"
           >
