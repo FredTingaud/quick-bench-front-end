@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Children, isValidElement, cloneElement} from 'react';
 import { Navbar, Nav, NavDropdown, Dropdown, Form, Button } from 'react-bootstrap';
 import AuthorDialog from './dialogs/AuthorDialog.js';
 import ThanksDialog from './dialogs/ThanksDialog.js';
@@ -50,6 +50,15 @@ class Header extends React.Component {
         this.setState({ showPrivacy: false });
     }
     render() {
+        // const childrenWithProps = Children.map(this.props.children, child => {
+        //     if (isValidElement(child)) {
+        //         return cloneElement(child, {
+        //             value: this.props.values[this.props.index],
+        //             onChange: c => this.onChange(c)
+        //         });
+        //     }
+        //     return child;
+        // });
         return (
             <Navbar bg="dark" variant="dark" collapseOnSelect>
                 <Nav className="me-auto">
@@ -65,7 +74,7 @@ class Header extends React.Component {
                                 <Dropdown.Item href="https://www.patreon.com/bePatron?u=8599781" target="_blank"><img src={patreon} className="line-img" alt="Patreon icon" /> Support on Patreon</Dropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="More" id="basic-nav-dropdown" onSelect={this.openInfo.bind(this)} align="end">
-                                {this.props.entries()}
+                                {this.props.children}
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="https://github.com/FredTingaud/quick-bench-front-end" target="_blank">GitHub project - front-end</NavDropdown.Item>
                                 <NavDropdown.Item href="https://github.com/FredTingaud/quick-bench-back-end" target="_blank">GitHub project - back-end</NavDropdown.Item>

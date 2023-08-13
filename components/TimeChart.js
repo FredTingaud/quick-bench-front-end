@@ -1,10 +1,10 @@
 import React from 'react';
-import { Chart, LinearScale, CategoryScale, Tooltip as TT, Legend, Title, BarElement, BarController, LineElement, LineController, PointElement } from 'chart.js';
+import { Chart, LinearScale, CategoryScale, Tooltip as TT, Legend, Title, BarElement, BarController, LineElement, LineController, PointElement, Filler } from 'chart.js';
 import { Button, Card, OverlayTrigger, Tooltip, Container, Row } from 'react-bootstrap';
 import fileDownload from 'js-file-download';
 import { GoDesktopDownload } from "react-icons/go";
 
-Chart.register(LinearScale, CategoryScale, TT, Legend, Title, BarElement, BarController, LineElement, LineController, PointElement);
+Chart.register(LinearScale, CategoryScale, TT, Legend, Title, BarElement, BarController, LineElement, LineController, PointElement, Filler);
 
 class TimeChart extends React.Component {
     componentDidMount() {

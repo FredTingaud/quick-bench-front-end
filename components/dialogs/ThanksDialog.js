@@ -11,7 +11,7 @@ class ThanksDialog extends React.Component {
                 <Modal.Body>
                     The benchmark engine uses <a href='https://github.com/google/benchmark'>Google Benchmark</a>
                     <br />
-                    Favicon designed by Lucie Larousse
+                    Favicon designed by Oscar Larousse
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.onHide}>OK</Button>

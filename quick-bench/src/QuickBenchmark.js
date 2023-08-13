@@ -114,7 +114,6 @@ class QuickBenchmark extends React.Component {
                     this.getCode(this.props.id);
                 } else {
                     this.initializeCode();
-                    this.props.onLocationChange(undefined);
                 }
             }
         }
@@ -279,11 +278,11 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                                 <Button variant="primary" onClick={() => this.sendCode()} disabled={this.state.sending} className="me-2" id="Run"> <MdTimer /> Run Benchmark</Button>
                                             </Col>
                                             <Col>
-                                                <FormCheck ref="force" checked={this.state.isAnnotated} type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="me-2" />
+                                                <FormCheck checked={this.state.isAnnotated} type='checkbox' id="disassembly" onChange={e => this.toggleAnnotated(e)} label={"Record disassembly"} className="me-2" />
                                             </Col>
                                             <Col>
                                                 <Display when={this.state.clean}>
-                                                    <FormCheck ref="force" type="checkbox" checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
+                                                    <FormCheck type="checkbox" checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
                                                 </Display>
                                             </Col>
                                             <Col xs="auto" className="ms-auto">
