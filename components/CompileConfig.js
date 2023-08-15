@@ -23,9 +23,6 @@ function commonPrefixLength(s1, s2) {
 }
 
 class CompileConfig extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     componentDidUpdate(prevProps) {
         if (this.props.compilers && this.props.compilers.length > 0) {
             if (prevProps.compilers !== this.props.compilers) {

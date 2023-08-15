@@ -138,18 +138,14 @@ class TimeChart extends React.Component {
         };
     }
 
-    joinNames(names) {
-        return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
-    }
     dataURItoBlob(dataURI, type) {
-        var byteString = atob(dataURI.split(',')[1]);
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
+        const byteString = atob(dataURI.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
             ia[i] = byteString.charCodeAt(i);
         }
-        var bb = new Blob([ab], { type: type });
-        return bb;
+        return new Blob([ab], { type: type });
     }
     extractOpaqueImage() {
         const canvas = document.getElementById('result-chart');

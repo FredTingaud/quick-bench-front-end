@@ -189,7 +189,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
             });
             this.setState({ progress: 0 });
 
-            var obj = {
+            const obj = {
                 "code": this.state.text,
                 "options": this.state.options,
                 "protocolVersion": DefaultSettings.protocolVersion,
