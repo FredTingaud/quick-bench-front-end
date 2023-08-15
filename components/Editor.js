@@ -3,6 +3,11 @@ import MonacoEditor from 'react-monaco-editor';
 import ReactResizeDetector from 'react-resize-detector';
 
 class Editor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.resizeRef = React.createRef();
+    }
+
     editorDidMount(editor, monaco, callback) {
         this.editor = editor;
         if (callback)
@@ -12,19 +17,19 @@ class Editor extends React.Component {
     render() {
         const { editorDidMount, options, ...other } = this.props;
         return (
-            <div className="flex-container">
+            <div className="flex-container" ref={this.resizeRef}>
                 <ReactResizeDetector
                     handleWidth
                     handleHeight
                     onResize={(w, h) => this.editor.layout({ width: w, height: h })}
                     refreshMode="debounce"
                     refreshRate={100}
-                >
-                    <MonacoEditor
-                        {...other}
-                        options={options}
-                        editorDidMount={(e, m) => this.editorDidMount(e, m, editorDidMount)} />
-                </ReactResizeDetector>
+                    targetRef={this.resizeRef}
+                />
+                <MonacoEditor
+                    {...other}
+                    options={options}
+                    editorDidMount={(e, m) => this.editorDidMount(e, m, editorDidMount)} />
             </div>
         );
     }

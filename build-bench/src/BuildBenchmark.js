@@ -113,7 +113,6 @@ class BuildBenchmark extends React.Component {
                     this.getCode(this.props.id);
                 } else {
                     this.initializeCode();
-                    this.props.onLocationChange(undefined);
                 }
             }
         }
@@ -357,7 +356,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             </Col>
                                             <Col>
                                             <Display when={this.state.clean}>
-                                                <FormCheck ref="force" type="checkbox" checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
+                                                <FormCheck type="checkbox" checked={this.state.force} id="clean-cache" onChange={this.forceChanged.bind(this)} label="Clear cached results" />
                                             </Display>
                                             </Col>
                                             <Col className="ms-auto">
