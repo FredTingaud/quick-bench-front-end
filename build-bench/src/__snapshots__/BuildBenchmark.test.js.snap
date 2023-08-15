@@ -1144,6 +1144,7 @@ exports[`displays id 1`] = `
                   "nomath",
                 ]
               }
+              legend={false}
               less="faster"
               more="slower"
               title={
