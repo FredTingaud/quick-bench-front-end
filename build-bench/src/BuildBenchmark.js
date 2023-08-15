@@ -128,7 +128,7 @@ class BuildBenchmark extends React.Component {
         return null;
     }
     formatIncludes(includes) {
-        return includes.map(s => s.split('\n').map(s => {
+        return includes.filter(f => f).map(s => s.split('\n').map(s => {
             let end = false;
             return [...s].map(c => {
                 if (c === '.' && !end)
@@ -202,7 +202,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
             });
             this.setState({ progress: 0 });
 
-            var obj = {
+            const obj = {
                 "tabs": this.state.texts.map((c, i) => ({
                     "code": c,
                     "title": this.state.titles[i],
@@ -235,7 +235,9 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                     asm: body.asm,
                     pp: body.preprocessed
                 });
-                this.props.onLocationChange(body.id);
+                if (body.id) {
+                    this.props.onLocationChange(body.id);
+                }
             }
             if (body.messages) {
                 this.setState({ messages: body.messages });
