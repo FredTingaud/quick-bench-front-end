@@ -81,7 +81,7 @@
     "@jridgewell/trace-mapping" "^0.3.17"
     jsesc "^2.5.1"
 
-"@babel/helper-annotate-as-pure@^7.22.5":
+"@babel/helper-annotate-as-pure@^7.18.6", "@babel/helper-annotate-as-pure@^7.22.5":
   version "7.22.5"
   resolved "https://registry.yarnpkg.com/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.22.5.tgz#e7f06737b197d580a01edf75d97e2c8be99d3882"
   integrity sha512-LvBTxu8bQSQkcyKOU+a1btnNFQ1dMAd0R6PyW3arXes06F6QLWLIrd681bxRPIXlrMGR3XYnW9JyML7dP3qgxg==
@@ -110,6 +110,21 @@
   version "7.22.9"
   resolved "https://registry.yarnpkg.com/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.22.9.tgz#c36ea240bb3348f942f08b0fbe28d6d979fab236"
   integrity sha512-Pwyi89uO4YrGKxL/eNJ8lfEH55DnRloGPOseaA8NFNL6jAUnn+KccaISiFazCj5IolPPDjGSdzQzXVzODVRqUQ==
+  dependencies:
+    "@babel/helper-annotate-as-pure" "^7.22.5"
+    "@babel/helper-environment-visitor" "^7.22.5"
+    "@babel/helper-function-name" "^7.22.5"
+    "@babel/helper-member-expression-to-functions" "^7.22.5"
+    "@babel/helper-optimise-call-expression" "^7.22.5"
+    "@babel/helper-replace-supers" "^7.22.9"
+    "@babel/helper-skip-transparent-expression-wrappers" "^7.22.5"
+    "@babel/helper-split-export-declaration" "^7.22.6"
+    semver "^6.3.1"
+
+"@babel/helper-create-class-features-plugin@^7.21.0":
+  version "7.22.10"
+  resolved "https://registry.yarnpkg.com/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.22.10.tgz#dd2612d59eac45588021ac3d6fa976d08f4e95a3"
+  integrity sha512-5IBb77txKYQPpOEdUdIhBx8VrZyDCQ+H82H0+5dX1TmuscP5vJKEE3cKurjtIw/vFwzbVH48VweE78kVDBrqjA==
   dependencies:
     "@babel/helper-annotate-as-pure" "^7.22.5"
     "@babel/helper-environment-visitor" "^7.22.5"
@@ -356,6 +371,16 @@
   version "7.21.0-placeholder-for-preset-env.2"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-private-property-in-object/-/plugin-proposal-private-property-in-object-7.21.0-placeholder-for-preset-env.2.tgz#7844f9289546efa9febac2de4cfe358a050bd703"
   integrity sha512-SOSkfJDddaM7mak6cPEpswyTRnuRltl429hMraQEglW+OkovnCzsiszTmsrlY//qLFjCpQDFRvjdm2wA5pPm9w==
+
+"@babel/plugin-proposal-private-property-in-object@^7.21.11":
+  version "7.21.11"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-private-property-in-object/-/plugin-proposal-private-property-in-object-7.21.11.tgz#69d597086b6760c4126525cfa154f34631ff272c"
+  integrity sha512-0QZ8qP/3RLDVBwBFoWAwCtgcDZJVwA5LUJRZU8x2YFfKNuFq161wK3cuGrALu5yiPu+vzwTAg/sMWVNeWeNyaw==
+  dependencies:
+    "@babel/helper-annotate-as-pure" "^7.18.6"
+    "@babel/helper-create-class-features-plugin" "^7.21.0"
+    "@babel/helper-plugin-utils" "^7.20.2"
+    "@babel/plugin-syntax-private-property-in-object" "^7.14.5"
 
 "@babel/plugin-proposal-unicode-property-regex@^7.4.4":
   version "7.18.6"
@@ -2090,15 +2115,6 @@
   version "18.2.18"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.18.tgz#c8b233919eef1bdc294f6f34b37f9727ad677516"
   integrity sha512-da4NTSeBv/P34xoZPhtcLkmZuJ+oYaCxHmyHzwaDQo9RQPBeXV+06gEk2FpqEcsX9XrnNLvRpVh6bdavDSjtiQ==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@^16.x":
-  version "16.14.43"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.43.tgz#bc6e7a0e99826809591d38ddf1193955de32c446"
-  integrity sha512-7zdjv7jvoLLQg1tTvpQsm+hyNUMT2mPlNV1+d0I8fbGhkJl82spopMyBlu4wb1dviZAxpGdk5eHu/muacknnfw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -6510,7 +6526,7 @@ monaco-editor-webpack-plugin@^7.0.1:
   dependencies:
     loader-utils "^2.0.2"
 
-monaco-editor@*:
+monaco-editor@^0.41.0:
   version "0.41.0"
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.41.0.tgz#2ba31e5af7e3ae93ac5d7467ec2772ef9b3d967f"
   integrity sha512-1o4olnZJsiLmv5pwLEAmzHTE/5geLKQ07BrGxlF4Ri/AXAc2yyDGZwHjiTqD8D/ROKUZmwMA28A+yEowLNOEcA==
@@ -7811,14 +7827,12 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-monaco-editor@^0.36.0:
-  version "0.36.0"
-  resolved "https://registry.yarnpkg.com/react-monaco-editor/-/react-monaco-editor-0.36.0.tgz#ac085c14f25fb072514c925596f6a06a711ee078"
-  integrity sha512-JVA5SZhOoYZ0DCdTwYgagtRb3jHo4KN7TVFiJauG+ZBAJWfDSTzavPIrwzWbgu8ahhDqDk4jUcYlOJL2BC/0UA==
+react-monaco-editor@^0.54.0:
+  version "0.54.0"
+  resolved "https://registry.yarnpkg.com/react-monaco-editor/-/react-monaco-editor-0.54.0.tgz#ec9293249a991b08264be723c1ec0ca3a6d480d8"
+  integrity sha512-9JwO69851mfpuhYLHlKbae7omQWJ/2ICE2lbL0VHyNyZR8rCOH7440u+zAtDgiOMpLwmYdY1sEZCdRefywX6GQ==
   dependencies:
-    "@types/react" "^16.x"
-    monaco-editor "*"
-    prop-types "^15.7.2"
+    prop-types "^15.8.1"
 
 react-refresh@^0.11.0:
   version "0.11.0"

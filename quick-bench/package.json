@@ -8,6 +8,7 @@
     "react-router-dom": "^6.15.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "react-app-rewire-yarn-workspaces": "^1.0.3",
     "react-app-rewired": "^2.1.6",
