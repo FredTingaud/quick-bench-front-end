@@ -115,6 +115,7 @@ class BuildChart extends React.Component {
                 fill={true}
                 afterTooltip={true}
                 beforeTooltip={chartData[this.props.index].beforeTooltip}
+                legend={false}
             >{this.renderDisplayTypes()}</TimeChart>
         );
     }

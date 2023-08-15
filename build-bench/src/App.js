@@ -51,7 +51,7 @@ export default function App() {
             <div className="one-page">
                 <div className="fixed-content">
                     <Header brand={<><Logo className="line-img me-2" style={{ fill: "#FFFFFF" }} title="logo" /> Compare C++ Builds</>} entries={() => this.renderEntries()} motd={{ url: "https://github.com/FredTingaud/bench-runner", text: "Run Build Bench locally" }}>
-                        <Dropdown.Item onClick={() => this.openAbout()}>About Build Bench</Dropdown.Item>
+                        <Dropdown.Item onClick={() => setShowAbout(true)}>About Build Bench</Dropdown.Item>
                     </Header>
                 </div>
                 <MyRoutes url={url} maxCodeSize={maxCodeSize} timeout={timeout} containers={containers} pullContainer={downloadContainers ? (() => setShowContainers(true)) : null} />

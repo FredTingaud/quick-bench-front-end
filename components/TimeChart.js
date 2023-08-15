@@ -39,7 +39,7 @@ class TimeChart extends React.Component {
                 legend: {
                     display: true
                 },
-                tooltips: {
+                tooltip: {
                     mode: 'index',
                     intersect: false
                 }
