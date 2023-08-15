@@ -207,6 +207,18 @@ exports[`displays button when no container is available 1`] = `
             <div
               className="flex-container"
             >
+              <mock-ResizeDetector
+                handleHeight={true}
+                handleWidth={true}
+                onResize={[Function]}
+                refreshMode="debounce"
+                refreshRate={100}
+                targetRef={
+                  Object {
+                    "current": null,
+                  }
+                }
+              />
               <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="cpp"
@@ -695,6 +707,18 @@ exports[`displays id 1`] = `
             <div
               className="flex-container"
             >
+              <mock-ResizeDetector
+                handleHeight={true}
+                handleWidth={true}
+                onResize={[Function]}
+                refreshMode="debounce"
+                refreshRate={100}
+                targetRef={
+                  Object {
+                    "current": null,
+                  }
+                }
+              />
               <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="cpp"
@@ -1226,6 +1250,18 @@ exports[`displays id 1`] = `
             <div
               className="flex-container"
             >
+              <mock-ResizeDetector
+                handleHeight={true}
+                handleWidth={true}
+                onResize={[Function]}
+                refreshMode="debounce"
+                refreshRate={100}
+                targetRef={
+                  Object {
+                    "current": null,
+                  }
+                }
+              />
               <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="asm"
@@ -1317,6 +1353,18 @@ main:                                   # @main
             <div
               className="flex-container"
             >
+              <mock-ResizeDetector
+                handleHeight={true}
+                handleWidth={true}
+                onResize={[Function]}
+                refreshMode="debounce"
+                refreshRate={100}
+                targetRef={
+                  Object {
+                    "current": null,
+                  }
+                }
+              />
               <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="cpp"

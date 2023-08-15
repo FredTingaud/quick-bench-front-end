@@ -1,5 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client'
+
+jest.mock("components/BashOutput.js", () => (props) => <mock-BashOutput {...props} />)
+
+jest.mock('react-resize-detector', () => (props) => <mock-ResizeDetector {...props} />)
+
 import App from './App';
 import Fetch from "components/Fetch.js";
 
@@ -19,8 +24,11 @@ beforeEach(() => {
 });
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  expect(Fetch.fetch.mock.calls.length).toBe(1);
-  ReactDOM.unmountComponentAtNode(div);
+    const container = document.body.appendChild(document.createElement('div'));
+    const div = createRoot(container);
+    div.render(<React.StrictMode><App /></React.StrictMode>);
+    setTimeout(() => {
+        expect(Fetch.fetch.mock.calls.length).toBe(1);
+        div.unmount();
+    });
 });

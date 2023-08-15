@@ -16,6 +16,18 @@ exports[`displays button when no container is available 1`] = `
         <div
           className="flex-container"
         >
+          <mock-ResizeDetector
+            handleHeight={true}
+            handleWidth={true}
+            onResize={[Function]}
+            refreshMode="debounce"
+            refreshRate={100}
+            targetRef={
+              Object {
+                "current": null,
+              }
+            }
+          />
           <mock-MonacoEditor
             editorDidMount={[Function]}
             language="cpp"
@@ -284,6 +296,18 @@ exports[`displays id with annotations 1`] = `
         <div
           className="flex-container"
         >
+          <mock-ResizeDetector
+            handleHeight={true}
+            handleWidth={true}
+            onResize={[Function]}
+            refreshMode="debounce"
+            refreshRate={100}
+            targetRef={
+              Object {
+                "current": null,
+              }
+            }
+          />
           <mock-MonacoEditor
             editorDidMount={[Function]}
             language="cpp"
@@ -693,6 +717,18 @@ BENCHMARK(StringCopy);
             <div
               className="flex-container"
             >
+              <mock-ResizeDetector
+                handleHeight={true}
+                handleWidth={true}
+                onResize={[Function]}
+                refreshMode="debounce"
+                refreshRate={100}
+                targetRef={
+                  Object {
+                    "current": null,
+                  }
+                }
+              />
               <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="asm"
@@ -730,6 +766,18 @@ exports[`displays id without annotations 1`] = `
         <div
           className="flex-container"
         >
+          <mock-ResizeDetector
+            handleHeight={true}
+            handleWidth={true}
+            onResize={[Function]}
+            refreshMode="debounce"
+            refreshRate={100}
+            targetRef={
+              Object {
+                "current": null,
+              }
+            }
+          />
           <mock-MonacoEditor
             editorDidMount={[Function]}
             language="cpp"
@@ -1125,6 +1173,18 @@ BENCHMARK(StringCopy);
             <div
               className="flex-container"
             >
+              <mock-ResizeDetector
+                handleHeight={true}
+                handleWidth={true}
+                onResize={[Function]}
+                refreshMode="debounce"
+                refreshRate={100}
+                targetRef={
+                  Object {
+                    "current": null,
+                  }
+                }
+              />
               <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="asm"
@@ -1162,6 +1222,18 @@ exports[`displays id without annotations using protocol v4 1`] = `
         <div
           className="flex-container"
         >
+          <mock-ResizeDetector
+            handleHeight={true}
+            handleWidth={true}
+            onResize={[Function]}
+            refreshMode="debounce"
+            refreshRate={100}
+            targetRef={
+              Object {
+                "current": null,
+              }
+            }
+          />
           <mock-MonacoEditor
             editorDidMount={[Function]}
             language="cpp"
@@ -1529,6 +1601,18 @@ BENCHMARK(StringCopy);
             <div
               className="flex-container"
             >
+              <mock-ResizeDetector
+                handleHeight={true}
+                handleWidth={true}
+                onResize={[Function]}
+                refreshMode="debounce"
+                refreshRate={100}
+                targetRef={
+                  Object {
+                    "current": null,
+                  }
+                }
+              />
               <mock-MonacoEditor
                 editorDidMount={[Function]}
                 language="asm"
