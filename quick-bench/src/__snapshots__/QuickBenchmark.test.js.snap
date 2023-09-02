@@ -158,11 +158,6 @@ BENCHMARK(StringCopy);
                   <div
                     className="col"
                   >
-                    Record disassembly?
-                  </div>
-                  <div
-                    className="col"
-                  >
                     <div
                       className="me-2 dropdown"
                     >
@@ -174,7 +169,7 @@ BENCHMARK(StringCopy);
                         onClick={[Function]}
                         type="button"
                       >
-                        None
+                        Disassembly = AT&T
                       </button>
                     </div>
                   </div>
@@ -483,11 +478,6 @@ BENCHMARK(StringCopy);
                   <div
                     className="col"
                   >
-                    Record disassembly?
-                  </div>
-                  <div
-                    className="col"
-                  >
                     <div
                       className="me-2 dropdown"
                     >
@@ -499,7 +489,7 @@ BENCHMARK(StringCopy);
                         onClick={[Function]}
                         type="button"
                       >
-                        None
+                        Disassembly = None
                       </button>
                     </div>
                   </div>
@@ -981,11 +971,6 @@ BENCHMARK(StringCopy);
                   <div
                     className="col"
                   >
-                    Record disassembly?
-                  </div>
-                  <div
-                    className="col"
-                  >
                     <div
                       className="me-2 dropdown"
                     >
@@ -997,7 +982,7 @@ BENCHMARK(StringCopy);
                         onClick={[Function]}
                         type="button"
                       >
-                        None
+                        Disassembly = None
                       </button>
                     </div>
                   </div>
@@ -1409,11 +1394,6 @@ BENCHMARK(StringCopy);
                   <div
                     className="col"
                   >
-                    Record disassembly?
-                  </div>
-                  <div
-                    className="col"
-                  >
                     <div
                       className="me-2 dropdown"
                     >
@@ -1425,7 +1405,7 @@ BENCHMARK(StringCopy);
                         onClick={[Function]}
                         type="button"
                       >
-                        None
+                        Disassembly = None
                       </button>
                     </div>
                   </div>

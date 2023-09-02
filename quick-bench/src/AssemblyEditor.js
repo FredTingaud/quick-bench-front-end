@@ -2,7 +2,6 @@ import React from 'react';
 import Palette from 'components/Palette.js';
 import { Tab, Tabs } from 'react-bootstrap';
 import Editor from 'components/Editor';
-import {Uri} from 'monaco-editor';
 
 const RE_CODE = /\s*([0-9\\.]+) +:\s+([0-9a-f]+):\s+(.*)/;
 const RE_TITLE = /-{11} ([^\s]*)\s*/;
@@ -35,7 +34,7 @@ class AssemblyEditor extends React.Component {
         }
     }
     componentDidUpdate(prevProps) {
-        if(prevProps.code !== this.props.code || prevProps.names !== this.props.names || prevProps.palette !== this.props.palette) {
+        if(this.editor && (prevProps.code !== this.props.code || prevProps.names !== this.props.names || prevProps.palette !== this.props.palette)) {
             this.makeCode(this.props.code);
         }
     }
@@ -105,10 +104,7 @@ class AssemblyEditor extends React.Component {
 
                     blocks[i].split('\n').map(s => this.splitLine(lines[index], rows, s, decorations, titles[index]));
                     let e = this.monaco.editor;                    
-                    const uri = Uri.parse('file:///tab' + index + '.asm');
-                    const existingModel = e.getModel(uri);
-                    const model = existingModel || e.createModel('', 'asm', uri);
-                    model.setValue(rows.join('\n'));
+                    const model = e.createModel(rows.join('\n'), 'asm');
                     models.push(model);
                     decorationList.push(decorations)
                 }
