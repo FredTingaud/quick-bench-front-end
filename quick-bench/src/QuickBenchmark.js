@@ -85,7 +85,7 @@ class QuickBenchmark extends React.Component {
         , force: false
         , benchNames: []
         , annotation: ''
-        , disassemblyOption: NONE_DISASSEMBLY_IDENTIFIER
+        , disassemblyOption: ATT_DISASSEMBLY_IDENTIFIER
         , chartIndex: 1
         , displayTab: 'charts'
     };
@@ -280,7 +280,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
           return DEFAULT_DISASSEMBLY_PRETTY_NAME;
         }
         if (!disassembly_identifier_to_pretty_name.hasOwnProperty(option)) {
-            console.trace("PANIC: Attempted to set an unsupported assembly format: " + option);
+            console.trace("Attempted to set an unsupported assembly format: " + option);
             return DEFAULT_DISASSEMBLY_PRETTY_NAME;
         }
         return disassembly_identifier_to_pretty_name[option];
@@ -310,10 +310,7 @@ If you think this limitation is stopping you in a legitimate usage of build-benc
                                             </Col>
 
                                             <Col>
-                                                Record disassembly?
-                                            </Col>
-                                            <Col>
-                                                <DropdownButton id="disassembly-format" variant="outline-dark" title={this.disassemblyOptionFormat(this.state.disassemblyOption)} onSelect={key => this.changeDisassemblyOption(key)} className="me-2">
+                                                <DropdownButton id="disassembly-format" variant="outline-dark" title={"Disassembly = " + this.disassemblyOptionFormat(this.state.disassemblyOption)} onSelect={key => this.changeDisassemblyOption(key)} className="me-2">
                                                     <Dropdown.Item eventKey={NONE_DISASSEMBLY_IDENTIFIER}>{NONE_DISASSEMBLY_PRETTY_NAME}</Dropdown.Item>
                                                     <Dropdown.Item eventKey={ATT_DISASSEMBLY_IDENTIFIER}>{ATT_DISASSEMBLY_PRETTY_NAME}</Dropdown.Item>
                                                     <Dropdown.Item eventKey={INTEL_DISASSEMBLY_IDENTIFIER}>{INTEL_DISASSEMBLY_PRETTY_NAME}</Dropdown.Item>

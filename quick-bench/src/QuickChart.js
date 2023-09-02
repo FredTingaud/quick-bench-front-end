@@ -27,8 +27,7 @@ class QuickChart extends React.Component {
         const horizontals = input.filter(v => v.x.indexOf('/') === -1);
         let functionNames = input.filter(v => v.x.indexOf('/') > -1).map(v => v.x.substring(0, v.x.indexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
         let names = input.filter(v => v.x.indexOf('/') > -1).map(v => v.x.substring(0, v.x.lastIndexOf('/'))).filter((v, i, a) => a.indexOf(v) === i);
-        for (let i = 0; i < names.length; ++i) {
-            let n = names[i];
+        for (let n of names) {
             const times = input.filter(v => v.x.indexOf('/') > -1 && v.x.startsWith(n + '/')).map(v => ({ x: parseInt(v.x.substring(v.x.lastIndexOf('/') + 1), 10), y: v.cpu_time }));
             chartData.push(times);
             max = Math.max(max, ...times.map(elt => elt.x));
@@ -36,8 +35,7 @@ class QuickChart extends React.Component {
         }
         names = names.concat(horizontals.map(v => v.x));
         functionNames = functionNames.concat(horizontals.map(v => v.x));
-        for (let i = 0; i < horizontals.length; ++i) {
-            let v = horizontals[i];
+        for (let v of horizontals) {
             const times2 = [{ x: min, y: v.cpu_time }, { x: max, y: v.cpu_time }];
             chartData.push(times2);
         }

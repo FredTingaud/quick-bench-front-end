@@ -2,6 +2,7 @@ import React from 'react';
 import Palette from 'components/Palette.js';
 import { Tab, Tabs } from 'react-bootstrap';
 import Editor from 'components/Editor';
+import {Uri} from 'monaco-editor';
 
 const RE_CODE = /\s*([0-9\\.]+) +:\s+([0-9a-f]+):\s+(.*)/;
 const RE_TITLE = /-{11} ([^\s]*)\s*/;
@@ -16,9 +17,9 @@ class AssemblyEditor extends React.Component {
             , lines: []
             , models: []
             , titles: []
+            , decorations: []
             , fullScreen: false
         }
-        this.prevDecorations = [];
     }
     lineNumbersFunc(line) {
         if (this.state.lines.length === 0)
@@ -34,7 +35,7 @@ class AssemblyEditor extends React.Component {
         }
     }
     componentDidUpdate(prevProps) {
-        if (this.editor && prevProps.code !== this.props.code) {
+        if(prevProps.code !== this.props.code || prevProps.names !== this.props.names || prevProps.palette !== this.props.palette) {
             this.makeCode(this.props.code);
         }
     }
@@ -79,13 +80,14 @@ class AssemblyEditor extends React.Component {
             });
         }
     }
-    updateDecorations(model, decorations) {
-        model.deltaDecorations(
-            [], decorations);
+    setModel(index) {
+        this.editor.setModel(this.state.models[index]);
+        this.editor.createDecorationsCollection(this.state.decorations[index]);
     }
     makeCode(input) {
         let lines = [];
         let models = [];
+        let decorationList = [];
         let titles = [];
         let states = [];
 
@@ -102,23 +104,25 @@ class AssemblyEditor extends React.Component {
                     let rows = [];
 
                     blocks[i].split('\n').map(s => this.splitLine(lines[index], rows, s, decorations, titles[index]));
-                    let e = this.monaco.editor;
-                    let model = e.createModel(rows.join('\n'), 'asm');
+                    let e = this.monaco.editor;                    
+                    const uri = Uri.parse('file:///tab' + index + '.asm');
+                    const existingModel = e.getModel(uri);
+                    const model = existingModel || e.createModel('', 'asm', uri);
+                    model.setValue(rows.join('\n'));
                     models.push(model);
-                    this.updateDecorations(model, decorations);
+                    decorationList.push(decorations)
                 }
             }
         }
 
         this.setState({
             index: 0
-            , lines: lines
-            , models: models
-            , titles: titles
-            , states: states
-        });
-
-        this.editor.setModel(models[0]);
+            , lines
+            , models
+            , titles
+            , states
+            , decorations: decorationList
+        }, () => {this.setModel(0)});
     }
     handleSelect(key) {
         let newStates = [...this.state.states];
@@ -128,7 +132,7 @@ class AssemblyEditor extends React.Component {
             , states: newStates
         });
 
-        this.editor.setModel(this.state.models[key]);
+        this.setModel(key);
         this.editor.restoreViewState(this.state.states[key]);
     }
     fillTabs() {
