@@ -31,7 +31,7 @@ class CEButton extends React.Component {
             case '17':
                 return '1z';
             default:
-                return opt.cppVersion;
+                return opt.cppVersion.startsWith('c++') ? opt.cppVersion.substr(3) : opt.cppVersion;
         }
     }
 
