@@ -24,19 +24,8 @@ class CEButton extends React.Component {
         }
     }
 
-    versionCe(opt) {
-        switch (opt.cppVersion) {
-            case '20':
-                return '2a';
-            case '17':
-                return '1z';
-            default:
-                return opt.cppVersion;
-        }
-    }
-
     optionsCe(opt) {
-        const cppVersion = '-std=c++' + this.versionCe(opt);
+        const cppVersion = '-std=' + opt.cppVersion;
         return cppVersion + ' ' + this.optimCe(opt);
     }
 
