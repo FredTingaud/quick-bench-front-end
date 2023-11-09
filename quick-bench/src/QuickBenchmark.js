@@ -161,7 +161,7 @@ class QuickBenchmark extends React.Component {
                     cppVersion: result.tab.options.cppVersion,
                     optim: result.tab.options.optim,
                     lib: result.tab.options.lib,
-                    flags: result.tab.options.flags
+                    flags: result.tab.options.flags ?? []
                 };
                 this.setState({
                     text: result.tab.code,
