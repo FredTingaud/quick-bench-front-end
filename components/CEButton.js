@@ -25,8 +25,7 @@ class CEButton extends React.Component {
     }
 
     optionsCe(opt) {
-        const cppVersion = '-std=' + opt.cppVersion;
-        return cppVersion + ' ' + this.optimCe(opt);
+        return `-std=${opt.cppVersion} ${this.optimCe(opt)} ${opt.flags.join(' ')}`;
     }
 
     openCodeInCE(texts, options) {
