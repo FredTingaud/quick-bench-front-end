@@ -17,12 +17,13 @@ function getState(defaultOptions) {
 
         return state.filter(s => s.text).map((s, i) => ({
             text: s.text,
-            title: s.title || `code ${i + 1}`,
+            title: s.title ?? `code ${i + 1}`,
             options: {
-                compiler: s.compiler || defaultOptions.compiler
-                , cppVersion: s.cppVersion || defaultOptions.cppVersion
-                , optim: s.optim || defaultOptions.optim
-                , lib: s.lib || defaultOptions.lib
+                compiler: s.compiler ?? defaultOptions.compiler
+                , cppVersion: s.cppVersion ?? defaultOptions.cppVersion
+                , optim: s.optim ?? defaultOptions.optim
+                , lib: s.lib ?? defaultOptions.lib
+                , flags: s.flags ?? defaultOptions.flags,
             }
         }));
     }
